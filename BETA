@@ -86,6 +86,4 @@ Remove-Item -Path $env:C:\TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE -Recurse -F
 
 REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
 
-pause
-
 exit
