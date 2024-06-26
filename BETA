@@ -1,4 +1,4 @@
-$TOOL = C:\TOOL
+$TOOL = "C:\TOOL"
 
 md "$TOOL"
 
