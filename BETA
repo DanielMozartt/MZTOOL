@@ -48,9 +48,9 @@ del C:\TOOL\#TOOL#ZIP.zip
 
 REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
 
-copy C:\TOOL\#TOOL#ZIP\TOOL.lnk %userprofile%\desktop
+copy C:\TOOL\#TOOL#ZIP\TOOL.lnk $home\desktop
 
-copy C:\TOOL\#TOOL#ZIP\AnyDesk.exe %userprofile%\desktop
+copy C:\TOOL\#TOOL#ZIP\AnyDesk.exe $home\desktop
 
 start C:\TOOL\#TOOL#ZIP\APP\ACROBAT_READER.EXE /sPB
 
@@ -89,6 +89,6 @@ mkdir "c:\Windows\Prefetch\"
 
 REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
 
-exit
+pause
 
 exit
