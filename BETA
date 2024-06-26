@@ -66,26 +66,17 @@ C:\TOOL\OFFICE\2007\2007\setup /adminfile Silent.msp
 
 C:\TOOL\OFFICE\2007\SaveAsPdf.EXE /quiet
 
-cd C:\TOOL\OFFICE\ODF
+REM cd C:\TOOL\OFFICE\ODF
 
-msiexec /i OdfAddInForOfficeSetup.msi /q ALLUSERS=1 
+msiexec /i C:\TOOL\OFFICE\ODFOdfAddInForOfficeSetup.msi /q ALLUSERS=1 
 
-timeout /t 300
+timeout /t 30
 
-del /q/f/s %temp%\
+Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue
 
-del /q/f/s "c:\Windows\temp\"
+Remove-Item -Path $env:c:\Windows\temp\* -Recurse -Force -ErrorAction SilentlyContinue
 
-del /q/f/s "c:\Windows\Prefetch\"
-
-rmdir /s /q "c:\Windows\temp\"
-mkdir "c:\Windows\Temp\"
-
-rmdir /s /q "%temp%\"
-mkdir "%temp%\"
-
-rmdir /s /q "c:\Windows\Prefetch\"
-mkdir "c:\Windows\Prefetch\"
+Remove-Item -Path $env:c:\Windows\Prefetch\* -Recurse -Force -ErrorAction SilentlyContinue
 
 REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
 
