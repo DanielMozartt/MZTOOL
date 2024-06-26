@@ -64,13 +64,15 @@ start C:\TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE\DriverBoosterPortable.exe
 
 C:\TOOL\OFFICE\2007\2007\setup /adminfile Silent.msp 
 
-timeout /t 300
+timeout /t 170
 
 C:\TOOL\OFFICE\2007\SaveAsPdf.EXE /quiet
 
-msiexec /i C:\TOOL\OFFICE\ODFOdfAddInForOfficeSetup.msi /q ALLUSERS=1 
+msiexec /i C:\TOOL\OFFICE\ODF\OdfAddInForOfficeSetup.msi /q ALLUSERS=1
 
-Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue
+timeout /t 10
+
+Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
 
 Remove-Item -Path $env:c:\Windows\temp\* -Recurse -Force -ErrorAction SilentlyContinue
 
