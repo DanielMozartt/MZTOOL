@@ -1,13 +1,11 @@
-﻿$TOOL = "C:\TOOL"
+$TOOL = "C:\TOOL"
 
 md "$TOOL"
 
 attrib +h "$TOOL"
 
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-
 $webClient = New-Object -TypeName System.Net.WebClient
-$task = $webClient.DownloadFileTaskAsync('https://seulink.net/TOOLZIP', 'C:\TOOL\#TOOL#ZIP.zip')
+$task = $webClient.DownloadFileTaskAsync('https://seulink.net/TOOLZIP', "$TOOL\#TOOL#ZIP.zip")
 
 Register-ObjectEvent -InputObject $webClient -EventName DownloadProgressChanged -SourceIdentifier WebClient.DownloadProgressChanged | Out-Null
 
@@ -44,7 +42,9 @@ function convertFileSize {
 Unregister-Event -SourceIdentifier WebClient.DownloadProgressChanged
 $webClient.Dispose()
 
-Expand-Archive -LiteralPath '$TOOL\#TOOL#ZIP.zip' -DestinationPath '$TOOL'
+$TOOL = "C:\TOOL"
+
+Expand-Archive -LiteralPath '$TOOL\#TOOL#ZIP.zip' -DestinationPath $TOOL
 
 del $TOOL\#TOOL#ZIP.zip
 
@@ -56,21 +56,21 @@ copy $TOOL\#TOOL#ZIP\TOOL.lnk $home\desktop
 
 copy $TOOL\#TOOL#ZIP\AnyDesk.exe $home\desktop
 
-winget install "Google.Chrome" --silent
-
-winget install "Adobe.Acrobat.Reader.64-bit" --silent
+winget install "Google.Chrome" --silent; winget install "Adobe.Acrobat.Reader.64-bit" --silent
 
 Expand-Archive -LiteralPath '$TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE.zip' -DestinationPath $TOOL\#TOOL#ZIP\
 
 start $TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE\DriverBoosterPortable.exe
 
-"$TOOL\OFFICE\2007\SETUP\setup /adminfile Silent.msp" 
+Invoke-Command -ScriptBlock {Start-Process "$TOOL\OFFICE\2007\SETUP\setup.exe" -ArgumentList "/adminfile Silent.msp" -Wait}
 
 winget upgrade --all --accept-source-agreements --accept-package-agreements --silent
 
 timeout /t 170
 
-C:\TOOL\OFFICE\2007\SaveAsPdf.EXE /quiet
+Invoke-Command -ScriptBlock {Start-Process "$TOOL\OFFICE\2007\SaveAsPdf.EXE" -ArgumentList "/quiet" -Wait}
+
+exec $TOOL\OFFICE\2007\SaveAsPdf.EXE /quiet
 
 msiexec /i $TOOL\OFFICE\2007\ODF\OdfAddInForOfficeSetup.msi /q ALLUSERS=1
 
@@ -84,7 +84,7 @@ Remove-Item -Path $env:c:\Windows\Prefetch\* -Recurse -Force -ErrorAction Silent
 
 taskkill /f /IM DriverBooster.exe /T
 
-Remove-Item -Path $env:C:\TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item -Path ${TOOL}\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE -Recurse -Force -ErrorAction SilentlyContinue
 
 REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
 
