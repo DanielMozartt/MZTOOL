@@ -1,4 +1,6 @@
-Start-Process powershell -Verb runAs  {md "$TOOL"
+Start-Process powershell -Verb runAs  {
+
+md "$TOOL"
 
 attrib +h "$TOOL"
 
