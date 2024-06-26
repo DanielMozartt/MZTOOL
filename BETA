@@ -42,7 +42,7 @@ function convertFileSize {
 Unregister-Event -SourceIdentifier WebClient.DownloadProgressChanged
 $webClient.Dispose()
 
-Powershell Expand-Archive -LiteralPath 'C:\TOOL\#TOOL#ZIP.zip' -DestinationPath C:\TOOL
+Expand-Archive -LiteralPath 'C:\TOOL\#TOOL#ZIP.zip' -DestinationPath C:\TOOL
 
 del C:\TOOL\#TOOL#ZIP.zip
 
