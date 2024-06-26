@@ -1,8 +1,10 @@
-$TOOL = "C:\TOOL"
-
-md "$TOOL"
+Start-Process powershell -Verb runAs  {md "$TOOL"
 
 attrib +h "$TOOL"
+
+Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Google.Chrome" --silent} | Out-Null
+
+Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Adobe.Acrobat.Reader.64-bit" --silent} | Out-Null
 
 $webClient = New-Object -TypeName System.Net.WebClient
 $task = $webClient.DownloadFileTaskAsync('https://seulink.net/TOOLZIP', "$TOOL\#TOOL#ZIP.zip")
@@ -56,23 +58,19 @@ copy $TOOL\#TOOL#ZIP\TOOL.lnk $home\desktop
 
 copy $TOOL\#TOOL#ZIP\AnyDesk.exe $home\desktop
 
-winget add "Google.Chrome" "Adobe.Acrobat.Reader.64-bit"
-
 Expand-Archive -LiteralPath '$TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE.zip' -DestinationPath $TOOL\#TOOL#ZIP\
 
 start $TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE\DriverBoosterPortable.exe
 
-Invoke-Command -ScriptBlock {Start-Process "$TOOL\OFFICE\2007\SETUP\setup.exe" -ArgumentList "/adminfile Silent.msp" -Wait}
+Start-Process powershell -Verb runAs -WindowStyle hidden {Invoke-Command -ScriptBlock {Start-Process "$TOOL\OFFICE\2007\SETUP\setup.exe" -ArgumentList "/adminfile Silent.msp"}}
 
 winget upgrade --all --accept-source-agreements --accept-package-agreements --silent
-
-timeout /t 170
 
 Invoke-Command -ScriptBlock {Start-Process "$TOOL\OFFICE\2007\SaveAsPdf.EXE" -ArgumentList "/quiet" -Wait}
 
 msiexec /i $TOOL\OFFICE\2007\ODF\OdfAddInForOfficeSetup.msi /q ALLUSERS=1
 
-timeout /t 10
+timeout /t 100
 
 Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
 
@@ -85,5 +83,7 @@ taskkill /f /IM DriverBooster.exe /T
 Remove-Item -Path ${TOOL}\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE -Recurse -Force -ErrorAction SilentlyContinue
 
 REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
+
+exit}
 
 exit
