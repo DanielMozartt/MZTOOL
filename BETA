@@ -21,6 +21,8 @@ if '%errorlevel%' == '0' (
 :-------------------------------------
 :: End Get ADMIN Privs
 
+PAUSE
+
 $TOOL = C:\TOOL
 
 md "$TOOL"
