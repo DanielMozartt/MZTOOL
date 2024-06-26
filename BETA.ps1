@@ -64,13 +64,13 @@ Expand-Archive -LiteralPath '$TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE.zip' -D
 
 start $TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE\DriverBoosterPortable.exe
 
-$TOOL\OFFICE\2007\SETUP\setup /adminfile Silent.msp 
+"$TOOL\OFFICE\2007\SETUP\setup /adminfile Silent.msp" 
 
 winget upgrade --all --accept-source-agreements --accept-package-agreements --silent
 
 timeout /t 170
 
-$TOOL\OFFICE\2007\SaveAsPdf.EXE /quiet
+C:\TOOL\OFFICE\2007\SaveAsPdf.EXE /quiet
 
 msiexec /i $TOOL\OFFICE\2007\ODF\OdfAddInForOfficeSetup.msi /q ALLUSERS=1
 
@@ -84,7 +84,7 @@ Remove-Item -Path $env:c:\Windows\Prefetch\* -Recurse -Force -ErrorAction Silent
 
 taskkill /f /IM DriverBooster.exe /T
 
-Remove-Item -Path $env:$TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item -Path $env:C:\TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE -Recurse -Force -ErrorAction SilentlyContinue
 
 REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
 
