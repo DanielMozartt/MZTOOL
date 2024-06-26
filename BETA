@@ -1,3 +1,5 @@
+Start-Process powershell -Verb runAs
+
 $TOOL = C:\TOOL
 
 md "$TOOL"
