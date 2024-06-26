@@ -66,8 +66,6 @@ C:\TOOL\OFFICE\2007\2007\setup /adminfile Silent.msp
 
 C:\TOOL\OFFICE\2007\SaveAsPdf.EXE /quiet
 
-REM cd C:\TOOL\OFFICE\ODF
-
 msiexec /i C:\TOOL\OFFICE\ODFOdfAddInForOfficeSetup.msi /q ALLUSERS=1 
 
 timeout /t 30
