@@ -46,48 +46,48 @@ Powershell Expand-Archive -LiteralPath 'C:\TOOL\#TOOL#ZIP.zip' -DestinationPath 
 
 del C:\TOOL\#TOOL#ZIP.zip
 
-CMD /C REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
+REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
 
-CMD /C copy C:\TOOL\#TOOL#ZIP\TOOL.lnk %userprofile%\desktop
+copy C:\TOOL\#TOOL#ZIP\TOOL.lnk %userprofile%\desktop
 
-CMD /C copy C:\TOOL\#TOOL#ZIP\AnyDesk.exe %userprofile%\desktop
+copy C:\TOOL\#TOOL#ZIP\AnyDesk.exe %userprofile%\desktop
 
-CMD /C start C:\TOOL\#TOOL#ZIP\APP\ACROBAT_READER.EXE /sPB
+start C:\TOOL\#TOOL#ZIP\APP\ACROBAT_READER.EXE /sPB
 
-CMD /C start C:\TOOL\#TOOL#ZIP\BATS.PS1\CHROME.exe
+start C:\TOOL\#TOOL#ZIP\BATS.PS1\CHROME.exe
 
 Expand-Archive -LiteralPath 'C:\TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE.zip' -DestinationPath C:\TOOL\#TOOL#ZIP\
 
 Expand-Archive -LiteralPath 'C:\TOOL\OFFICE\2007.zip' -DestinationPath C:\TOOL\OFFICE\
 
-CMD /C start C:\TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE\DriverBoosterPortable.exe
+start C:\TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE\DriverBoosterPortable.exe
 
 C:\TOOL\OFFICE\2007\2007\setup /adminfile Silent.msp 
 
 C:\TOOL\OFFICE\2007\SaveAsPdf.EXE /quiet
 
-CMD /C cd C:\TOOL\OFFICE\ODF
+cd C:\TOOL\OFFICE\ODF
 
 msiexec /i OdfAddInForOfficeSetup.msi /q ALLUSERS=1 
 
-CMD /C timeout /t 300
+timeout /t 300
 
-CMD /C del /q/f/s %temp%\
+del /q/f/s %temp%\
 
-CMD /C del /q/f/s "c:\Windows\temp\"
+del /q/f/s "c:\Windows\temp\"
 
-CMD /C del /q/f/s "c:\Windows\Prefetch\"
+del /q/f/s "c:\Windows\Prefetch\"
 
-CMD /C rmdir /s /q "c:\Windows\temp\"
-CMD /C mkdir "c:\Windows\Temp\"
+rmdir /s /q "c:\Windows\temp\"
+mkdir "c:\Windows\Temp\"
 
-CMD /C rmdir /s /q "%temp%\"
-CMD /C mkdir "%temp%\"
+rmdir /s /q "%temp%\"
+mkdir "%temp%\"
 
-CMD /C rmdir /s /q "c:\Windows\Prefetch\"
-CMD /C mkdir "c:\Windows\Prefetch\"
+rmdir /s /q "c:\Windows\Prefetch\"
+mkdir "c:\Windows\Prefetch\"
 
-CMD /C REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
+REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
 
 exit
 
