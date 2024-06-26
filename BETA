@@ -76,7 +76,9 @@ Remove-Item -Path $env:c:\Windows\temp\* -Recurse -Force -ErrorAction SilentlyCo
 
 Remove-Item -Path $env:c:\Windows\Prefetch\* -Recurse -Force -ErrorAction SilentlyContinue
 
-Remove-Item -Path $env:C:\TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE* -Recurse -Force -ErrorAction SilentlyContinue
+taskkill /f /IM DriverBooster.exe /T
+
+Remove-Item -Path $env:C:\TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE -Recurse -Force -ErrorAction SilentlyContinue
 
 REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
 
