@@ -60,7 +60,7 @@ winget install "Google.Chrome" --silent
 
 winget install "Adobe.Acrobat.Reader.64-bit" --silent
 
-Expand-Archive -LiteralPath 'C:\TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE.zip' -DestinationPath C:\TOOL\#TOOL#ZIP\
+Expand-Archive -LiteralPath '$TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE.zip' -DestinationPath $TOOL\#TOOL#ZIP\
 
 start $TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE\DriverBoosterPortable.exe
 
