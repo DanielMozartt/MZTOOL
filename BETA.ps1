@@ -56,7 +56,7 @@ copy $TOOL\#TOOL#ZIP\TOOL.lnk $home\desktop
 
 copy $TOOL\#TOOL#ZIP\AnyDesk.exe $home\desktop
 
-winget install "Google.Chrome" --silent; winget install "Adobe.Acrobat.Reader.64-bit" --silent
+winget add "Google.Chrome" "Adobe.Acrobat.Reader.64-bit"
 
 Expand-Archive -LiteralPath '$TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE.zip' -DestinationPath $TOOL\#TOOL#ZIP\
 
@@ -69,8 +69,6 @@ winget upgrade --all --accept-source-agreements --accept-package-agreements --si
 timeout /t 170
 
 Invoke-Command -ScriptBlock {Start-Process "$TOOL\OFFICE\2007\SaveAsPdf.EXE" -ArgumentList "/quiet" -Wait}
-
-exec $TOOL\OFFICE\2007\SaveAsPdf.EXE /quiet
 
 msiexec /i $TOOL\OFFICE\2007\ODF\OdfAddInForOfficeSetup.msi /q ALLUSERS=1
 
