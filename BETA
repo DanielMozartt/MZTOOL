@@ -48,6 +48,8 @@ del C:\TOOL\#TOOL#ZIP.zip
 
 REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
 
+iwr -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "C:\TOOL\#TOOL#ZIP\AnyDesk.exe"
+
 copy C:\TOOL\#TOOL#ZIP\TOOL.lnk $home\desktop
 
 copy C:\TOOL\#TOOL#ZIP\AnyDesk.exe $home\desktop
@@ -62,7 +64,7 @@ Expand-Archive -LiteralPath 'C:\TOOL\OFFICE\2007.zip' -DestinationPath C:\TOOL\O
 
 start C:\TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE\DriverBoosterPortable.exe
 
-C:\TOOL\OFFICE\2007\2007\setup /adminfile Silent.msp 
+C:\TOOL\OFFICE\2007\SETUP\setup /adminfile Silent.msp 
 
 winget upgrade --all --accept-source-agreements --accept-package-agreements --silent
 
@@ -70,7 +72,7 @@ timeout /t 170
 
 C:\TOOL\OFFICE\2007\SaveAsPdf.EXE /quiet
 
-msiexec /i C:\TOOL\OFFICE\ODF\OdfAddInForOfficeSetup.msi /q ALLUSERS=1
+msiexec /i C:\TOOL\OFFICE\2007\ODF\OdfAddInForOfficeSetup.msi /q ALLUSERS=1
 
 timeout /t 10
 
