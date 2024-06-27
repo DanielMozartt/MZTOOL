@@ -1,7 +1,6 @@
-
-
 Install-PackageProvider -Name NuGet -Force
 
 Install-Module PSWindowsUpdate -AllowClobber -Force
 
 Import-Module PSWindowsUpdate -Force
+
