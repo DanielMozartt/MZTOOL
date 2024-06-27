@@ -6,7 +6,7 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
 #Start-Process powershell -Verb runAs {Import-Module PSWindowsUpdate -Force} 
 
-Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -Install -ForceDownload -ForceInstall  -IgnoreReboot
+Install-WindowsUpdate -MicrosoftUpdate -WindowsUpdate -AcceptAll -Install -ForceDownload -ForceInstall  -IgnoreReboot
 
 #Install-PackageProvider -Name NuGet -Force
 
