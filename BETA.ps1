@@ -6,8 +6,6 @@ attrib +h "$TOOL"
 
 Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Adobe.Acrobat.Reader.64-bit" --silent} 
 
-#Start-Process powershell -Verb runAs {winget add "Adobe.Acrobat.Reader.64-bit" --silent}
-
 Start-Process powershell -Verb runAs -WindowStyle hidden {iwr -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$home\Desktop\AnyDesk.exe"} | Out-Null
 
 Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Google.Chrome" --silent} | Out-Null
@@ -17,7 +15,7 @@ $task = $webClient.DownloadFileTaskAsync('https://seulink.net/TOOLZIP', "$TOOL\#
 
 Register-ObjectEvent -InputObject $webClient -EventName DownloadProgressChanged -SourceIdentifier WebClient.DownloadProgressChanged | Out-Null
 
-Start-Sleep -Seconds 3
+Start-Sleep -Seconds 0
 
 while (!($task.IsCompleted)) {
     $EventData = Get-Event -SourceIdentifier WebClient.DownloadProgressChanged | Select-Object -ExpandProperty "SourceEventArgs" -Last 1
@@ -26,7 +24,7 @@ while (!($task.IsCompleted)) {
     $TotalToReceive = ($EventData | Select-Object -ExpandProperty "TotalBytesToReceive")
     $TotalPercent = $EventData | Select-Object -ExpandProperty "ProgressPercentage"
 
-    Start-Sleep -Seconds 2
+    Start-Sleep -Seconds 0
 
 function convertFileSize {
     param(
@@ -70,9 +68,9 @@ msiexec /i $TOOL\OFFICE\2007\ODF\OdfAddInForOfficeSetup.msi /q ALLUSERS=1
 
 Invoke-Command -ScriptBlock {Start-Process "$TOOL\OFFICE\2007\SETUP\setup.exe" -ArgumentList "/adminfile Silent.msp" -Wait}
 
-winget upgrade --all --accept-source-agreements --accept-package-agreements --silent
+winget upgrade --all --accept-source-agreements --accept-package-agreements --silent --purge --skip-dependencies --include-unknow
 
-timeout /t 10
+#timeout /t 10
 
 Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
 
@@ -87,7 +85,5 @@ Remove-Item -Path ${TOOL}\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE -Recurse -Force 
 Remove-Item -Path ${TOOL} -Recurse -Force -ErrorAction SilentlyContinue
 
 REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
-
-exit
 
 exit
