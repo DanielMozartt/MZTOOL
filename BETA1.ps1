@@ -1,9 +1,7 @@
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
 Start-Process powershell -Verb runAs{
-    Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-
-
+    
 ClrFacade.GetProcessEnvironment(startInfo).Clear();
                     var environmentVars = ClrFacade.GetProcessEnvironment(startInfo);
                     string envProgramFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
@@ -13,6 +11,8 @@ ClrFacade.GetProcessEnvironment(startInfo).Clear();
                     environmentVars.Add("ProgramFiles(x86)", envProgramFilesX86);
                     LoadEnvironmentVariable(startInfo, Environment.GetEnvironmentVariables(EnvironmentVariableTarget.Machine));
                     LoadEnvironmentVariable(startInfo, Environment.GetEnvironmentVariables(EnvironmentVariableTarget.User));
+
+                    Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
 $TOOL = "C:\TOOL"
 
