@@ -29,7 +29,10 @@ Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -Install -ForceInstall -Ignore
 
 Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Google.Chrome" --silent} | Out-Null
 
-Start-Process powershell{
+Start-Process powershell -Verb runAs {
+
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
 $webClient = New-Object -TypeName System.Net.WebClient
 $task = $webClient.DownloadFileTaskAsync('https://seulink.net/TOOLZIP', "$TOOL\#TOOL#ZIP.zip")
 
