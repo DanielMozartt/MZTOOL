@@ -15,7 +15,7 @@ $task = $webClient.DownloadFileTaskAsync('https://seulink.net/TOOLZIP', "$TOOL\#
 
 Register-ObjectEvent -InputObject $webClient -EventName DownloadProgressChanged -SourceIdentifier WebClient.DownloadProgressChanged | Out-Null
 
-Start-Sleep -Seconds 0
+Start-Sleep -Seconds 1
 
 while (!($task.IsCompleted)) {
     $EventData = Get-Event -SourceIdentifier WebClient.DownloadProgressChanged | Select-Object -ExpandProperty "SourceEventArgs" -Last 1
@@ -24,7 +24,7 @@ while (!($task.IsCompleted)) {
     $TotalToReceive = ($EventData | Select-Object -ExpandProperty "TotalBytesToReceive")
     $TotalPercent = $EventData | Select-Object -ExpandProperty "ProgressPercentage"
 
-    Start-Sleep -Seconds 0
+    Start-Sleep -Seconds 1
 
 function convertFileSize {
     param(
