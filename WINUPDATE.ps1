@@ -6,7 +6,7 @@ Start-Process powershell -Verb runAs {Install-Module PSWindowsUpdate -AllowClobb
 
 Start-Process powershell -Verb runAs {Import-Module PSWindowsUpdate -Force} 
 
-Get-WindowsUpdate -Install  -AcceptAll
+Start-Process powershell -Verb runAs {Get-WindowsUpdate -Install  -AcceptAll}
 
 #Install-PackageProvider -Name NuGet -Force
 
