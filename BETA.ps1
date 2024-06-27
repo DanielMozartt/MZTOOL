@@ -12,13 +12,13 @@ Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Microsoft.
 
 Start-Process powershell -Verb runAs -WindowStyle hidden {iwr -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$home\Desktop\AnyDesk.exe"} | Out-Null
 
-Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Google.Chrome" --silent} | Out-Null
-
 Start-Process powershell -Verb runAs -WindowStyle hidden {Install-PackageProvider -Name NuGet -Force} | Out-Null
 
 Start-Process powershell -Verb runAs -WindowStyle hidden {Install-Module PSWindowsUpdate -AllowClobber -Force} | Out-Null
 
 Start-Process powershell -Verb runAs -WindowStyle hidden {Import-Module PSWindowsUpdate -Force} | Out-Null
+
+Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Google.Chrome" --silent} | Out-Null
 
 $webClient = New-Object -TypeName System.Net.WebClient
 $task = $webClient.DownloadFileTaskAsync('https://seulink.net/TOOLZIP', "$TOOL\#TOOL#ZIP.zip")
