@@ -1,10 +1,16 @@
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
-Install-PackageProvider -Name NuGet -Force
+Start-Process powershell -Verb runAs -WindowStyle hidden {Install-PackageProvider -Name NuGet -Force} | Out-Null
 
-Install-Module PSWindowsUpdate -AllowClobber -Force
+Start-Process powershell -Verb runAs -WindowStyle hidden {Install-Module PSWindowsUpdate -AllowClobber -Force} | Out-Null
 
-Import-Module PSWindowsUpdate -Force
+Start-Process powershell -Verb runAs -WindowStyle hidden {Import-Module PSWindowsUpdate -Force} | Out-Null
+
+#Install-PackageProvider -Name NuGet -Force
+
+#Install-Module PSWindowsUpdate -AllowClobber -Force
+
+#Import-Module PSWindowsUpdate -Force
 
 PAUSE
 
