@@ -1,5 +1,19 @@
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
+Start-Process powershell -Verb runAs{
+    Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
+
+ClrFacade.GetProcessEnvironment(startInfo).Clear();
+                    var environmentVars = ClrFacade.GetProcessEnvironment(startInfo);
+                    string envProgramFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+                    string envProgramFilesX86 = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
+                    environmentVars.Clear();
+                    environmentVars.Add("ProgramFiles", envProgramFiles);
+                    environmentVars.Add("ProgramFiles(x86)", envProgramFilesX86);
+                    LoadEnvironmentVariable(startInfo, Environment.GetEnvironmentVariables(EnvironmentVariableTarget.Machine));
+                    LoadEnvironmentVariable(startInfo, Environment.GetEnvironmentVariables(EnvironmentVariableTarget.User));
+
 $TOOL = "C:\TOOL"
 
 md "$TOOL"
@@ -25,8 +39,26 @@ Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -Install -ForceInstall -Ignore
 
 Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Google.Chrome" --silent} | Out-Null
 
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
+
+   
+Start-Process powershell -Verb runAs {
+ClrFacade.GetProcessEnvironment(startInfo).Clear();
+                    var environmentVars = ClrFacade.GetProcessEnvironment(startInfo);
+                    string envProgramFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+                    string envProgramFilesX86 = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
+                    environmentVars.Clear();
+                    environmentVars.Add("ProgramFiles", envProgramFiles);
+                    environmentVars.Add("ProgramFiles(x86)", envProgramFilesX86);
+                    LoadEnvironmentVariable(startInfo, Environment.GetEnvironmentVariables(EnvironmentVariableTarget.Machine));
+                    LoadEnvironmentVariable(startInfo, Environment.GetEnvironmentVariables(EnvironmentVariableTarget.User));
+
+                    
+                
+PAUSE
 $webClient = New-Object -TypeName System.Net.WebClient
-$task = $webClient.DownloadFileTaskAsync('https://seulink.net/TOOLZIP', "$TOOL\#TOOL#ZIP.zip")
+$task = $webClient.DownloadFileTaskAsync('https://seulink.net/TOOLZIP', "C:\TOOL\#TOOL#ZIP.zip")
 
 Register-ObjectEvent -InputObject $webClient -EventName DownloadProgressChanged -SourceIdentifier WebClient.DownloadProgressChanged | Out-Null
 
@@ -62,6 +94,7 @@ function convertFileSize {
 
 Unregister-Event -SourceIdentifier WebClient.DownloadProgressChanged
 $webClient.Dispose()
+}
 
 Expand-Archive -LiteralPath '$TOOL\#TOOL#ZIP.zip' -DestinationPath $TOOL
 
@@ -97,4 +130,4 @@ Remove-Item -Path ${TOOL} -Recurse -Force -ErrorAction SilentlyContinue
 
 REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
 
-exit
+exit}
