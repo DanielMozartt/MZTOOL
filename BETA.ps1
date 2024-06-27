@@ -1,12 +1,8 @@
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
-Start-Process powershell -Verb runAs{
-
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-
 $TOOL = "C:\TOOL"
 
-md "$TOOL"
+New-Item "$TOOL"
 
 attrib +h "$TOOL"
 
@@ -29,10 +25,7 @@ Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -Install -ForceInstall -Ignore
 
 Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Google.Chrome" --silent} | Out-Null
 
-Start-Process powershell -Verb runAs {
-
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-
+#Start-Process powershell -UseNewEnvironment{
 $webClient = New-Object -TypeName System.Net.WebClient
 $task = $webClient.DownloadFileTaskAsync('https://seulink.net/TOOLZIP', "$TOOL\#TOOL#ZIP.zip")
 
@@ -70,11 +63,8 @@ function convertFileSize {
 
 Unregister-Event -SourceIdentifier WebClient.DownloadProgressChanged
 $webClient.Dispose()
-
+#}
 Expand-Archive -LiteralPath '$TOOL\#TOOL#ZIP.zip' -DestinationPath $TOOL
-pause}
-
-PAUSE
 
 Start-Process powershell -Verb runAs -WindowStyle hidden {iwr -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$TOOL\#TOOL#ZIP\AnyDesk.exe"}
 
@@ -112,4 +102,4 @@ Remove-Item -Path ${TOOL} -Recurse -Force -ErrorAction SilentlyContinue
 
 REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
 
-exit}
+exit
