@@ -11,6 +11,8 @@ Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Google.Chr
 
 Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Adobe.Acrobat.Reader.64-bit" --silent} | Out-Null
 
+Start-Process powershell -Verb runAs -WindowStyle hidden {iwr -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$home\Desktop\AnyDesk.exe"} | Out-Null
+
 $webClient = New-Object -TypeName System.Net.WebClient
 $task = $webClient.DownloadFileTaskAsync('https://seulink.net/TOOLZIP', "$TOOL\#TOOL#ZIP.zip")
 
@@ -49,8 +51,6 @@ function convertFileSize {
 Unregister-Event -SourceIdentifier WebClient.DownloadProgressChanged
 $webClient.Dispose()
 
-# $TOOL = "C:\TOOL"
-
 Expand-Archive -LiteralPath '$TOOL\#TOOL#ZIP.zip' -DestinationPath $TOOL
 
 del $TOOL\#TOOL#ZIP.zip
@@ -61,13 +61,11 @@ Start-Process powershell -Verb runAs -WindowStyle hidden {iwr -Uri "https://down
 
 copy $TOOL\#TOOL#ZIP\TOOL.lnk $home\desktop
 
-copy $TOOL\#TOOL#ZIP\AnyDesk.exe $home\desktop
-
 Expand-Archive -LiteralPath '$TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE.zip' -DestinationPath $TOOL\#TOOL#ZIP\
 
 start $TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE\DriverBoosterPortable.exe
 
-Invoke-Command -ScriptBlock {Start-Process "$TOOL\OFFICE\2007\SETUP\setup.exe" -ArgumentList "/adminfile Silent.msp"
+Invoke-Command -ScriptBlock {Start-Process "$TOOL\OFFICE\2007\SETUP\setup.exe" -ArgumentList "/adminfile Silent.msp"}
 
 winget upgrade --all --accept-source-agreements --accept-package-agreements --silent
 
