@@ -1,7 +1,9 @@
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
 Start-Process powershell -Verb runAs{
+
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
 $TOOL = "C:\TOOL"
 
 md "$TOOL"
@@ -15,12 +17,14 @@ Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Microsoft.
 Start-Process powershell -Verb runAs -WindowStyle hidden {iwr -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$home\Desktop\AnyDesk.exe"} | Out-Null
 
 Start-Process powershell -Verb runAs -WindowStyle hidden{
+
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 Install-PackageProvider -Name NuGet -Force
 Install-Module PSWindowsUpdate -AllowClobber -Force
 Import-Module PSWindowsUpdate -Force 
 Get-WindowsUpdate -Download -AcceptAll -Install -ForceInstall -IgnoreReboot -Verbose
 Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -Install -ForceInstall -IgnoreReboot -Verbose
+
 }
 
 Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Google.Chrome" --silent} | Out-Null
