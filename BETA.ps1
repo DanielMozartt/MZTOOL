@@ -1,3 +1,5 @@
+$TOOL = "C:\TOOL"
+
 md "$TOOL"
 
 attrib +h "$TOOL"
