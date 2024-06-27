@@ -1,5 +1,3 @@
-Start-Process powershell -Verb runAs  {
-
 md "$TOOL"
 
 attrib +h "$TOOL"
@@ -86,6 +84,6 @@ Remove-Item -Path ${TOOL}\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE -Recurse -Force 
 
 REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
 
-exit}
+exit
 
 exit
