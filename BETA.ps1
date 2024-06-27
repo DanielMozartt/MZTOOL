@@ -56,7 +56,7 @@ Start-Process powershell -Verb runAs -WindowStyle hidden {iwr -Uri "https://down
 
 REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
 
-copy $TOOL\#TOOL#ZIP\TOOL.lnk $home\desktop
+#copy $TOOL\#TOOL#ZIP\TOOL.lnk $home\desktop
 
 del $TOOL\#TOOL#ZIP.zip
 
@@ -83,6 +83,8 @@ Remove-Item -Path $env:c:\Windows\Prefetch\* -Recurse -Force -ErrorAction Silent
 taskkill /f /IM DriverBooster.exe /T
 
 Remove-Item -Path ${TOOL}\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE -Recurse -Force -ErrorAction SilentlyContinue
+
+Remove-Item -Path ${TOOL} -Recurse -Force -ErrorAction SilentlyContinue
 
 REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
 
