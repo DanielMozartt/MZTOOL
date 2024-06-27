@@ -1,3 +1,5 @@
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
 $TOOL = "C:\TOOL"
 
 md "$TOOL"
