@@ -1,4 +1,5 @@
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
 Start-Process powershell -Verb runAs{
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 $TOOL = "C:\TOOL"
