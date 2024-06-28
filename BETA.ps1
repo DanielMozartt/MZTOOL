@@ -6,7 +6,9 @@ $TOOL = "C:\TOOL"
 $TOOLFOLDER = Get-Item $TOOL
 $TOOLFOLDER.Attributes = "Hidden"
 
-Start-Process powershell -Verb runAs {
+Start-Process powershell -Verb runAs -WindowStyle hidden {iwr -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$home\Desktop\AnyDesk.exe"} | Out-Null
+
+Start-Process powershell -Verb runAs -WindowStyle hidden {
 
 Install-PackageProvider -Name NuGet -Force | Out-Null
 Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery | Out-Null
@@ -16,13 +18,11 @@ Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Adobe.Acro
 
 Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Microsoft.Powershell" --accept-source-agreements --accept-package-agreements --silent} | Out-Null
 
-Start-Process powershell -Verb runAs -WindowStyle hidden {iwr -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$home\Desktop\AnyDesk.exe"} | Out-Null
-
 Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Google.Chrome" --accept-source-agreements --accept-package-agreements --silent} | Out-Null
 
 }
 
-Start-Process powershell -Verb runAs -WindowStyle hidden{
+Start-Process powershell -Verb runAs <#-WindowStyle hidden#>{
 
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 Install-PackageProvider -Name NuGet -Force
@@ -91,7 +91,7 @@ Invoke-Command -ScriptBlock {Start-Process "$TOOL\OFFICE\2007\SETUP\setup.exe" -
 
 winget upgrade --all --accept-source-agreements --accept-package-agreements --silent --purge --skip-dependencies --include-unknown
 
-Start-Sleep -Seconds 30
+Start-Sleep -Seconds 20
 
 Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
 
