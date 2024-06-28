@@ -1,10 +1,11 @@
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
-$TOOL = "C:\TOOL"
+[Environment]::SetEnvironmentVariable("TOOL", "C:\TOOL", "Machine")
 
 md "$TOOL"
 
 attrib +h "$TOOL"
+
 
 Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Adobe.Acrobat.Reader.64-bit" --accept-source-agreements --accept-package-agreements --silent} | Out-Null
 
