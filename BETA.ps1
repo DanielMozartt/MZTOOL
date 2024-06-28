@@ -63,7 +63,7 @@ function convertFileSize {
 Unregister-Event -SourceIdentifier WebClient.DownloadProgressChanged
 $webClient.Dispose()
 
-Expand-Archive -LiteralPath '$TOOL\#TOOL#ZIP.zip' -DestinationPath $TOOL
+Expand-Archive -LiteralPath '$TOOL\#TOOL#ZIP.zip' -DestinationPath $TOOL\
 
 Start-Process powershell -Verb runAs -WindowStyle hidden {iwr -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$TOOL\#TOOL#ZIP\AnyDesk.exe"}
 
