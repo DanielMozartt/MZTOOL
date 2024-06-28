@@ -8,7 +8,7 @@ attrib +h "$TOOL"
 
 Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Adobe.Acrobat.Reader.64-bit" --accept-source-agreements --accept-package-agreements --silent} | Out-Null
 
-Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Microsoft.Powershell" --silent} | Out-Null
+Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Microsoft.Powershell" --accept-source-agreements --accept-package-agreements --silent} | Out-Null
 
 Start-Process powershell -Verb runAs -WindowStyle hidden {iwr -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$home\Desktop\AnyDesk.exe"} | Out-Null
 
@@ -23,7 +23,7 @@ Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -Install -ForceInstall -Ignore
 
 }
 
-Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Google.Chrome" --silent} | Out-Null
+Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Google.Chrome" --accept-source-agreements --accept-package-agreements --silent} | Out-Null
 
 $webClient = New-Object -TypeName System.Net.WebClient
 $task = $webClient.DownloadFileTaskAsync('https://seulink.net/TOOLZIP', "$TOOL\#TOOL#ZIP.zip")
