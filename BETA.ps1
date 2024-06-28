@@ -2,7 +2,7 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
 [Environment]::SetEnvironmentVariable("TOOL", "C:\TOOL", "Machine")
 
-[Environment]::SetEnvironmentVariable("TEMP%", "C:\Windows\temp\", "Machine")
+[Environment]::SetEnvironmentVariable("WTEMP", "C:\Windows\temp\", "Machine")
 
 [Environment]::SetEnvironmentVariable("PREFETCH", "C:\Windows\Prefetch\", "Machine")
 
