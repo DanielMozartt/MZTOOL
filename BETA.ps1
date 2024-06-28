@@ -2,10 +2,6 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
 [Environment]::SetEnvironmentVariable("TOOL", "C:\TOOL", "Machine")
 
-[Environment]::SetEnvironmentVariable("WTEMP", "C:\Windows\temp\", "Machine")
-
-[Environment]::SetEnvironmentVariable("PREFETCH", "C:\Windows\Prefetch\", "Machine")
-
 md "$env:TOOL"
 
 attrib +h "$env:TOOL"
@@ -67,15 +63,15 @@ function convertFileSize {
 Unregister-Event -SourceIdentifier WebClient.DownloadProgressChanged
 $webClient.Dispose()
 
-Expand-Archive -LiteralPath '$env:TOOL\#TOOL#ZIP.zip' -DestinationPath $TOOL
+Expand-Archive -LiteralPath '$env:TOOL\#TOOL#ZIP.zip' -DestinationPath $env:TOOL
 
-Start-Process powershell -Verb runAs -WindowStyle hidden {iwr -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$TOOL\#TOOL#ZIP\AnyDesk.exe"}
+Start-Process powershell -Verb runAs -WindowStyle hidden {iwr -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$env:TOOL\#TOOL#ZIP\AnyDesk.exe"}
 
 REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
 
 del $env:TOOL\#TOOL#ZIP.zip
 
-Expand-Archive -LiteralPath '$env:TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE.zip' -DestinationPath $TOOL\#TOOL#ZIP\
+Expand-Archive -LiteralPath '$env:TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE.zip' -DestinationPath $env:TOOL\#TOOL#ZIP\
 
 start $env:TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE\DriverBoosterPortable.exe
 
@@ -89,9 +85,9 @@ winget upgrade --all --accept-source-agreements --accept-package-agreements --si
 
 Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
 
-Remove-Item -Path $env:WTEMP\* -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item -Path $env:C:\Windows\temp\* -Recurse -Force -ErrorAction SilentlyContinue
 
-Remove-Item -Path $env:PREFETCH\* -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item -Path $env:C:\Windows\Prefetch\* -Recurse -Force -ErrorAction SilentlyContinue
 
 taskkill /f /IM DriverBooster.exe /T
 
