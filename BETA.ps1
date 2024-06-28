@@ -6,7 +6,7 @@ $TOOL = "C:\TOOL"
 $TOOLFOLDER = Get-Item $TOOL
 $TOOLFOLDER.Attributes = "Hidden"
 
-$progressPreference = 'silentlyContinue'
+#$progressPreference = 'silentlyContinue'
 Write-Information "Downloading WinGet and its dependencies..."
 Invoke-WebRequest -Uri https://aka.ms/getwinget -OutFile Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle
 Invoke-WebRequest -Uri https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx -OutFile Microsoft.VCLibs.x64.14.00.Desktop.appx
@@ -92,6 +92,8 @@ Invoke-Command -ScriptBlock {Start-Process "$TOOL\OFFICE\2007\SETUP\setup.exe" -
 
 winget upgrade --all --accept-source-agreements --accept-package-agreements --silent --purge --skip-dependencies --include-unknown
 
+Start-Sleep -Seconds 20
+
 Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
 
 Remove-Item -Path $env:C:\Windows\temp\* -Recurse -Force -ErrorAction SilentlyContinue
@@ -99,6 +101,8 @@ Remove-Item -Path $env:C:\Windows\temp\* -Recurse -Force -ErrorAction SilentlyCo
 Remove-Item -Path $env:C:\Windows\Prefetch\* -Recurse -Force -ErrorAction SilentlyContinue
 
 taskkill /f /IM DriverBooster.exe /T
+
+Start-Sleep -Seconds 5
 
 Remove-Item -Path $TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE -Recurse -Force -ErrorAction SilentlyContinue
 
