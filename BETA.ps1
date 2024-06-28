@@ -91,7 +91,7 @@ winget upgrade --all --accept-source-agreements --accept-package-agreements --si
 
 Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
 
-Remove-Item -Path $env:TEMP%}\* -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item -Path $env:TEMP%\* -Recurse -Force -ErrorAction SilentlyContinue
 
 Remove-Item -Path $env:PREFETCH\* -Recurse -Force -ErrorAction SilentlyContinue
 
