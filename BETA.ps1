@@ -2,6 +2,10 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
 [Environment]::SetEnvironmentVariable("TOOL", "C:\TOOL", "Machine")
 
+[Environment]::SetEnvironmentVariable("%TEMP%", "C:\Windows\temp\", "Machine")
+
+[Environment]::SetEnvironmentVariable("PREFETCH", "C:\Windows\Prefetch\", "Machine")
+
 md "$TOOL"
 
 attrib +h "$TOOL"
@@ -89,9 +93,9 @@ winget upgrade --all --accept-source-agreements --accept-package-agreements --si
 
 Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
 
-Remove-Item -Path $env:c:\Windows\temp\* -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item -Path $env:%TEMP%\* -Recurse -Force -ErrorAction SilentlyContinue
 
-Remove-Item -Path $env:c:\Windows\Prefetch\* -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item -Path $env:PREFETCH\* -Recurse -Force -ErrorAction SilentlyContinue
 
 taskkill /f /IM DriverBooster.exe /T
 
