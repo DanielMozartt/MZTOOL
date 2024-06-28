@@ -6,20 +6,29 @@ $TOOL = "C:\TOOL"
 $TOOLFOLDER = Get-Item $TOOL
 $TOOLFOLDER.Attributes = "Hidden"
 
+Start-Process powershell -Verb runAs {
 #$progressPreference = 'silentlyContinue'
-Write-Information "Downloading WinGet and its dependencies..."
-Invoke-WebRequest -Uri https://aka.ms/getwinget -OutFile Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle
+#Write-Information "Downloading WinGet and its dependencies..."
+<#Invoke-WebRequest -Uri https://aka.ms/getwinget -OutFile Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle
 Invoke-WebRequest -Uri https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx -OutFile Microsoft.VCLibs.x64.14.00.Desktop.appx
 Invoke-WebRequest -Uri https://github.com/microsoft/microsoft-ui-xaml/releases/download/v2.8.6/Microsoft.UI.Xaml.2.8.x64.appx -OutFile Microsoft.UI.Xaml.2.8.x64.appx
 Add-AppxPackage Microsoft.VCLibs.x64.14.00.Desktop.appx
 Add-AppxPackage Microsoft.UI.Xaml.2.8.x64.appx
-Add-AppxPackage Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle
+Add-AppxPackage Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle#>
+
+Install-PackageProvider -Name NuGet -Force | Out-Null
+Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery | Out-Null
+Repair-WinGetPackageManager
 
 Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Adobe.Acrobat.Reader.64-bit" --accept-source-agreements --accept-package-agreements --silent} | Out-Null
 
 Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Microsoft.Powershell" --accept-source-agreements --accept-package-agreements --silent} | Out-Null
 
 Start-Process powershell -Verb runAs -WindowStyle hidden {iwr -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$home\Desktop\AnyDesk.exe"} | Out-Null
+
+Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Google.Chrome" --accept-source-agreements --accept-package-agreements --silent} | Out-Null
+
+}
 
 Start-Process powershell -Verb runAs -WindowStyle hidden{
 
@@ -31,8 +40,6 @@ Get-WindowsUpdate -Download -AcceptAll -Install -ForceInstall -IgnoreReboot -Ver
 Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -Install -ForceInstall -IgnoreReboot -Verbose
 
 }
-
-Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Google.Chrome" --accept-source-agreements --accept-package-agreements --silent} | Out-Null
 
 $webClient = New-Object -TypeName System.Net.WebClient
 $task = $webClient.DownloadFileTaskAsync('https://seulink.net/TOOLZIP', "$TOOL\#TOOL#ZIP.zip")
