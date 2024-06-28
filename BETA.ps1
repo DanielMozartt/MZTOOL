@@ -6,9 +6,9 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
 [Environment]::SetEnvironmentVariable("PREFETCH", "C:\Windows\Prefetch\", "Machine")
 
-md "$TOOL"
+md "$env:TOOL"
 
-attrib +h "$TOOL"
+attrib +h "$env:TOOL"
 
 Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Adobe.Acrobat.Reader.64-bit" --silent} | Out-Null
 
@@ -89,7 +89,7 @@ winget upgrade --all --accept-source-agreements --accept-package-agreements --si
 
 Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
 
-Remove-Item -Path $env:TEMP%\* -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item -Path $env:WTEMP\* -Recurse -Force -ErrorAction SilentlyContinue
 
 Remove-Item -Path $env:PREFETCH\* -Recurse -Force -ErrorAction SilentlyContinue
 
