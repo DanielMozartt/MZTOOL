@@ -6,7 +6,7 @@ md "$TOOL"
 
 attrib +h "$TOOL"
 
-Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Adobe.Acrobat.Reader.64-bit" --silent} | Out-Null
+Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Adobe.Acrobat.Reader.64-bit" --accept-source-agreements --accept-package-agreements --silent} | Out-Null
 
 Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Microsoft.Powershell" --silent} | Out-Null
 
