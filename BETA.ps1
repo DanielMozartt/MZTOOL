@@ -2,7 +2,7 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
 [Environment]::SetEnvironmentVariable("TOOL", "C:\TOOL", "Machine")
 
-[Environment]::SetEnvironmentVariable("%TEMP%", "C:\Windows\temp\", "Machine")
+[Environment]::SetEnvironmentVariable("TEMP%", "C:\Windows\temp\", "Machine")
 
 [Environment]::SetEnvironmentVariable("PREFETCH", "C:\Windows\Prefetch\", "Machine")
 
@@ -89,11 +89,9 @@ Invoke-Command -ScriptBlock {Start-Process "$TOOL\OFFICE\2007\SETUP\setup.exe" -
 
 winget upgrade --all --accept-source-agreements --accept-package-agreements --silent --purge --skip-dependencies --include-unknow
 
-#timeout /t 10
-
 Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
 
-Remove-Item -Path $env:%TEMP%\* -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item -Path $env:TEMP%}\* -Recurse -Force -ErrorAction SilentlyContinue
 
 Remove-Item -Path $env:PREFETCH\* -Recurse -Force -ErrorAction SilentlyContinue
 
