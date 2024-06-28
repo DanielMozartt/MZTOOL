@@ -1,10 +1,10 @@
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
-$env:TOOL = "C\TOOL"
+$TOOL = "C\TOOL"
 
-md "$env:TOOL"
+md "$TOOL"
 
-attrib +h "$env:TOOL"
+attrib +h "$TOOL"
 
 Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Adobe.Acrobat.Reader.64-bit" --silent} | Out-Null
 
@@ -26,7 +26,7 @@ Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -Install -ForceInstall -Ignore
 Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Google.Chrome" --silent} | Out-Null
 
 $webClient = New-Object -TypeName System.Net.WebClient
-$task = $webClient.DownloadFileTaskAsync('https://seulink.net/TOOLZIP', "$env:TOOL\#TOOL#ZIP.zip")
+$task = $webClient.DownloadFileTaskAsync('https://seulink.net/TOOLZIP', "$TOOL\#TOOL#ZIP.zip")
 
 Register-ObjectEvent -InputObject $webClient -EventName DownloadProgressChanged -SourceIdentifier WebClient.DownloadProgressChanged | Out-Null
 
@@ -63,23 +63,23 @@ function convertFileSize {
 Unregister-Event -SourceIdentifier WebClient.DownloadProgressChanged
 $webClient.Dispose()
 
-Expand-Archive -LiteralPath '$env:TOOL\#TOOL#ZIP.zip' -DestinationPath $env:TOOL
+Expand-Archive -LiteralPath '$TOOL\#TOOL#ZIP.zip' -DestinationPath $TOOL
 
-Start-Process powershell -Verb runAs -WindowStyle hidden {iwr -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$env:TOOL\#TOOL#ZIP\AnyDesk.exe"}
+Start-Process powershell -Verb runAs -WindowStyle hidden {iwr -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$TOOL\#TOOL#ZIP\AnyDesk.exe"}
 
 REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
 
-del $env:TOOL\#TOOL#ZIP.zip
+del $TOOL\#TOOL#ZIP.zip
 
-Expand-Archive -LiteralPath '$env:TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE.zip' -DestinationPath $env:TOOL\#TOOL#ZIP\
+Expand-Archive -LiteralPath '$TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE.zip' -DestinationPath $TOOL\#TOOL#ZIP\
 
-start $env:TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE\DriverBoosterPortable.exe
+start $TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE\DriverBoosterPortable.exe
 
-Invoke-Command -ScriptBlock {Start-Process "$env:TOOL\OFFICE\2007\SaveAsPdf.EXE" -ArgumentList "/quiet" -Wait}
+Invoke-Command -ScriptBlock {Start-Process "$TOOL\OFFICE\2007\SaveAsPdf.EXE" -ArgumentList "/quiet" -Wait}
 
-msiexec /i $env:TOOL\OFFICE\2007\ODF\OdfAddInForOfficeSetup.msi /q ALLUSERS=1
+msiexec /i $TOOL\OFFICE\2007\ODF\OdfAddInForOfficeSetup.msi /q ALLUSERS=1
 
-Invoke-Command -ScriptBlock {Start-Process "$env:TOOL\OFFICE\2007\SETUP\setup.exe" -ArgumentList "/adminfile Silent.msp" -Wait}
+Invoke-Command -ScriptBlock {Start-Process "$TOOL\OFFICE\2007\SETUP\setup.exe" -ArgumentList "/adminfile Silent.msp" -Wait}
 
 winget upgrade --all --accept-source-agreements --accept-package-agreements --silent --purge --skip-dependencies --include-unknow
 
@@ -91,9 +91,9 @@ Remove-Item -Path $env:C:\Windows\Prefetch\* -Recurse -Force -ErrorAction Silent
 
 taskkill /f /IM DriverBooster.exe /T
 
-#Remove-Item -Path $env:TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item -Path $TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE -Recurse -Force -ErrorAction SilentlyContinue
 
-#Remove-Item -Path $env:TOOL -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item -Path $TOOL -Recurse -Force -ErrorAction SilentlyContinue
 
 REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
 
