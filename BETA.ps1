@@ -1,6 +1,6 @@
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
-[Environment]::SetEnvironmentVariable("TOOL", "C:\TOOL", "Machine")
+$env:TOOL = "C\TOOL"
 
 md "$env:TOOL"
 
@@ -96,5 +96,7 @@ taskkill /f /IM DriverBooster.exe /T
 #Remove-Item -Path $env:TOOL -Recurse -Force -ErrorAction SilentlyContinue
 
 REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
+
+[Environment]::SetEnvironmentVariable("TOOL", "C:\TOOL", "Machine")
 
 exit
