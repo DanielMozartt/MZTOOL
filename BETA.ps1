@@ -1,11 +1,10 @@
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
-[Environment]::SetEnvironmentVariable("TOOL", "C:\TOOL", "Machine")
+$TOOL = "C:\TOOL"
 
-md "$TOOL"
-
-attrib +h "$TOOL"
-
+[System.IO.Directory]::CreateDirectory($TOOL)
+$TOOLFOLDER = Get-Item $TOOL
+$TOOLFOLDER.Attributes = "Hidden"
 
 Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Adobe.Acrobat.Reader.64-bit" --accept-source-agreements --accept-package-agreements --silent} | Out-Null
 
@@ -94,7 +93,9 @@ taskkill /f /IM DriverBooster.exe /T
 
 Remove-Item -Path $TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE -Recurse -Force -ErrorAction SilentlyContinue
 
-Remove-Item -Path $TOOL -Recurse -Force -ErrorAction SilentlyContinue
+#Remove-Item -Path $TOOL -Recurse -Force -ErrorAction SilentlyContinue
+
+[Environment]::SetEnvironmentVariable("TOOL", "C:\TOOL", "Machine")
 
 REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
 
