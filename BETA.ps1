@@ -1,6 +1,6 @@
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
-$TOOL = "C:\TOOL"
+[Environment]::SetEnvironmentVariable("TOOL", "C:\TOOL", "Machine")
 
 md "$TOOL"
 
