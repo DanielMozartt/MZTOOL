@@ -3,22 +3,22 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 $TOOL = "C:\TOOL"
 
 [System.IO.Directory]::CreateDirectory($TOOL)
-$TOOLFOLDER = Get-Item $TOOL
-$TOOLFOLDER.Attributes = "Hidden"
+$TOOLFOLDER = Get-Item $TOOL 
+$TOOLFOLDER.Attributes = "Hidden" 
 
-Start-Process powershell -Verb runAs {
+Start-Process powershell -Verb runAs -WindowStyle hidden {iwr -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$home\Desktop\AnyDesk.exe"} | Out-Null
+
+Start-Process powershell -Verb runAs -WindowStyle hidden {
 
 Install-PackageProvider -Name NuGet -Force | Out-Null
 Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery | Out-Null
 Repair-WinGetPackageManager
 
-Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Adobe.Acrobat.Reader.64-bit" --accept-source-agreements --accept-package-agreements --silent} | Out-Null
+winget add "Adobe.Acrobat.Reader.64-bit" --accept-source-agreements --accept-package-agreements --silent | Out-Null
 
-Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Microsoft.Powershell" --accept-source-agreements --accept-package-agreements --silent} | Out-Null
+winget add "Microsoft.Powershell" --accept-source-agreements --accept-package-agreements --silent | Out-Null
 
-Start-Process powershell -Verb runAs -WindowStyle hidden {iwr -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$home\Desktop\AnyDesk.exe"} | Out-Null
-
-Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Google.Chrome" --accept-source-agreements --accept-package-agreements --silent} | Out-Null
+winget add "Google.Chrome" --accept-source-agreements --accept-package-agreements --silent | Out-Null
 
 }
 
