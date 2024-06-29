@@ -1,6 +1,6 @@
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
-Start-Process powershell -Verb runAs { Invoke-Command -ScriptBlock $RUN -ErrorAction Stop -AsJob }
+Start-Process powershell -Verb runAs { Invoke-Expression -Command $RUN}
 $RUN = {Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
 $TOOL = {"C:\TOOL"}
