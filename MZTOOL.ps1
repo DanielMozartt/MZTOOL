@@ -14,11 +14,11 @@ Install-PackageProvider -Name NuGet -Force | Out-Null
 Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery | Out-Null
 Repair-WinGetPackageManager
 
-winget add "Adobe.Acrobat.Reader.64-bit" --accept-source-agreements --accept-package-agreements --silent | Out-Null
+Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Adobe.Acrobat.Reader.64-bit" --accept-source-agreements --accept-package-agreements --silent | Out-Null}
 
-winget add "Microsoft.Powershell" --accept-source-agreements --accept-package-agreements --silent | Out-Null
+Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Microsoft.Powershell" --accept-source-agreements --accept-package-agreements --silent | Out-Null}
 
-winget add "Google.Chrome" --accept-source-agreements --accept-package-agreements --silent | Out-Null
+Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Google.Chrome" --accept-source-agreements --accept-package-agreements --silent | Out-Null}
 
 }
 
