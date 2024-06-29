@@ -1,9 +1,11 @@
 
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
-$RUN = "Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+$RUN = {
 
-$TOOL = "C:\TOOL"
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
+$TOOL = {"C:\TOOL"}
 
 [System.IO.Directory]::CreateDirectory($TOOL)
 $TOOLFOLDER = Get-Item $TOOL 
@@ -116,6 +118,6 @@ Remove-Item -Path $TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE -Recurse -Force -E
 
 REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
 
-exit"
+exit}
 
 Start-Process powershell -Verb runAs { irm $RUN | iex }
