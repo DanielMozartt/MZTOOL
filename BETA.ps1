@@ -14,7 +14,7 @@ Install-PackageProvider -Name NuGet -Force | Out-Null
 Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery | Out-Null
 Repair-WinGetPackageManager
 
-winget add "Adobe.Acrobat.Reader.64-bit""Microsoft.Powershell" "Google.Chrome"  --accept-source-agreements --accept-package-agreements 
+winget add "Adobe.Acrobat.Reader.64-bit" "Microsoft.Powershell" "Google.Chrome"  --accept-source-agreements --accept-package-agreements 
 
 pause
 
