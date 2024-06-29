@@ -1,7 +1,7 @@
 
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
-$RUN = {
+$RUN = '
 
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
@@ -118,6 +118,6 @@ Remove-Item -Path $TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE -Recurse -Force -E
 
 REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
 
-exit}
+exit'
 
 Start-Process powershell -Verb runAs { Invoke-Expression -Command $RUN}
