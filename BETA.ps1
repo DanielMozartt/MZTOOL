@@ -2,9 +2,7 @@
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
 Start-Process powershell -Verb runAs { irm $RUN | iex }
-
 $RUN = "
-
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
 $TOOL = "C:\TOOL"
