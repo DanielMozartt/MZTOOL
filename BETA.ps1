@@ -8,7 +8,7 @@ $TOOLFOLDER.Attributes = "Hidden"
 
 Start-Process powershell -Verb runAs -WindowStyle hidden {iwr -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$home\Desktop\AnyDesk.exe"} | Out-Null
 
-Start-Process powershell -Verb runAs -WindowStyle hidden {
+Start-Process powershell -Verb runAs {
 
 Install-PackageProvider -Name NuGet -Force | Out-Null
 Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery | Out-Null
