@@ -41,7 +41,7 @@ Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -Install -ForceInstall -Ignore
 }
 
 $webClient = New-Object -TypeName System.Net.WebClient
-$task = $webClient.DownloadFileTaskAsync('https://seulink.net/TOOLZIP', "$TOOL\#TOOL#ZIP.zip")
+$task = $webClient.DownloadFileTaskAsync("https://seulink.net/TOOLZIP", "$TOOL\#TOOL#ZIP.zip")
 
 Register-ObjectEvent -InputObject $webClient -EventName DownloadProgressChanged -SourceIdentifier WebClient.DownloadProgressChanged | Out-Null
 
