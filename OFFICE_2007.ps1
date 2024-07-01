@@ -1,5 +1,7 @@
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
+$TOOL = {"C:\TOOL"}
+
 $webClient = New-Object -TypeName System.Net.WebClient
 $task = $webClient.DownloadFileTaskAsync("https://seulink.net/TOOLZIP", "$TOOL\#TOOL#ZIP.zip")
 
