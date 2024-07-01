@@ -15,15 +15,15 @@ Install-PackageProvider -Name NuGet -Force | Out-Null
 Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery | Out-Null
 Repair-WinGetPackageManager
 
-winget add "Adobe.Acrobat.Reader.64-bit" "Microsoft.Powershell" "Google.Chrome"  --accept-source-agreements --accept-package-agreements 
+winget add "Adobe.Acrobat.Reader.64-bit" "Microsoft.Powershell" "Google.Chrome"  --accept-source-agreements --accept-package-agreements
 
-#winget add "Microsoft.Powershell" --accept-source-agreements --accept-package-agreements --silent | Out-Null
+winget add "Adobe.Acrobat.Reader.64-bit" "Microsoft.Powershell" "Google.Chrome"  --accept-source-agreements --accept-package-agreements
 
-#winget add "Google.Chrome" --accept-source-agreements --accept-package-agreements --silent | Out-Null
+winget add "Adobe.Acrobat.Reader.64-bit" "Microsoft.Powershell" "Google.Chrome"  --accept-source-agreements --accept-package-agreements
 
 }
 
-Start-Process powershell -Verb runAs -WindowStyle hidden{
+Start-Process powershell -Verb runAs {
 
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 Install-PackageProvider -Name NuGet -Force
