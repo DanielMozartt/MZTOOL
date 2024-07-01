@@ -1,27 +1,25 @@
+
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
-Start-Process powershell -Verb runAs { Invoke-Expression -Command $RUN}
-$RUN = "Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-
-$TOOL = 'C:\TOOL'
+$TOOL = "C:\TOOL"
 
 [System.IO.Directory]::CreateDirectory($TOOL)
 $TOOLFOLDER = Get-Item $TOOL 
-$TOOLFOLDER.Attributes = 'Hidden' 
+$TOOLFOLDER.Attributes = "Hidden" 
 
 Start-Process powershell -Verb runAs -WindowStyle hidden {iwr -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$home\Desktop\AnyDesk.exe"} | Out-Null
 
-Start-Process powershell -Verb runAs -WindowStyle hidden {
+Start-Process powershell -Verb runAs {
 
 Install-PackageProvider -Name NuGet -Force | Out-Null
 Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery | Out-Null
 Repair-WinGetPackageManager
 
-Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Adobe.Acrobat.Reader.64-bit" --accept-source-agreements --accept-package-agreements --silent | Out-Null}
+winget add "Adobe.Acrobat.Reader.64-bit" "Microsoft.Powershell" "Google.Chrome"  --accept-source-agreements --accept-package-agreements 
 
-Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Microsoft.Powershell" --accept-source-agreements --accept-package-agreements --silent | Out-Null}
+#winget add "Microsoft.Powershell" --accept-source-agreements --accept-package-agreements --silent | Out-Null
 
-Start-Process powershell -Verb runAs -WindowStyle hidden {winget add "Google.Chrome" --accept-source-agreements --accept-package-agreements --silent | Out-Null}
+#winget add "Google.Chrome" --accept-source-agreements --accept-package-agreements --silent | Out-Null
 
 }
 
@@ -37,7 +35,7 @@ Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -Install -ForceInstall -Ignore
 }
 
 $webClient = New-Object -TypeName System.Net.WebClient
-$task = $webClient.DownloadFileTaskAsync('https://seulink.net/TOOLZIP', "$TOOL\#TOOL#ZIP.zip")
+$task = $webClient.DownloadFileTaskAsync("https://seulink.net/TOOLZIP", "$TOOL\#TOOL#ZIP.zip")
 
 Register-ObjectEvent -InputObject $webClient -EventName DownloadProgressChanged -SourceIdentifier WebClient.DownloadProgressChanged | Out-Null
 
@@ -104,14 +102,15 @@ Remove-Item -Path $env:C:\Windows\Prefetch\* -Recurse -Force -ErrorAction Silent
 
 taskkill /f /IM DriverBooster.exe /T
 
-Start-Sleep -Seconds 5
+Start-Sleep -Seconds 500
 
 Remove-Item -Path $TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE -Recurse -Force -ErrorAction SilentlyContinue
 
 #Remove-Item -Path $TOOL -Recurse -Force -ErrorAction SilentlyContinue
 
-#[Environment]::SetEnvironmentVariable("TOOL", "C:\TOOL", "Machine")
+[Environment]::SetEnvironmentVariable("TOOL", "C:\TOOL", "Machine")
 
 REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
 
-exit"
+exit
+
