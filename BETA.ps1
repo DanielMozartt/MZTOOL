@@ -1,11 +1,7 @@
 
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
-$RUN = '
-
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-
-$TOOL = {"C:\TOOL"}
+$TOOL = "C:\TOOL"
 
 [System.IO.Directory]::CreateDirectory($TOOL)
 $TOOLFOLDER = Get-Item $TOOL 
@@ -20,8 +16,6 @@ Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery | Out-
 Repair-WinGetPackageManager
 
 winget add "Adobe.Acrobat.Reader.64-bit" "Microsoft.Powershell" "Google.Chrome"  --accept-source-agreements --accept-package-agreements 
-
-pause
 
 #winget add "Microsoft.Powershell" --accept-source-agreements --accept-package-agreements --silent | Out-Null
 
@@ -108,7 +102,7 @@ Remove-Item -Path $env:C:\Windows\Prefetch\* -Recurse -Force -ErrorAction Silent
 
 taskkill /f /IM DriverBooster.exe /T
 
-Start-Sleep -Seconds 5
+Start-Sleep -Seconds 500
 
 Remove-Item -Path $TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE -Recurse -Force -ErrorAction SilentlyContinue
 
@@ -118,6 +112,5 @@ Remove-Item -Path $TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE -Recurse -Force -E
 
 REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
 
-exit'
+exit
 
-Start-Process powershell -Verb runAs { Invoke-Expression -Command $RUN}

