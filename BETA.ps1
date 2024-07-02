@@ -96,7 +96,7 @@ function convertFileSize {
 Unregister-Event -SourceIdentifier WebClient.DownloadProgressChanged
 $webClient.Dispose()
 
-#Extração do arquivo #TOOL#ZIP.zip para a pasta  $TOOL.
+#Extração do arquivo #TOOL#ZIP.zip para a pasta $TOOL.
 
 Expand-Archive -LiteralPath $TOOL\#TOOL#ZIP.zip -DestinationPath $TOOL
 
