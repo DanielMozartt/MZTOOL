@@ -38,11 +38,10 @@ exit
 }
 
 Start-Process powershell -Verb runAs {
-    
+
+#Instalação do módulo Windows Update.    
+
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-
-#Instalação do módulo Windows Update.
-
 Install-PackageProvider -Name NuGet -Force
 Install-Module PSWindowsUpdate -AllowClobber -Force
 Import-Module PSWindowsUpdate -Force 
