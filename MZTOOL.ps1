@@ -1,4 +1,4 @@
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
 
 #Sincroniza o Horário do Sistema com o servidor Time.Windows.
 
@@ -41,15 +41,14 @@ Start-Process powershell -Verb runAs -WindowStyle hidden {
     
 #Instalação do módulo Windows Update.    
 
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
 Install-PackageProvider -Name NuGet -Force
 Install-Module PSWindowsUpdate -AllowClobber -Force
 Import-Module PSWindowsUpdate -Force 
 
 #Instalação de novas atualizações do Windows através do Windows update.
 
-Get-WindowsUpdate -Download -AcceptAll -Install -ForceInstall -IgnoreReboot -Verbose
-Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -Install -ForceInstall -IgnoreReboot -Verbose
+Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot -Verbose
 
 exit
 
