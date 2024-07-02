@@ -96,13 +96,13 @@ function convertFileSize {
 Unregister-Event -SourceIdentifier WebClient.DownloadProgressChanged
 $webClient.Dispose()
 
-#Extração do arquivo #TOOL#ZIP.zip para a pasta  $TOOL\#TOOL#ZIP.
+#Extração do arquivo #TOOL#ZIP.zip para a pasta  $TOOL.
 
 Expand-Archive -LiteralPath $TOOL\#TOOL#ZIP.zip -DestinationPath $TOOL
 
 #Instalação do software AnyDesk Portátil na pasta $TOOL\#TOOL#ZIP.
 
-Start-Process powershell -Verb runAs -WindowStyle hidden {iwr -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$TOOL\#TOOL#ZIP\AnyDesk.exe"}
+Start-Process powershell -Verb runAs -WindowStyle hidden {iwr -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$TOOL\MZTOOL\AnyDesk.exe"}
 
 #Desativar o UAC.
 
@@ -114,9 +114,9 @@ del $TOOL\#TOOL#ZIP.zip
 
 #Extração e inicialização do software Driver Booster.
 
-Expand-Archive -LiteralPath $TOOL\#TOOL#ZIP\DRIVER_BOOSTER.zip -DestinationPath $TOOL\#TOOL#ZIP\
+Expand-Archive -LiteralPath $TOOL\MZTOOL\DRIVER_BOOSTER.zip -DestinationPath $TOOL\MZTOOL\
 
-start $TOOL\#TOOL#ZIP\DRIVER_BOOSTER_7.5_PORTABLE\DriverBoosterPortable.exe
+start $TOOL\MZTOOL\DRIVER_BOOSTER\DriverBoosterPortable.exe
 
 #Intalação do software Microsoft Office 2007 e ADD-in's SaveAsPDF e ODFAddIn.
 
@@ -148,7 +148,7 @@ taskkill /f /IM DriverBooster.exe /T
 
 Start-Sleep -Seconds 20
 
-Remove-Item -Path $TOOL\#TOOL#ZIP\DRIVER_BOOSTER -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item -Path $TOOL\MZTOOL\DRIVER_BOOSTER -Recurse -Force -ErrorAction SilentlyContinue
 
 #Adiciona variável de ambiente %TOOL%.
 
