@@ -15,7 +15,7 @@ $TOOLFOLDER.Attributes = "Hidden"
 
 #Instalação do software AnyDesk Portátil na área de trabalho do usuário.
 
-Start-Process powershell -Verb runAs -WindowStyle hidden {iwr -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$home\Desktop\AnyDesk.exe"} | Out-Null
+Start-Process powershell -Verb runAs -WindowStyle hidden {Invoke-WebRequest -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$home\Desktop\AnyDesk.exe"} | Out-Null
 
 Start-Process powershell -Verb runAs {
 
@@ -102,7 +102,7 @@ Expand-Archive -LiteralPath $TOOL\MZTOOL.zip -DestinationPath $TOOL
 
 #Instalação do software AnyDesk Portátil na pasta $TOOL\MZTOOL.
 
-Start-Process powershell -Verb runAs -WindowStyle hidden {iwr -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$TOOL\MZTOOL\AnyDesk.exe"}
+Start-Process powershell -Verb runAs -WindowStyle hidden {Invoke-WebRequest -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$TOOL\MZTOOL\AnyDesk.exe"}
 
 #Desativar o UAC.
 
@@ -110,13 +110,13 @@ REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v Enable
 
 #Deletar o arquivo MZTOOL.zip.
 
-del $TOOL\MZTOOL.zip
+Remove-Item $TOOL\MZTOOL.zip
 
 #Extração e inicialização do software Driver Booster.
 
 Expand-Archive -LiteralPath $TOOL\MZTOOL\DRIVER_BOOSTER.zip -DestinationPath $TOOL\MZTOOL\
 
-start $TOOL\MZTOOL\DRIVER_BOOSTER\DriverBoosterPortable.exe
+Start-Process $TOOL\MZTOOL\DRIVER_BOOSTER\DriverBoosterPortable.exe
 
 #Intalação do software Microsoft Office 2007 e ADD-in's SaveAsPDF e ODFAddIn.
 
