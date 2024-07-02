@@ -49,7 +49,7 @@ Import-Module PSWindowsUpdate -Force
 
 #Instalação de novas atualizações do Windows através do Windows update.
 
-Get-WindowsUpdate -Download -AcceptAll -Install -ForceInstall -IgnoreReboot -Verbose
+#Get-WindowsUpdate -Download -AcceptAll -Install -ForceInstall -IgnoreReboot -Verbose
 Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -Install -ForceInstall -IgnoreReboot -Verbose
 
 exit

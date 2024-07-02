@@ -17,7 +17,7 @@ $TOOLFOLDER.Attributes = "Hidden"
 
 Start-Process powershell -Verb runAs -WindowStyle hidden {Invoke-WebRequest -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$home\Desktop\AnyDesk.exe"} | Out-Null
 
-Start-Process powershell -Verb runAs {
+Start-Process powershell -Verb runAs -WindowStyle hidden {
 
 #Instalação do Winget.
 
@@ -37,7 +37,7 @@ exit
 
 }
 
-Start-Process powershell -Verb runAs {
+Start-Process powershell -Verb runAs -WindowStyle hidden {
     
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
