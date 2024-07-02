@@ -122,13 +122,9 @@ Start-Process $TOOL\MZTOOL\DRIVER_BOOSTER\DriverBoosterPortable.exe
 
 Invoke-Command -ScriptBlock {Start-Process "$TOOL\OFFICE\2007\Setup.exe" -ArgumentList "/adminfile Silent.msp" -Wait}
 
-#Verificação e instalação de atualizações de softwares instalados e do Windows via Winget e Windows Update.
+#Verificação e instalação de atualizações de softwares instalados e do Windows via Winget.
 
 winget upgrade --all --accept-source-agreements --accept-package-agreements --silent --purge --skip-dependencies --include-unknown
-
-Get-WindowsUpdate -Download -AcceptAll -Install -ForceInstall -IgnoreReboot -Verbose
-
-Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -Install -ForceInstall -IgnoreReboot -Verbose
 
 Start-Sleep -Seconds 20
 
