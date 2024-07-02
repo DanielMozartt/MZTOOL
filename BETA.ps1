@@ -56,10 +56,10 @@ exit
 
 }
 
-# Download do arquivo #TOOL#ZIP.zip.
+#Download do arquivo MZTOOL.zip.
 
 $webClient = New-Object -TypeName System.Net.WebClient
-$task = $webClient.DownloadFileTaskAsync("https://seulink.net/TOOLZIP", "$TOOL\#TOOL#ZIP.zip")
+$task = $webClient.DownloadFileTaskAsync("https://seulink.net/TOOLZIP", "$TOOL\MZTOOL.zip")
 
 Register-ObjectEvent -InputObject $webClient -EventName DownloadProgressChanged -SourceIdentifier WebClient.DownloadProgressChanged | Out-Null
 
@@ -96,11 +96,11 @@ function convertFileSize {
 Unregister-Event -SourceIdentifier WebClient.DownloadProgressChanged
 $webClient.Dispose()
 
-#Extração do arquivo #TOOL#ZIP.zip para a pasta $TOOL.
+#Extração do arquivo MZTOOL.zip para a pasta $TOOL.
 
-Expand-Archive -LiteralPath $TOOL\#TOOL#ZIP.zip -DestinationPath $TOOL
+Expand-Archive -LiteralPath $TOOL\MZTOOL.zip -DestinationPath $TOOL
 
-#Instalação do software AnyDesk Portátil na pasta $TOOL\#TOOL#ZIP.
+#Instalação do software AnyDesk Portátil na pasta $TOOL\MZTOOL.
 
 Start-Process powershell -Verb runAs -WindowStyle hidden {iwr -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$TOOL\MZTOOL\AnyDesk.exe"}
 
@@ -108,9 +108,9 @@ Start-Process powershell -Verb runAs -WindowStyle hidden {iwr -Uri "https://down
 
 REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
 
-#Deletar o arquivo #TOOL#ZIP.zip.
+#Deletar o arquivo MZTOOL.zip.
 
-del $TOOL\#TOOL#ZIP.zip
+del $TOOL\MZTOOL.zip
 
 #Extração e inicialização do software Driver Booster.
 
