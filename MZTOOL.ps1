@@ -85,11 +85,25 @@ function DisplayMenu {
     |____________________________________________________|
     "
     Start-Process "Powershell" -Verb runAs -WindowStyle Hidden -Wait {
+        
+        #DESATIVAR O UAC.
         REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
+        
+        #Sincroniza o Horário do Sistema com o servidor Time.Windows.
+        
+        net start w32time
+        w32tm /resync /force
         Exit
     }
 
     Diagnostics
+
+    Start-Process "Powershell" -Verb runAs -WindowStyle Hidden -Wait {
+        
+        #REATIVAR O UAC.
+        REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
+        Exit
+    }
 
     DisplayMenu
 
@@ -115,11 +129,9 @@ function DisplayMenu {
 
 function Diagnostics {
     
-    #Sincroniza o Horário do Sistema com o servidor Time.Windows.
+    
     
     Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
-    net start w32time
-    w32tm /resync /force
 
     #Criação do diretório C:\TOOL.
 
