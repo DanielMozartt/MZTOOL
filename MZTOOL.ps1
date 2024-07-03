@@ -84,9 +84,10 @@ function DisplayMenu {
     |                   DANIEL MOZART                    |
     |____________________________________________________|
     "
-    DesativarUAC
-
+    Start-Process "Powershell" -Verb runAs -NoNewWindow {
     DownloadMztool
+
+    DesativarUAC
 
     EnvTool
 
@@ -95,6 +96,8 @@ function DisplayMenu {
     ReativarUAC
 
     DisplayMenu
+
+    }
 
     }
 
@@ -125,7 +128,7 @@ function DownloadMztool {
     $TOOL = "C:\TOOL"
     
     #Se o diretório C:\TOOL já existir, é deletado.
-    
+
     if ($TOOL) {
         Remove-Item -Path $TOOL -Recurse -Force -ErrorAction SilentlyContinue
     }
@@ -186,20 +189,20 @@ function DownloadMztool {
 
 function DesativarUAC {
 
-    Start-Process "Powershell" -Verb runAs -WindowStyle Hidden -Wait {
+    Start-Process "Powershell" -Verb runAs -WindowStyle Hidden {
         
         #DESATIVAR O UAC.
         REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
-        Exit
+        
     }  
 }
 function ReativarUAC {
 
-    Start-Process "Powershell" -Verb runAs -WindowStyle Hidden -Wait {
+    Start-Process "Powershell" -Verb runAs -WindowStyle Hidden {
         
         #REATIVAR O UAC.
         REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
-        Exit
+   
     }  
 }
 

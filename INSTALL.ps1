@@ -9,6 +9,12 @@ w32tm /resync /force
 
 $TOOL = "C:\TOOL"
 
+ #Se o diretório C:\TOOL já existir, é deletado.
+
+ if ($TOOL) {
+    Remove-Item -Path $TOOL -Recurse -Force -ErrorAction SilentlyContinue
+}
+
 [System.IO.Directory]::CreateDirectory($TOOL)
 $TOOLFOLDER = Get-Item $TOOL 
 $TOOLFOLDER.Attributes = "Hidden" 
