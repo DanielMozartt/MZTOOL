@@ -28,9 +28,47 @@ function DisplayMenu {
     1 {
     #OPÇÃO 1 - INSTALAR SOFTWARES E ATUALIZAÇÕES DO SISTEMA.
 
-    Write-Host "EM INSTALAÇÃO"
+    Clear-Host
+    Write-Host "
+    
+    ______________________________________________________
+    |                                                    |
+    |                      MZTOOL                        |
+    | _________________________________________________  | 
+    |                                                    |
+    |                                                    |
+    |                                                    |
+    |                   EM INSTALAÇÃO                    |
+    |                                                    |
+    |                                                    |
+    |                 MOZART INFORMÁTICA                 |
+    |                   DANIEL MOZART                    |
+    |____________________________________________________|
+    "
+  
+    
+    $Collection = 1..100
+    ForEach ($Item in $Collection) {
+    Write-Progress -PercentComplete ($Item/100*100) -Status "Processing Items" -Activity "Item $item of 100"
     Start-Process "Powershell" -Verb runAs -WindowStyle Hidden -Wait{Invoke-RestMethod https://raw.githubusercontent.com/DanielMozartt/MZTOOL/main/INSTALL.ps1 | Invoke-Expression}
-    Write-Host "ENCERRANDO MZTOOL"
+    Start-Sleep -Milliseconds 50
+    }
+    Clear-Host
+    Write-Host "
+    ______________________________________________________
+    |                                                    |
+    |                      MZTOOL                        |
+    | _________________________________________________  | 
+    |                                                    |
+    |                                                    |
+    |                                                    |
+    |     INSTALAÇÃO CONCLUÍDA - ENCERRANDO MZTOOL       |
+    |                                                    |
+    |                                                    |
+    |                 MOZART INFORMÁTICA                 |
+    |                   DANIEL MOZART                    |
+    |____________________________________________________|
+    "
     Start-Sleep -Seconds 5
     Exit
     }
