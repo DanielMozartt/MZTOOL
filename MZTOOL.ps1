@@ -73,7 +73,6 @@ function DisplayMenu {
 
     2 {
     #OPÇÃO 2 - DIAGNÓSTICO DE HARDWARE E SISTEMA.
-    Clear-Host
     Write-Host "EM DESENVOLVIMENTO, SELECIONE UMA NOVA OPÇÃO."
     Start-Sleep -Seconds 5
     DisplayMenu

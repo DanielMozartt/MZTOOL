@@ -92,16 +92,9 @@ function DisplayMenu {
     
 
     DownloadMztool
-
-    
-    DesativarUAC
-
-    #EnvTool
-
+   
     Diagnostics
-
-    ReativarUAC
-  
+     
     DisplayMenu
 
     }
@@ -219,10 +212,12 @@ function EnvTool {
 
 function Diagnostics {
     
-    #Iniciar softwares de diagnóstico.    
-    Start-Process $env:TOOL\MZTOOL\AIDA_64\aida64.exe
-    Start-Process $TOOL\MZTOOL\AIDA_64\aida64.exe
-        
+    Start-Process "Powershell" -Verb runAs -WindowStyle Hidden -Wait{
+        DesativarUAC
+        Start-Process $env:TOOL\MZTOOL\AIDA_64\aida64.exe
+        Start-Process $TOOL\MZTOOL\AIDA_64\aida64.exe
+        ReativarUAC
+    }   
 }
 
     DisplayMenu
