@@ -101,8 +101,7 @@ function DisplayMenu {
     DisplayMenu
 
     }
-
-    }
+    
 
     3 {
     #OPÇÃO 3 - ENCERRAR SISTEMA.
