@@ -24,14 +24,18 @@ function DisplayMenu {
     {
     1 {
     #OPÇÃO 1 - INSTALAR SOFTWARES E ATUALIZAÇÕES DO SISTEMA.
-    $OPTION1 = Start-Process "Powershell" -Verb runAs {irm https://raw.githubusercontent.com/DanielMozartt/MZTOOL/main/INSTALL.ps1 | iex}
-    DisplayMenu
+    $OPTION1 = 
+    Write-Host "EM INSTALAÇÃO"
+    Start-Process "Powershell" -Verb runAs -WindowStyle Hidden -Wait{irm https://raw.githubusercontent.com/DanielMozartt/MZTOOL/main/INSTALL.ps1 | iex}
+    Write-Host "ENCERRANDO MZTOOL"
+    Start-Sleep -Seconds 5
+    Exit
     }
     2 {
     #OPÇÃO 1 - DIAGNÓSTICO DE HARDWARE E SISTEMA.
     $OPTION2 = Write-Host "EM DESENVOLVIMENTO - SELECIONE UMA NOVA OPÇÃO"
     Start-Sleep -Seconds 5
-    DisplayMenu
+    Exit
     }
     3 {
     #OPÇÃO 3 - ENCERRAR SISTEMA.
