@@ -88,6 +88,8 @@ function DisplayMenu {
 
     DownloadMztool
 
+    EnvTool
+
     Diagnostics
 
     ReativarUAC
@@ -115,16 +117,24 @@ function DisplayMenu {
 }
 
 function DownloadMztool {
+
+    Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
     
     #Criação do diretório C:\TOOL.
 
     $TOOL = "C:\TOOL"
+    
+    #Se o diretório C:\TOOL já existir, é deletado.
+    
+    if ($TOOL) {
+        Remove-Item -Path $TOOL -Recurse -Force -ErrorAction SilentlyContinue
+    }
 
-    [System.IO.Directory]::CreateDirectory($TOOL)
+    [System.IO.Directory]::CreateDirectory($TOOL) | Out-Null
     $TOOLFOLDER = Get-Item $TOOL 
     $TOOLFOLDER.Attributes = "Hidden" 
     
-    #Download do arquivo MZTOOL.zip.
+    #Download do arquivo MZTOOL.zip
 
     $webClient = New-Object -TypeName System.Net.WebClient
     $task = $webClient.DownloadFileTaskAsync("https://seulink.net/TOOLZIP", "$TOOL\MZTOOL.zip")
@@ -170,7 +180,7 @@ function DownloadMztool {
 
     #Deletar o arquivo MZTOOL.zip.
 
-    Remove-Item $TOOL\MZTOOL.zip
+    Remove-Item $TOOL\MZTOOL.zip    
      
 }
 
@@ -192,9 +202,18 @@ function ReativarUAC {
         Exit
     }  
 }
+
+function EnvTool {
+
+    Start-Process "Powershell" -Verb runAs -WindowStyle Hidden -Wait {
+
+    [Environment]::SetEnvironmentVariable("TOOL", "C:\TOOL", "Machine")
+
+    }  
+}
 function Diagnostics {
         
-    Start-Process $TOOL\MZTOOL\AIDA_64\aida64.exe
+    Start-Process $env:TOOL\MZTOOL\AIDA_64\aida64.exe
         
 }
 
