@@ -190,17 +190,17 @@ function DownloadMztool {
 }
 
 function DesativarUAC {
-    Start-Process "Powershell" -Verb runAs -WindowStyle Hidden -Wait{      
+        
     #DESATIVAR O UAC.
     REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f        
-    }
+    
 }
 
 function ReativarUAC {
-    Start-Process "Powershell" -Verb runAs -WindowStyle Hidden -Wait{
+    
     #REATIVAR O UAC.
     REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
-    }
+   
 }
 
 function EnvTool {
