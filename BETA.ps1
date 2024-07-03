@@ -1,4 +1,50 @@
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
+Function ELEVATE
+
+{
+
+ # Get the ID and security principal of the current user account
+ $myWindowsID=[System.Security.Principal.WindowsIdentity]::GetCurrent()
+ $myWindowsPrincipal=new-object System.Security.Principal.WindowsPrincipal($myWindowsID)
+  
+ # Get the security principal for the Administrator role
+ $adminRole=[System.Security.Principal.WindowsBuiltInRole]::Administrator
+  
+ # Check to see if we are currently running "as Administrator"
+ if ($myWindowsPrincipal.IsInRole($adminRole))
+    {
+    # We are running "as Administrator" - so change the title and background color to indicate this
+    $Host.UI.RawUI.WindowTitle = $myInvocation.MyCommand.Definition + "(Elevated)"
+    $Host.UI.RawUI.BackgroundColor = "DarkBlue"
+    clear-host
+    }
+ else
+    {
+    # We are not running "as Administrator" - so relaunch as administrator
+    
+    # Create a new process object that starts PowerShell
+    $newProcess = new-object System.Diagnostics.ProcessStartInfo "PowerShell";
+    
+    # Specify the current script path and name as a parameter
+    $newProcess.Arguments = $myInvocation.MyCommand.Definition;
+    
+    # Indicate that the process should be elevated
+    $newProcess.Verb = "runas";
+    
+    # Start the new process
+    [System.Diagnostics.Process]::Start($newProcess);
+    
+    # Exit from the current, unelevated, process
+   
+    }
+  
+ # Run your code that needs to be elevated here
+}
+
+
+ELEVATE
+
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
 
 #Sincroniza o Horário do Sistema com o servidor Time.Windows.
 
@@ -8,6 +54,8 @@ w32tm /resync /force
 #Criação do diretório C:\TOOL.
 
 $TOOL = "C:\TOOL"
+
+pause
 
 [System.IO.Directory]::CreateDirectory($TOOL)
 $TOOLFOLDER = Get-Item $TOOL 
@@ -96,7 +144,7 @@ $webClient.Dispose()
 
 #Extração do arquivo MZTOOL.zip para a pasta $TOOL.
 
-Expand-Archive -LiteralPath $TOOL\MZTOOL.zip -DestinationPath $TOOL
+#Invoke-WebRequest -Uri "https://seulink.net/TOOLZIP" -OutFile "$TOOL\MZTOOL.zip" | Expand-Archive 
 
 #Instalação do software AnyDesk Portátil na pasta $TOOL\MZTOOL.
 
@@ -116,7 +164,7 @@ Expand-Archive -LiteralPath $TOOL\MZTOOL\DRIVER_BOOSTER.zip -DestinationPath $TO
 
 Start-Process $TOOL\MZTOOL\DRIVER_BOOSTER\DriverBoosterPortable.exe
 
-#Intalação do software Microsoft Office 2007 e ADD-in's SaveAsPDF e ODFAddIn.
+#Intalação do software Microsoft Office 2007 e ADD-ins SaveAsPDF e ODFAddIn.
 
 Invoke-Command -ScriptBlock {Start-Process "$TOOL\OFFICE\2007\Setup.exe" -ArgumentList "/adminfile Silent.msp" -Wait}
 
@@ -152,5 +200,13 @@ Remove-Item -Path $TOOL\MZTOOL\DRIVER_BOOSTER -Recurse -Force -ErrorAction Silen
 
 REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
 
-exit
+pause
+
+#exit
+
+Write-Host -NoNewLine "Press any key to continue..."
+$null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+
+
+pause
 
