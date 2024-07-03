@@ -2,6 +2,10 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
 
 $Host.UI.RawUI.BackgroundColor = "DarkBlue"
 
+#Variável Global $TOOL.
+
+$TOOL = "C:\TOOL"
+
 #MENU MZTOOL -----------------------------------------------------
 
 function DisplayMenu {
@@ -194,37 +198,31 @@ function DownloadMztool {
 }
 
 function DesativarUAC {
-
-    Start-Process "Powershell" -Verb runAs -WindowStyle Hidden {
-        
-        #DESATIVAR O UAC.
-        REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
-        
-    }  
+           
+    #DESATIVAR O UAC.
+    REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f        
+    
 }
 
 function ReativarUAC {
 
-    Start-Process "Powershell" -Verb runAs -WindowStyle Hidden {
-        
-        #REATIVAR O UAC.
-        REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
-   
-    }  
+    #REATIVAR O UAC.
+    REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
+    
 }
 
 function EnvTool {
-
-    Start-Process "Powershell" -Verb runAs -WindowStyle Hidden -Wait {
+    
     #Adicionar $env:Tool.
     [Environment]::SetEnvironmentVariable("TOOL", "C:\TOOL", "Machine")
-
-    }  
+    
 }
 
 function Diagnostics {
-        
+    
+    #Iniciar softwares de diagnóstico.    
     Start-Process $env:TOOL\MZTOOL\AIDA_64\aida64.exe
+    Start-Process $TOOL\MZTOOL\AIDA_64\aida64.exe
         
 }
 
