@@ -2,7 +2,8 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
 
 $Host.UI.RawUI.BackgroundColor = "DarkBlue"
 
-#MENU MZTOOL.
+#MENU MZTOOL -----------------------------------------------------
+
 function DisplayMenu {
     Clear-Host
     Write-Host "
@@ -121,6 +122,9 @@ function DisplayMenu {
     }
 }
 
+
+#FUNÇÕES-------------------------
+
 function DownloadMztool {
 
     Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
@@ -198,6 +202,7 @@ function DesativarUAC {
         
     }  
 }
+
 function ReativarUAC {
 
     Start-Process "Powershell" -Verb runAs -WindowStyle Hidden {
@@ -211,11 +216,12 @@ function ReativarUAC {
 function EnvTool {
 
     Start-Process "Powershell" -Verb runAs -WindowStyle Hidden -Wait {
-
+    #Adicionar $env:Tool.
     [Environment]::SetEnvironmentVariable("TOOL", "C:\TOOL", "Machine")
 
     }  
 }
+
 function Diagnostics {
         
     Start-Process $env:TOOL\MZTOOL\AIDA_64\aida64.exe
