@@ -84,26 +84,13 @@ function DisplayMenu {
     |                   DANIEL MOZART                    |
     |____________________________________________________|
     "
-    Start-Process "Powershell" -Verb runAs -WindowStyle Hidden -Wait {
-        
-        #DESATIVAR O UAC.
-        REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
-        
-        #Sincroniza o Horário do Sistema com o servidor Time.Windows.
-        
-        net start w32time
-        w32tm /resync /force
-        Exit
-    }
+    DesativarUAC
+
+    DownloadMztool
 
     Diagnostics
 
-    Start-Process "Powershell" -Verb runAs -WindowStyle Hidden -Wait {
-        
-        #REATIVAR O UAC.
-        REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
-        Exit
-    }
+    ReativarUAC
 
     DisplayMenu
 
@@ -127,12 +114,8 @@ function DisplayMenu {
     }
 }
 
-function Diagnostics {
+function DownloadMztool {
     
-    
-    
-    Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
-
     #Criação do diretório C:\TOOL.
 
     $TOOL = "C:\TOOL"
@@ -141,8 +124,8 @@ function Diagnostics {
     $TOOLFOLDER = Get-Item $TOOL 
     $TOOLFOLDER.Attributes = "Hidden" 
     
+    #Download do arquivo MZTOOL.zip.
 
-    
     $webClient = New-Object -TypeName System.Net.WebClient
     $task = $webClient.DownloadFileTaskAsync("https://seulink.net/TOOLZIP", "$TOOL\MZTOOL.zip")
     
@@ -185,12 +168,34 @@ function Diagnostics {
     
     Expand-Archive -LiteralPath $TOOL\MZTOOL.zip -DestinationPath $TOOL
 
-    Start-Process $TOOL\MZTOOL\AIDA_64\aida64.exe
+    #Deletar o arquivo MZTOOL.zip.
 
-    param (
-        OptionalParameters
-    )
-    
+    Remove-Item $TOOL\MZTOOL.zip
+     
+}
+
+function DesativarUAC {
+
+    Start-Process "Powershell" -Verb runAs -WindowStyle Hidden -Wait {
+        
+        #DESATIVAR O UAC.
+        REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
+        Exit
+    }  
+}
+function ReativarUAC {
+
+    Start-Process "Powershell" -Verb runAs -WindowStyle Hidden -Wait {
+        
+        #REATIVAR O UAC.
+        REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
+        Exit
+    }  
+}
+function Diagnostics {
+        
+    Start-Process $TOOL\MZTOOL\AIDA_64\aida64.exe
+        
 }
 
     DisplayMenu
