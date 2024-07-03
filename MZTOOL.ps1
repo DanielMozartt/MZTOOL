@@ -74,34 +74,8 @@ function DisplayMenu {
     2 {
     #OPÇÃO 2 - DIAGNÓSTICO DE HARDWARE E SISTEMA.
     Clear-Host
-    Write-Host "
-    ______________________________________________________
-    |                                                    |
-    |                      MZTOOL                        |
-    | _________________________________________________  | 
-    |                                                    |
-    |                                                    |
-    |                                                    |
-    |        FERRAMENTAS DE DIAGNÓSTICO INICIADAS        |
-    |                                                    |
-    |                                                    |
-    |                 MOZART INFORMÁTICA                 |
-    |                   DANIEL MOZART                    |
-    |____________________________________________________|
-    "
-    
-
-    DownloadMztool
-
-    
-    DesativarUAC
-
-    #EnvTool
-
-    Diagnostics
-
-    ReativarUAC
-  
+    Write-Host "EM DESENVOLVIMENTO, SELECIONE UMA NOVA OPÇÃO."
+    Start-Sleep -Seconds 5
     DisplayMenu
 
     }

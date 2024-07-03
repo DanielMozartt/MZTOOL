@@ -1,212 +1,230 @@
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
-Function ELEVATE
 
-{
+$Host.UI.RawUI.BackgroundColor = "DarkBlue"
 
- # Get the ID and security principal of the current user account
- $myWindowsID=[System.Security.Principal.WindowsIdentity]::GetCurrent()
- $myWindowsPrincipal=new-object System.Security.Principal.WindowsPrincipal($myWindowsID)
-  
- # Get the security principal for the Administrator role
- $adminRole=[System.Security.Principal.WindowsBuiltInRole]::Administrator
-  
- # Check to see if we are currently running "as Administrator"
- if ($myWindowsPrincipal.IsInRole($adminRole))
-    {
-    # We are running "as Administrator" - so change the title and background color to indicate this
-    $Host.UI.RawUI.WindowTitle = $myInvocation.MyCommand.Definition + "(Elevated)"
-    $Host.UI.RawUI.BackgroundColor = "DarkBlue"
-    clear-host
-    }
- else
-    {
-    # We are not running "as Administrator" - so relaunch as administrator
-    
-    # Create a new process object that starts PowerShell
-    $newProcess = new-object System.Diagnostics.ProcessStartInfo "PowerShell";
-    
-    # Specify the current script path and name as a parameter
-    $newProcess.Arguments = $myInvocation.MyCommand.Definition;
-    
-    # Indicate that the process should be elevated
-    $newProcess.Verb = "runas";
-    
-    # Start the new process
-    [System.Diagnostics.Process]::Start($newProcess);
-    
-    # Exit from the current, unelevated, process
-   
-    }
-  
- # Run your code that needs to be elevated here
-}
-
-
-ELEVATE
-
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
-
-#Sincroniza o Horário do Sistema com o servidor Time.Windows.
-
-net start w32time
-w32tm /resync /force
-
-#Criação do diretório C:\TOOL.
+#Variável Global $TOOL.
 
 $TOOL = "C:\TOOL"
 
-pause
+#MENU MZTOOL -----------------------------------------------------
 
-[System.IO.Directory]::CreateDirectory($TOOL)
-$TOOLFOLDER = Get-Item $TOOL 
-$TOOLFOLDER.Attributes = "Hidden" 
+function DisplayMenu {
+    Clear-Host
+    Write-Host "
+    ______________________________________________________
+    |                                                    |
+    |                      MZTOOL                        |
+    | _________________________________________________  | 
+    |                                                    |
+    |                                                    |
+    | |1| INSTALAR SOFTWARES E ATUALIZAÇÕES DO SISTEMA   |
+    | |2| DIAGNÓSTICO DE HARDWARE E SISTEMA              |
+    | |3| SAIR                                           |
+    |                                                    |
+    |                                                    |
+    |                 MOZART INFORMÁTICA | DANIEL MOZART |
+    |____________________________________________________|
+    "
+    
+    $MENU = Read-Host "INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA"
+    Switch ($MENU)
+    {
 
-#Instalação do software AnyDesk Portátil na área de trabalho do usuário.
+    1 {
+    #OPÇÃO 1 - INSTALAR SOFTWARES E ATUALIZAÇÕES DO SISTEMA.
 
-Start-Process powershell -Verb runAs -WindowStyle hidden {Invoke-WebRequest -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$home\Desktop\AnyDesk.exe"} | Out-Null
-
-Start-Process powershell -Verb runAs {
-
-#Instalação do Winget.
-
-Install-PackageProvider -Name NuGet -Force | Out-Null
-Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery | Out-Null
-Repair-WinGetPackageManager
-
-#Instalação dos softwares Acrobat Reader, Microsoft Powershell 7+, Google Chrome. 
-
-winget add "Adobe.Acrobat.Reader.64-bit" "Microsoft.Powershell" "Google.Chrome"  --accept-source-agreements --accept-package-agreements
-
-winget add "Adobe.Acrobat.Reader.64-bit" "Microsoft.Powershell" "Google.Chrome"  --accept-source-agreements --accept-package-agreements
-
-winget add "Adobe.Acrobat.Reader.64-bit" "Microsoft.Powershell" "Google.Chrome"  --accept-source-agreements --accept-package-agreements
-
-exit
-
-}
-
-Start-Process powershell -Verb runAs {
-
-#Instalação do módulo Windows Update.   
- 
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
-Install-PackageProvider -Name NuGet -Force
-Install-Module PSWindowsUpdate -AllowClobber -Force
-Import-Module PSWindowsUpdate -Force 
-
-#Instalação de novas atualizações do Windows através do Windows update.
-
-Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot -Verbose
-
-exit
-
-}
-
-#Download do arquivo MZTOOL.zip.
-
-$webClient = New-Object -TypeName System.Net.WebClient
-$task = $webClient.DownloadFileTaskAsync("https://seulink.net/TOOLZIP", "$TOOL\MZTOOL.zip")
-
-Register-ObjectEvent -InputObject $webClient -EventName DownloadProgressChanged -SourceIdentifier WebClient.DownloadProgressChanged | Out-Null
-
-Start-Sleep -Seconds 3
-
-while (!($task.IsCompleted)) {
-    $EventData = Get-Event -SourceIdentifier WebClient.DownloadProgressChanged | Select-Object -ExpandProperty "SourceEventArgs" -Last 1
-
-    $ReceivedData = ($EventData | Select-Object -ExpandProperty "BytesReceived")
-    $TotalToReceive = ($EventData | Select-Object -ExpandProperty "TotalBytesToReceive")
-    $TotalPercent = $EventData | Select-Object -ExpandProperty "ProgressPercentage"
-
-    Start-Sleep -Seconds 2
-
-function convertFileSize {
-    param(
-        $bytes
-    )
-
-    if ($bytes -lt 1MB) {
-        return "$([Math]::Round($bytes / 1KB, 2)) KB"
+    Clear-Host
+    Write-Host "
+    
+    ______________________________________________________
+    |                                                    |
+    |                      MZTOOL                        |
+    | _________________________________________________  | 
+    |                                                    |
+    |                                                    |
+    |                                                    |
+    |                   EM INSTALAÇÃO                    |
+    |                                                    |
+    |                                                    |
+    |                 MOZART INFORMÁTICA                 |
+    |                   DANIEL MOZART                    |
+    |____________________________________________________|
+    "
+    Start-Process "Powershell" -Verb runAs -Wait {Invoke-RestMethod https://raw.githubusercontent.com/DanielMozartt/MZTOOL/main/INSTALL.ps1 | Invoke-Expression}
+    Clear-Host
+    Write-Host "
+    ______________________________________________________
+    |                                                    |
+    |                      MZTOOL                        |
+    | _________________________________________________  | 
+    |                                                    |
+    |                                                    |
+    |                                                    |
+    |     INSTALAÇÃO CONCLUÍDA - ENCERRANDO MZTOOL       |
+    |                                                    |
+    |                                                    |
+    |                 MOZART INFORMÁTICA                 |
+    |                   DANIEL MOZART                    |
+    |____________________________________________________|
+    "
+    Start-Sleep -Seconds 5
+    Exit
     }
-    elseif ($bytes -lt 1GB) {
-        return "$([Math]::Round($bytes / 1MB, 2)) MB"
+
+    2 {
+    #OPÇÃO 2 - DIAGNÓSTICO DE HARDWARE E SISTEMA.
+    Clear-Host
+    Write-Host "
+    ______________________________________________________
+    |                                                    |
+    |                      MZTOOL                        |
+    | _________________________________________________  | 
+    |                                                    |
+    |                                                    |
+    |                                                    |
+    |        FERRAMENTAS DE DIAGNÓSTICO INICIADAS        |
+    |                                                    |
+    |                                                    |
+    |                 MOZART INFORMÁTICA                 |
+    |                   DANIEL MOZART                    |
+    |____________________________________________________|
+    "
+    
+
+    DownloadMztool
+
+    
+    DesativarUAC
+
+    #EnvTool
+
+    Diagnostics
+
+    ReativarUAC
+  
+    DisplayMenu
+
     }
-    elseif ($bytes -lt 1TB) {
-        return "$([Math]::Round($bytes / 1GB, 2)) GB"
+    
+
+    3 {
+    #OPÇÃO 3 - ENCERRAR SISTEMA.
+
+    Write-Host "ENCERRANDO MZTOOL"
+    Start-Sleep -Seconds 5
+    Break
+    }
+
+    default {
+    #ENTRADA INVÁLIDA.
+
+    Write-Host "OPÇÃO INVÁLIDA. INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA"
+    Start-Sleep -Seconds 3
+    DisplayMenu
+    }
     }
 }
-    Write-Progress -Activity "Downloading File" -Status "Percent Complete: $($TotalPercent)%" -CurrentOperation "Downloaded $(convertFileSize -bytes $ReceivedData) / $(convertFileSize -bytes $TotalToReceive)" -PercentComplete $TotalPercent
 
+
+#FUNÇÕES-------------------------
+
+function DownloadMztool {
+
+    Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
+    
+    #Criação do diretório C:\TOOL.
+
+    $TOOL = "C:\TOOL"
+    
+    #Se o diretório C:\TOOL já existir, é deletado.
+
+    if ($TOOL) {
+        Remove-Item -Path $TOOL -Recurse -Force -ErrorAction SilentlyContinue
+    }
+
+    [System.IO.Directory]::CreateDirectory($TOOL) | Out-Null
+    $TOOLFOLDER = Get-Item $TOOL 
+    $TOOLFOLDER.Attributes = "Hidden" 
+    
+    #Download do arquivo MZTOOL.zip
+
+    $webClient = New-Object -TypeName System.Net.WebClient
+    $task = $webClient.DownloadFileTaskAsync("https://seulink.net/TOOLZIP", "$TOOL\MZTOOL.zip")
+    
+    Register-ObjectEvent -InputObject $webClient -EventName DownloadProgressChanged -SourceIdentifier WebClient.DownloadProgressChanged | Out-Null
+    
+    Start-Sleep -Seconds 3
+    
+    while (!($task.IsCompleted)) {
+        $EventData = Get-Event -SourceIdentifier WebClient.DownloadProgressChanged | Select-Object -ExpandProperty "SourceEventArgs" -Last 1
+    
+        $ReceivedData = ($EventData | Select-Object -ExpandProperty "BytesReceived")
+        $TotalToReceive = ($EventData | Select-Object -ExpandProperty "TotalBytesToReceive")
+        $TotalPercent = $EventData | Select-Object -ExpandProperty "ProgressPercentage"
+    
+        Start-Sleep -Seconds 2
+    
+    function convertFileSize {
+        param(
+            $bytes
+        )
+    
+        if ($bytes -lt 1MB) {
+            return "$([Math]::Round($bytes / 1KB, 2)) KB"
+        }
+        elseif ($bytes -lt 1GB) {
+            return "$([Math]::Round($bytes / 1MB, 2)) MB"
+        }
+        elseif ($bytes -lt 1TB) {
+            return "$([Math]::Round($bytes / 1GB, 2)) GB"
+        }
+    }
+        Write-Progress -Activity "Downloading File" -Status "Percent Complete: $($TotalPercent)%" -CurrentOperation "Downloaded $(convertFileSize -bytes $ReceivedData) / $(convertFileSize -bytes $TotalToReceive)" -PercentComplete $TotalPercent
+    
+    }
+    
+    Unregister-Event -SourceIdentifier WebClient.DownloadProgressChanged
+    $webClient.Dispose()
+    
+    #Extração do arquivo MZTOOL.zip para a pasta $TOOL.
+    
+    Expand-Archive -LiteralPath $TOOL\MZTOOL.zip -DestinationPath $TOOL
+
+    #Deletar o arquivo MZTOOL.zip.
+
+    Remove-Item $TOOL\MZTOOL.zip    
+     
 }
 
-Unregister-Event -SourceIdentifier WebClient.DownloadProgressChanged
-$webClient.Dispose()
+function DesativarUAC {
+    Start-Process "Powershell" -Verb runAs -WindowStyle Hidden -Wait{      
+    #DESATIVAR O UAC.
+    REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f        
+    }
+}
 
-#Extração do arquivo MZTOOL.zip para a pasta $TOOL.
+function ReativarUAC {
+    Start-Process "Powershell" -Verb runAs -WindowStyle Hidden -Wait{
+    #REATIVAR O UAC.
+    REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
+    }
+}
 
-#Invoke-WebRequest -Uri "https://seulink.net/TOOLZIP" -OutFile "$TOOL\MZTOOL.zip" | Expand-Archive 
+function EnvTool {
+    
+    #Adicionar $env:Tool.
+    [Environment]::SetEnvironmentVariable("TOOL", "C:\TOOL", "Machine")
+    
+}
 
-#Instalação do software AnyDesk Portátil na pasta $TOOL\MZTOOL.
+function Diagnostics {
+    
+    #Iniciar softwares de diagnóstico.    
+    Start-Process $env:TOOL\MZTOOL\AIDA_64\aida64.exe
+    Start-Process $TOOL\MZTOOL\AIDA_64\aida64.exe
+        
+}
 
-Start-Process powershell -Verb runAs -WindowStyle hidden {Invoke-WebRequest -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$TOOL\MZTOOL\AnyDesk.exe"}
+    DisplayMenu
 
-#Desativar o UAC.
-
-REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
-
-#Deletar o arquivo MZTOOL.zip.
-
-Remove-Item $TOOL\MZTOOL.zip
-
-#Extração e inicialização do software Driver Booster.
-
-Expand-Archive -LiteralPath $TOOL\MZTOOL\DRIVER_BOOSTER.zip -DestinationPath $TOOL\MZTOOL\
-
-Start-Process $TOOL\MZTOOL\DRIVER_BOOSTER\DriverBoosterPortable.exe
-
-#Intalação do software Microsoft Office 2007 e ADD-ins SaveAsPDF e ODFAddIn.
-
-Invoke-Command -ScriptBlock {Start-Process "$TOOL\OFFICE\2007\Setup.exe" -ArgumentList "/adminfile Silent.msp" -Wait}
-
-#Verificação e instalação de atualizações de softwares instalados e do Windows via Winget.
-
-winget upgrade --all --accept-source-agreements --accept-package-agreements --silent --purge --skip-dependencies --include-unknown
-
-Start-Sleep -Seconds 20
-
-#Remover arquivos temporários.
-
-Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
-
-Remove-Item -Path $env:C:\Windows\temp\* -Recurse -Force -ErrorAction SilentlyContinue
-
-Remove-Item -Path $env:C:\Windows\Prefetch\* -Recurse -Force -ErrorAction SilentlyContinue
-
-Start-Sleep -Seconds 500
-
-#Finaliza o serviço do software Driver Booster e deleta a pasta temporária do mesmo.
-
-taskkill /f /IM DriverBooster.exe /T
-
-Start-Sleep -Seconds 20
-
-Remove-Item -Path $TOOL\MZTOOL\DRIVER_BOOSTER -Recurse -Force -ErrorAction SilentlyContinue
-
-#Adiciona variável de ambiente %TOOL%.
-
-[Environment]::SetEnvironmentVariable("TOOL", "C:\TOOL", "Machine")
-
-#Reativar UAC.
-
-REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
-
-pause
-
-#exit
-
-Write-Host -NoNewLine "Press any key to continue..."
-$null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
-
-
-pause
-
+Exit
