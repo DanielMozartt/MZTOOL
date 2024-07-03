@@ -45,7 +45,7 @@ function DisplayMenu {
     |                   DANIEL MOZART                    |
     |____________________________________________________|
     "
-    Start-Process "Powershell" -Verb runAs -NoNewWindow -Wait{Invoke-RestMethod https://raw.githubusercontent.com/DanielMozartt/MZTOOL/main/INSTALL.ps1 | Invoke-Expression}
+    Start-Process "Powershell" -NoNewWindow -Verb runAs -Wait {Invoke-RestMethod https://raw.githubusercontent.com/DanielMozartt/MZTOOL/main/INSTALL.ps1 | Invoke-Expression}
     Clear-Host
     Write-Host "
     ______________________________________________________
@@ -84,9 +84,11 @@ function DisplayMenu {
     |                   DANIEL MOZART                    |
     |____________________________________________________|
     "
-    Start-Process "Powershell" -Verb runAs -NoNewWindow {
+    
+
     DownloadMztool
 
+    Start-Process "Powershell" -Verb runAs -WindowStyle Hidden -Wait{
     DesativarUAC
 
     EnvTool
@@ -94,7 +96,8 @@ function DisplayMenu {
     Diagnostics
 
     ReativarUAC
-
+    }
+    
     DisplayMenu
 
     }
