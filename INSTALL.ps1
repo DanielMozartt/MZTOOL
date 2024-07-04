@@ -2,8 +2,8 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
 
 #Sincroniza o Horário do Sistema com o servidor Time.Windows.
 
-net start w32time
-w32tm /resync /force
+net start w32time | Out-Null
+w32tm /resync /force | Out-Null
 
 #Criação do diretório C:\TOOL.
 
@@ -15,7 +15,7 @@ $TOOL = "C:\TOOL"
     Remove-Item -Path $TOOL -Recurse -Force -ErrorAction SilentlyContinue
 }
 
-[System.IO.Directory]::CreateDirectory($TOOL)
+[System.IO.Directory]::CreateDirectory($TOOL) | Out-Null
 $TOOLFOLDER = Get-Item $TOOL 
 $TOOLFOLDER.Attributes = "Hidden" 
 
