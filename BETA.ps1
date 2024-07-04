@@ -8,6 +8,8 @@ $TOOL = "C:\TOOL"
 
 #MENU MZTOOL -----------------------------------------------------
 
+DisplayMenu
+
 function DisplayMenu {
     Clear-Host
     Write-Host "
