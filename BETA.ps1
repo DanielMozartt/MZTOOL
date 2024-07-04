@@ -82,8 +82,9 @@ function DisplayMenu {
     #OPÇÃO 3 - ENCERRAR SISTEMA.
 
     Write-Host "ENCERRANDO MZTOOL"
-    Start-Sleep -Seconds 5
+    Start-Sleep -Seconds 3
     Break
+    Exit
     }
 
     default {
