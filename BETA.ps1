@@ -96,9 +96,10 @@ function DisplayMenu {
     DisplayMenu
     }
     }
+    DisplayMenu
 }
 
-DisplayMenu
+
 
 #FUNÇÕES---------------------------------------------------------------
 
@@ -175,6 +176,7 @@ function DisplayMenu2 {
 
      3 {
         DisplayMenu
+        Exit
      }
 
      default {
@@ -184,9 +186,7 @@ function DisplayMenu2 {
         Start-Sleep -Seconds 3
         DisplayMenu2
         }
-
-        
-
+     
     }
     DisplayMenu2
     Exit
