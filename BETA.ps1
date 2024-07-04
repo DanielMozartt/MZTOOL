@@ -71,8 +71,11 @@ function DisplayMenu {
     Exit
     }
 
-    2 {
-    #OPÇÃO 2 - DIAGNÓSTICO DE HARDWARE E SISTEMA.
+    2{
+        #OPÇÃO 2 - DIAGNÓSTICO DE HARDWARE E SISTEMA.
+    DisplayMenu2
+    function DisplayMenu2 {
+    
     Clear-Host
 
     Write-Host  "
@@ -143,13 +146,21 @@ function DisplayMenu {
      }
 
      3 {
-        DisplayMenu
+        DisplayMenu2
      }
+
+     default {
+        #ENTRADA INVÁLIDA.
+    
+        Write-Host "OPÇÃO INVÁLIDA. INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA"
+        Start-Sleep -Seconds 3
+        DisplayMenu
+        }
 
     }
     }
     
-
+}
     3 {
     #OPÇÃO 3 - ENCERRAR SISTEMA.
 
