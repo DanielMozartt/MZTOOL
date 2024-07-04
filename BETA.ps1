@@ -252,7 +252,7 @@ function DisplayMenu {
 
         #Deletar o arquivo MZTOOL.zip.
 
-        Remove-Item $TOOL\MZTOOL.zip    
+        Remove-Item $TOOL\MZTOOL.zip 
      
     }
 
