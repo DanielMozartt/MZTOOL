@@ -91,7 +91,7 @@ function DisplayMenu {
     |____________________________________________________|
     "
     $SUBMENU2 = Read-Host "INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA"
-    Switch (SUBMENU2)
+    Switch ($SUBMENU2)
     {
         1 {
     Clear-Host
