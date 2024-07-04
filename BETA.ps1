@@ -262,7 +262,7 @@ function EnvTool {
 
 function Diagnostics64 {
     
-    Start-Process "Powershell" -Verb runAs -WindowStyle Hidden -Wait{
+    Start-Process "Powershell" -Verb runAs -WindowStyle Hidden {
 
         REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
         Start-Process C:\TOOL\MZTOOL\AIDA_64\aida64.exe
@@ -279,7 +279,7 @@ function Diagnostics64 {
 }
 function Diagnostics32 {
     
-        Start-Process "Powershell" -Verb runAs -WindowStyle Hidden -Wait{
+        Start-Process "Powershell" -Verb runAs -WindowStyle Hidden {
     
             REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
             Start-Process C:\TOOL\MZTOOL\AIDA_64\aida64.exe
