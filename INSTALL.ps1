@@ -1,10 +1,12 @@
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
 
-#Sincroniza o Horário do Sistema com o servidor Time.Windows.
+$Host.UI.RawUI.BackgroundColor = "DarkBlue"
 
+#Sincroniza o Horário do Sistema com o servidor Time.Windows.
+Start-Process powershell -Verb runAs -WindowStyle hidden {
 net start w32time | Out-Null
 w32tm /resync /force | Out-Null
-
+}
 #Criação do diretório C:\TOOL.
 
 $TOOL = "C:\TOOL"
@@ -118,7 +120,7 @@ Remove-Item $TOOL\MZTOOL.zip
 
 #Extração e inicialização do software Driver Booster.
 
-Expand-Archive -LiteralPath $TOOL\MZTOOL\DRIVER_BOOSTER.zip -DestinationPath $TOOL\MZTOOL\
+Expand-Archive -LiteralPath $TOOL\MZTOOL\DRIVER_BOOSTER.zip -DestinationPath $TOOL\MZTOOL\DRIVER_BOOSTER
 
 Start-Process $TOOL\MZTOOL\DRIVER_BOOSTER\DriverBoosterPortable.exe
 
