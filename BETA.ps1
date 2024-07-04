@@ -84,7 +84,8 @@ function DisplayMenu {
     Write-Host "ENCERRANDO MZTOOL"
     Start-Sleep -Seconds 3
     Break
-    Exit
+    Exit-PSHostProcess
+    Exit-PSSession
     }
 
     default {
@@ -187,6 +188,7 @@ function DisplayMenu2 {
 
     }
     DisplayMenu2
+    Exit
     }
     
 function DownloadMztool {
