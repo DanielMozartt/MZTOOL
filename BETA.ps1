@@ -71,11 +71,13 @@ function DisplayMenu {
     Exit
     }
 
-    2{
+    2 {
+    
         #OPÇÃO 2 - DIAGNÓSTICO DE HARDWARE E SISTEMA.
-    DisplayMenu2
+        DisplayMenu2
     
     }
+
     3 {
     #OPÇÃO 3 - ENCERRAR SISTEMA.
 
@@ -95,7 +97,7 @@ function DisplayMenu {
 }
 
 
-#FUNÇÕES-------------------------
+#FUNÇÕES---------------------------------------------------------------
 
 function DisplayMenu2 {
     
@@ -183,8 +185,6 @@ function DisplayMenu2 {
     }
     }
     
-
-
 function DownloadMztool {
 
     Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
