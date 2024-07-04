@@ -4,16 +4,16 @@ $Host.UI.RawUI.BackgroundColor = "DarkBlue"
 
 #Sincroniza o Horário do Sistema com o servidor Time.Windows.
 Start-Process powershell -Verb runAs -WindowStyle hidden {
-net start w32time | Out-Null
-w32tm /resync /force | Out-Null
+    net start w32time | Out-Null
+    w32tm /resync /force | Out-Null
 }
 #Criação do diretório C:\TOOL.
 
 $TOOL = "C:\TOOL"
 
- #Se o diretório C:\TOOL já existir, é deletado.
+#Se o diretório C:\TOOL já existir, é deletado.
 
- if ($TOOL) {
+if ($TOOL) {
     Remove-Item -Path $TOOL -Recurse -Force -ErrorAction SilentlyContinue
 }
 
@@ -23,42 +23,42 @@ $TOOLFOLDER.Attributes = "Hidden"
 
 #Instalação do software AnyDesk Portátil na área de trabalho do usuário.
 
-Start-Process powershell -Verb runAs -WindowStyle hidden {Invoke-WebRequest -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$home\Desktop\AnyDesk.exe"} | Out-Null
+Start-Process powershell -Verb runAs -WindowStyle hidden { Invoke-WebRequest -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$home\Desktop\AnyDesk.exe" } | Out-Null
 
 Start-Process powershell -Verb runAs -WindowStyle hidden {
 
-#Instalação do Winget.
+    #Instalação do Winget.
 
-Install-PackageProvider -Name NuGet -Force | Out-Null
-Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery | Out-Null
-Repair-WinGetPackageManager
+    Install-PackageProvider -Name NuGet -Force | Out-Null
+    Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery | Out-Null
+    Repair-WinGetPackageManager
 
-#Instalação dos softwares Acrobat Reader, Microsoft Powershell 7+, Google Chrome. 
+    #Instalação dos softwares Acrobat Reader, Microsoft Powershell 7+, Google Chrome. 
 
-winget add "Adobe.Acrobat.Reader.64-bit" "Microsoft.Powershell" "Google.Chrome"  --accept-source-agreements --accept-package-agreements
+    winget add "Adobe.Acrobat.Reader.64-bit" "Microsoft.Powershell" "Google.Chrome"  --accept-source-agreements --accept-package-agreements
 
-winget add "Adobe.Acrobat.Reader.64-bit" "Microsoft.Powershell" "Google.Chrome"  --accept-source-agreements --accept-package-agreements
+    winget add "Adobe.Acrobat.Reader.64-bit" "Microsoft.Powershell" "Google.Chrome"  --accept-source-agreements --accept-package-agreements
 
-winget add "Adobe.Acrobat.Reader.64-bit" "Microsoft.Powershell" "Google.Chrome"  --accept-source-agreements --accept-package-agreements
+    winget add "Adobe.Acrobat.Reader.64-bit" "Microsoft.Powershell" "Google.Chrome"  --accept-source-agreements --accept-package-agreements
 
-exit
+    exit
 
 }
 
 Start-Process powershell -Verb runAs -WindowStyle hidden {
 
-#Instalação do módulo Windows Update.   
+    #Instalação do módulo Windows Update.   
  
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
-Install-PackageProvider -Name NuGet -Force
-Install-Module PSWindowsUpdate -AllowClobber -Force
-Import-Module PSWindowsUpdate -Force 
+    Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
+    Install-PackageProvider -Name NuGet -Force
+    Install-Module PSWindowsUpdate -AllowClobber -Force
+    Import-Module PSWindowsUpdate -Force 
 
-#Instalação de novas atualizações do Windows através do Windows update.
+    #Instalação de novas atualizações do Windows através do Windows update.
 
-Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot -Verbose
+    Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot -Verbose
 
-exit
+    exit
 
 }
 
@@ -80,21 +80,21 @@ while (!($task.IsCompleted)) {
 
     Start-Sleep -Seconds 2
 
-function convertFileSize {
-    param(
-        $bytes
-    )
+    function convertFileSize {
+        param(
+            $bytes
+        )
 
-    if ($bytes -lt 1MB) {
-        return "$([Math]::Round($bytes / 1KB, 2)) KB"
+        if ($bytes -lt 1MB) {
+            return "$([Math]::Round($bytes / 1KB, 2)) KB"
+        }
+        elseif ($bytes -lt 1GB) {
+            return "$([Math]::Round($bytes / 1MB, 2)) MB"
+        }
+        elseif ($bytes -lt 1TB) {
+            return "$([Math]::Round($bytes / 1GB, 2)) GB"
+        }
     }
-    elseif ($bytes -lt 1GB) {
-        return "$([Math]::Round($bytes / 1MB, 2)) MB"
-    }
-    elseif ($bytes -lt 1TB) {
-        return "$([Math]::Round($bytes / 1GB, 2)) GB"
-    }
-}
     Write-Progress -Activity "Downloading File" -Status "Percent Complete: $($TotalPercent)%" -CurrentOperation "Downloaded $(convertFileSize -bytes $ReceivedData) / $(convertFileSize -bytes $TotalToReceive)" -PercentComplete $TotalPercent
 
 }
@@ -108,7 +108,7 @@ Expand-Archive -LiteralPath $TOOL\MZTOOL.zip -DestinationPath $TOOL
 
 #Instalação do software AnyDesk Portátil na pasta $TOOL\MZTOOL.
 
-Start-Process powershell -Verb runAs -WindowStyle hidden {Invoke-WebRequest -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$TOOL\MZTOOL\AnyDesk.exe"}
+Start-Process powershell -Verb runAs -WindowStyle hidden { Invoke-WebRequest -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$TOOL\MZTOOL\AnyDesk.exe" }
 
 #Desativar o UAC.
 
@@ -126,7 +126,7 @@ Start-Process $TOOL\MZTOOL\DRIVER_BOOSTER\DriverBoosterPortable.exe
 
 #Intalação do software Microsoft Office 2007 e ADD-in's SaveAsPDF e ODFAddIn.
 
-Invoke-Command -ScriptBlock {Start-Process "$TOOL\OFFICE\2007\Setup.exe" -ArgumentList "/adminfile Silent.msp" -Wait}
+Invoke-Command -ScriptBlock { Start-Process "$TOOL\OFFICE\2007\Setup.exe" -ArgumentList "/adminfile Silent.msp" -Wait }
 
 #Verificação e instalação de atualizações de softwares instalados e do Windows via Winget.
 

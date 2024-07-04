@@ -27,14 +27,13 @@ function DisplayMenu {
     "
     
     $MENU = Read-Host "INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA"
-    Switch ($MENU)
-    {
+    Switch ($MENU) {
 
-    1 {
-    #OPÇÃO 1 - INSTALAR SOFTWARES E ATUALIZAÇÕES DO SISTEMA.
+        1 {
+            #OPÇÃO 1 - INSTALAR SOFTWARES E ATUALIZAÇÕES DO SISTEMA.
 
-    Clear-Host
-    Write-Host "
+            Clear-Host
+            Write-Host "
     
     ______________________________________________________
     |                                                    |
@@ -50,9 +49,9 @@ function DisplayMenu {
     |                   DANIEL MOZART                    |
     |____________________________________________________|
     "
-    Start-Process "Powershell" -Verb runAs -Wait {Invoke-RestMethod https://raw.githubusercontent.com/DanielMozartt/MZTOOL/main/INSTALL.ps1 | Invoke-Expression}
-    Clear-Host
-    Write-Host "
+            Start-Process "Powershell" -Verb runAs -Wait { Invoke-RestMethod https://raw.githubusercontent.com/DanielMozartt/MZTOOL/main/INSTALL.ps1 | Invoke-Expression }
+            Clear-Host
+            Write-Host "
     ______________________________________________________
     |                                                    |
     |                      MZTOOL                        |
@@ -67,34 +66,34 @@ function DisplayMenu {
     |                   DANIEL MOZART                    |
     |____________________________________________________|
     "
-    Start-Sleep -Seconds 5
-    Exit
-    }
+            Start-Sleep -Seconds 5
+            Exit
+        }
 
-    2 {
-    #OPÇÃO 2 - DIAGNÓSTICO DE HARDWARE E SISTEMA.
-    Write-Host "EM DESENVOLVIMENTO, SELECIONE UMA NOVA OPÇÃO."
-    Start-Sleep -Seconds 5
-    DisplayMenu
+        2 {
+            #OPÇÃO 2 - DIAGNÓSTICO DE HARDWARE E SISTEMA.
+            Write-Host "EM DESENVOLVIMENTO, SELECIONE UMA NOVA OPÇÃO."
+            Start-Sleep -Seconds 5
+            DisplayMenu
 
-    }
+        }
     
 
-    3 {
-    #OPÇÃO 3 - ENCERRAR SISTEMA.
+        3 {
+            #OPÇÃO 3 - ENCERRAR SISTEMA.
 
-    Write-Host "ENCERRANDO MZTOOL"
-    Start-Sleep -Seconds 5
-    Break
-    }
+            Write-Host "ENCERRANDO MZTOOL"
+            Start-Sleep -Seconds 5
+            Break
+        }
 
-    default {
-    #ENTRADA INVÁLIDA.
+        default {
+            #ENTRADA INVÁLIDA.
 
-    Write-Host "OPÇÃO INVÁLIDA. INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA"
-    Start-Sleep -Seconds 3
-    DisplayMenu
-    }
+            Write-Host "OPÇÃO INVÁLIDA. INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA"
+            Start-Sleep -Seconds 3
+            DisplayMenu
+        }
     }
 }
 
@@ -137,21 +136,21 @@ function DownloadMztool {
     
         Start-Sleep -Seconds 2
     
-    function convertFileSize {
-        param(
-            $bytes
-        )
+        function convertFileSize {
+            param(
+                $bytes
+            )
     
-        if ($bytes -lt 1MB) {
-            return "$([Math]::Round($bytes / 1KB, 2)) KB"
+            if ($bytes -lt 1MB) {
+                return "$([Math]::Round($bytes / 1KB, 2)) KB"
+            }
+            elseif ($bytes -lt 1GB) {
+                return "$([Math]::Round($bytes / 1MB, 2)) MB"
+            }
+            elseif ($bytes -lt 1TB) {
+                return "$([Math]::Round($bytes / 1GB, 2)) GB"
+            }
         }
-        elseif ($bytes -lt 1GB) {
-            return "$([Math]::Round($bytes / 1MB, 2)) MB"
-        }
-        elseif ($bytes -lt 1TB) {
-            return "$([Math]::Round($bytes / 1GB, 2)) GB"
-        }
-    }
         Write-Progress -Activity "Downloading File" -Status "Percent Complete: $($TotalPercent)%" -CurrentOperation "Downloaded $(convertFileSize -bytes $ReceivedData) / $(convertFileSize -bytes $TotalToReceive)" -PercentComplete $TotalPercent
     
     }
@@ -170,16 +169,16 @@ function DownloadMztool {
 }
 
 function DesativarUAC {
-    Start-Process "Powershell" -Verb runAs -WindowStyle Hidden -Wait{      
-    #DESATIVAR O UAC.
-    REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f        
+    Start-Process "Powershell" -Verb runAs -WindowStyle Hidden -Wait {      
+        #DESATIVAR O UAC.
+        REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f        
     }
 }
 
 function ReativarUAC {
-    Start-Process "Powershell" -Verb runAs -WindowStyle Hidden -Wait{
-    #REATIVAR O UAC.
-    REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
+    Start-Process "Powershell" -Verb runAs -WindowStyle Hidden -Wait {
+        #REATIVAR O UAC.
+        REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
     }
 }
 
@@ -198,6 +197,6 @@ function Diagnostics {
         
 }
 
-    DisplayMenu
+DisplayMenu
 
 Exit
