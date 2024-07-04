@@ -74,7 +74,7 @@ function DisplayMenu {
     2 {
     
         #OPÇÃO 2 - DIAGNÓSTICO DE HARDWARE E SISTEMA.
-        DisplayMenu2
+        
         function DisplayMenu2 {
     
             Clear-Host
@@ -160,10 +160,10 @@ function DisplayMenu {
                 }
              
             }
-            DisplayMenu2
+            #DisplayMenu2
             #Exit
             }
-        #exit
+            DisplayMenu2
     }
 
     3 {
