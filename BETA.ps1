@@ -291,6 +291,7 @@ function Diagnostics64 {
         Exit
     }   
 }
+
 function Diagnostics32 {
     
         Start-Process "Powershell" -Verb runAs -WindowStyle Hidden {
