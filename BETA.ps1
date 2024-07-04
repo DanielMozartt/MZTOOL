@@ -2,10 +2,6 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
 
 $Host.UI.RawUI.BackgroundColor = "DarkBlue"
 
-#Variável Global $TOOL.
-
-$TOOL = "C:\TOOL"
-
 #MENU MZTOOL -----------------------------------------------------
 
 function DisplayMenu {
@@ -161,7 +157,7 @@ function DisplayMenu {
              
             }
             #DisplayMenu2
-            #Exit
+            
             }
             DisplayMenu2
     }
