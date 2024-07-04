@@ -137,11 +137,11 @@ function DisplayMenu {
                 |                   DANIEL MOZART                    |
                 |____________________________________________________|
                 "
-                DownloadMztool
+                DownloadMztool 
                
-                Diagnostics32
+                Diagnostics32 
 
-                Start-Sleep -Seconds 1
+                Start-Sleep -1
             
                 DisplayMenu
              }
@@ -324,5 +324,5 @@ function Diagnostics32 {
 }
 
 DisplayMenu  
-  
+
 Exit
