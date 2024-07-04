@@ -55,7 +55,7 @@ Start-Process powershell -Verb runAs -WindowStyle hidden {
     Import-Module PSWindowsUpdate -Force 
 
     #Instalação de novas atualizações do Windows através do Windows update.
-
+    Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
     Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot -Verbose
 
     exit
