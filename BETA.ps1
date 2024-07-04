@@ -283,7 +283,7 @@ function Diagnostics32 {
     
             REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
             
-            Start-Process "Powershell" -Verb runAs -WindowStyle Hidden{
+            Start-Process "Powershell" -Verb runAs -WindowStyle Hidden {
 
                 C:\TOOL\MZTOOL\AIDA_64\aida64.exe
                 C:\TOOL\MZTOOL\BLUE_SCREEN_VIEW\BlueScreenView.exe
