@@ -130,7 +130,7 @@ Invoke-Command -ScriptBlock { Start-Process "$TOOL\OFFICE\2007\Setup.exe" -Argum
 
 #Verificação e instalação de atualizações de softwares instalados e do Windows via Winget.
 
-winget upgrade --all --accept-source-agreements --accept-package-agreements --silent --purge --skip-dependencies --include-unknown
+winget upgrade --all --accept-source-agreements --accept-package-agreements --silent --skip-dependencies --include-unknown
 
 Start-Sleep -Seconds 20
 
