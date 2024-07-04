@@ -113,6 +113,8 @@ function DisplayMenu {
             DownloadMztool
            
             Diagnostics64
+
+            Start-Sleep -Seconds 1
         
             DisplayMenu
             
@@ -138,6 +140,8 @@ function DisplayMenu {
                 DownloadMztool
                
                 Diagnostics32
+
+                Start-Sleep -Seconds 1
             
                 DisplayMenu
              }
