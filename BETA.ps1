@@ -74,6 +74,27 @@ function DisplayMenu {
     2 {
     #OPÇÃO 2 - DIAGNÓSTICO DE HARDWARE E SISTEMA.
     Clear-Host
+
+    Write-Host  "
+    ______________________________________________________
+    |                                                    |
+    |                      MZTOOL                        |
+    | _________________________________________________  | 
+    |                                                    |
+    |                                                    |
+    | |1| ARQUITETURA X64 | 64Bits                       |
+    | |2| ARQUITETURA X32 | 32Bits                       |
+    | |3| VOLTAR                                         |
+    |                                                    |
+    |                                                    |
+    |                 MOZART INFORMÁTICA | DANIEL MOZART |
+    |____________________________________________________|
+    "
+    $SUBMENU2 = Read-Host "INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA"
+    Switch (SUBMENU2)
+    {
+        1 {
+    Clear-Host
     Write-Host "
     ______________________________________________________
     |                                                    |
@@ -89,14 +110,43 @@ function DisplayMenu {
     |                   DANIEL MOZART                    |
     |____________________________________________________|
     "
-    
-
     DownloadMztool
    
-    Diagnostics
-     
-    DisplayMenu
+    Diagnostics64
 
+    DisplayMenu
+    
+    }
+
+    2 { 
+        Clear-Host
+        Write-Host "
+        ______________________________________________________
+        |                                                    |
+        |                      MZTOOL                        |
+        | _________________________________________________  | 
+        |                                                    |
+        |                                                    |
+        |                                                    |
+        |        FERRAMENTAS DE DIAGNÓSTICO INICIADAS        |
+        |                                                    |
+        |                                                    |
+        |                 MOZART INFORMÁTICA                 |
+        |                   DANIEL MOZART                    |
+        |____________________________________________________|
+        "
+        DownloadMztool
+       
+        Diagnostics32
+    
+        DisplayMenu
+     }
+
+     3 {
+        DisplayMenu
+     }
+
+    }
     }
     
 
@@ -210,14 +260,39 @@ function EnvTool {
     
 }
 
-function Diagnostics {
+function Diagnostics64 {
     
     Start-Process "Powershell" -Verb runAs -WindowStyle Hidden -Wait{
-        DesativarUAC
-        Start-Process $env:TOOL\MZTOOL\AIDA_64\aida64.exe
-        Start-Process $TOOL\MZTOOL\AIDA_64\aida64.exe
-        ReativarUAC
+
+        REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
+        Start-Process C:\TOOL\MZTOOL\AIDA_64\aida64.exe
+        Start-Process C:\TOOL\MZTOOL\BLUE_SCREEN_VIEW\BlueScreenView.exe
+        Start-Process C:\TOOL\MZTOOL\CORE_TEMP\Core_Temp_64.exe
+        Start-Process C:\TOOL\MZTOOL\CPU_Z\cpuz_x64.exe
+        Start-Process C:\TOOL\MZTOOL\CRYSTAL_DISK\DiskInfo64.exe
+        Start-Process C:\TOOL\MZTOOL\HDSENTINEL\HDSentinel.exe
+        Start-Process C:\TOOL\MZTOOL\HWINFO\HWiNFO64.exe
+        Start-Process C:\TOOL\MZTOOL\GPU_Z.exe
+        REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
+        Exit
     }   
+}
+function Diagnostics32 {
+    
+        Start-Process "Powershell" -Verb runAs -WindowStyle Hidden -Wait{
+    
+            REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
+            Start-Process C:\TOOL\MZTOOL\AIDA_64\aida64.exe
+            Start-Process C:\TOOL\MZTOOL\BLUE_SCREEN_VIEW\BlueScreenView.exe
+            Start-Process C:\TOOL\MZTOOL\CORE_TEMP\Core_Temp_32.exe
+            Start-Process C:\TOOL\MZTOOL\CPU_Z\cpuz_x32.exe
+            Start-Process C:\TOOL\MZTOOL\CRYSTAL_DISK\DiskInfo32.exe
+            Start-Process C:\TOOL\MZTOOL\HDSENTINEL\HDSentinel.exe
+            Start-Process C:\TOOL\MZTOOL\HWINFO\HWiNFO32.exe
+            Start-Process C:\TOOL\MZTOOL\GPU_Z.exe
+            REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
+            Exit
+        }   
 }
 
     DisplayMenu
