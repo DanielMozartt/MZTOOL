@@ -148,7 +148,7 @@ function DisplayMenu {
         
              3 {
                 DisplayMenu
-                Exit
+                #Exit
              }
         
              default {
@@ -161,9 +161,9 @@ function DisplayMenu {
              
             }
             DisplayMenu2
-            Exit
+            #Exit
             }
-        exit
+        #exit
     }
 
     3 {
