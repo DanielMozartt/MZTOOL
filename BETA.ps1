@@ -282,15 +282,22 @@ function Diagnostics32 {
         Start-Process "Powershell" -Verb runAs -WindowStyle Hidden {
     
             REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
-            Start-Process C:\TOOL\MZTOOL\AIDA_64\aida64.exe
-            Start-Process C:\TOOL\MZTOOL\BLUE_SCREEN_VIEW\BlueScreenView.exe
-            Start-Process C:\TOOL\MZTOOL\CORE_TEMP\Core_Temp_32.exe
-            Start-Process C:\TOOL\MZTOOL\CPU_Z\cpuz_x32.exe
-            Start-Process C:\TOOL\MZTOOL\CRYSTAL_DISK\DiskInfo32.exe
-            Start-Process C:\TOOL\MZTOOL\HDSENTINEL\HDSentinel.exe
-            Start-Process C:\TOOL\MZTOOL\HWINFO\HWiNFO32.exe
-            Start-Process C:\TOOL\MZTOOL\GPU_Z.exe
+            
+            Start-Process "Powershell" -Verb runAs -WindowStyle Hidden{
+
+                C:\TOOL\MZTOOL\AIDA_64\aida64.exe
+                C:\TOOL\MZTOOL\BLUE_SCREEN_VIEW\BlueScreenView.exe
+                C:\TOOL\MZTOOL\CORE_TEMP\Core_Temp_32.exe
+                C:\TOOL\MZTOOL\CPU_Z\cpuz_x32.exe
+                C:\TOOL\MZTOOL\CRYSTAL_DISK\DiskInfo32.exe
+                C:\TOOL\MZTOOL\HDSENTINEL\HDSentinel.exe
+                C:\TOOL\MZTOOL\HWINFO\HWiNFO32.exe
+                C:\TOOL\MZTOOL\GPU_Z.exe
+
+            }
+
             REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
+           
             Exit
         }   
 }
