@@ -74,7 +74,30 @@ function DisplayMenu {
     2{
         #OPÇÃO 2 - DIAGNÓSTICO DE HARDWARE E SISTEMA.
     DisplayMenu2
-    function DisplayMenu2 {
+    
+    }
+    3 {
+    #OPÇÃO 3 - ENCERRAR SISTEMA.
+
+    Write-Host "ENCERRANDO MZTOOL"
+    Start-Sleep -Seconds 5
+    Break
+    }
+
+    default {
+    #ENTRADA INVÁLIDA.
+
+    Write-Host "OPÇÃO INVÁLIDA. INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA"
+    Start-Sleep -Seconds 3
+    DisplayMenu
+    }
+    }
+}
+
+
+#FUNÇÕES-------------------------
+
+function DisplayMenu2 {
     
     Clear-Host
 
@@ -160,27 +183,7 @@ function DisplayMenu {
     }
     }
     
-}
-    3 {
-    #OPÇÃO 3 - ENCERRAR SISTEMA.
 
-    Write-Host "ENCERRANDO MZTOOL"
-    Start-Sleep -Seconds 5
-    Break
-    }
-
-    default {
-    #ENTRADA INVÁLIDA.
-
-    Write-Host "OPÇÃO INVÁLIDA. INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA"
-    Start-Sleep -Seconds 3
-    DisplayMenu
-    }
-    }
-}
-
-
-#FUNÇÕES-------------------------
 
 function DownloadMztool {
 
