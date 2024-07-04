@@ -75,6 +75,94 @@ function DisplayMenu {
     
         #OPÇÃO 2 - DIAGNÓSTICO DE HARDWARE E SISTEMA.
         DisplayMenu2
+        function DisplayMenu2 {
+    
+            Clear-Host
+        
+            Write-Host  "
+            ______________________________________________________
+            |                                                    |
+            |                      MZTOOL                        |
+            | _________________________________________________  | 
+            |                                                    |
+            |                                                    |
+            | |1| ARQUITETURA X64 | 64Bits                       |
+            | |2| ARQUITETURA X32 | 32Bits                       |
+            | |3| VOLTAR                                         |
+            |                                                    |
+            |                                                    |
+            |                 MOZART INFORMÁTICA | DANIEL MOZART |
+            |____________________________________________________|
+            "
+            $SUBMENU2 = Read-Host "INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA"
+            Switch ($SUBMENU2)
+            {
+                1 {
+            Clear-Host
+            Write-Host "
+            ______________________________________________________
+            |                                                    |
+            |                      MZTOOL                        |
+            | _________________________________________________  | 
+            |                                                    |
+            |                                                    |
+            |                                                    |
+            |        FERRAMENTAS DE DIAGNÓSTICO INICIADAS        |
+            |                                                    |
+            |                                                    |
+            |                 MOZART INFORMÁTICA                 |
+            |                   DANIEL MOZART                    |
+            |____________________________________________________|
+            "
+            DownloadMztool
+           
+            Diagnostics64
+        
+            DisplayMenu
+            
+            }
+        
+            2 { 
+                Clear-Host
+                Write-Host "
+                ______________________________________________________
+                |                                                    |
+                |                      MZTOOL                        |
+                | _________________________________________________  | 
+                |                                                    |
+                |                                                    |
+                |                                                    |
+                |        FERRAMENTAS DE DIAGNÓSTICO INICIADAS        |
+                |                                                    |
+                |                                                    |
+                |                 MOZART INFORMÁTICA                 |
+                |                   DANIEL MOZART                    |
+                |____________________________________________________|
+                "
+                DownloadMztool
+               
+                Diagnostics32
+            
+                DisplayMenu
+             }
+        
+             3 {
+                DisplayMenu
+                Exit
+             }
+        
+             default {
+                #ENTRADA INVÁLIDA.
+            
+                Write-Host "OPÇÃO INVÁLIDA. INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA"
+                Start-Sleep -Seconds 3
+                DisplayMenu2
+                }
+             
+            }
+            DisplayMenu2
+            Exit
+            }
         exit
     }
 
@@ -105,94 +193,7 @@ DisplayMenu
 
 #FUNÇÕES---------------------------------------------------------------
 
-function DisplayMenu2 {
-    
-    Clear-Host
 
-    Write-Host  "
-    ______________________________________________________
-    |                                                    |
-    |                      MZTOOL                        |
-    | _________________________________________________  | 
-    |                                                    |
-    |                                                    |
-    | |1| ARQUITETURA X64 | 64Bits                       |
-    | |2| ARQUITETURA X32 | 32Bits                       |
-    | |3| VOLTAR                                         |
-    |                                                    |
-    |                                                    |
-    |                 MOZART INFORMÁTICA | DANIEL MOZART |
-    |____________________________________________________|
-    "
-    $SUBMENU2 = Read-Host "INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA"
-    Switch ($SUBMENU2)
-    {
-        1 {
-    Clear-Host
-    Write-Host "
-    ______________________________________________________
-    |                                                    |
-    |                      MZTOOL                        |
-    | _________________________________________________  | 
-    |                                                    |
-    |                                                    |
-    |                                                    |
-    |        FERRAMENTAS DE DIAGNÓSTICO INICIADAS        |
-    |                                                    |
-    |                                                    |
-    |                 MOZART INFORMÁTICA                 |
-    |                   DANIEL MOZART                    |
-    |____________________________________________________|
-    "
-    DownloadMztool
-   
-    Diagnostics64
-
-    DisplayMenu
-    
-    }
-
-    2 { 
-        Clear-Host
-        Write-Host "
-        ______________________________________________________
-        |                                                    |
-        |                      MZTOOL                        |
-        | _________________________________________________  | 
-        |                                                    |
-        |                                                    |
-        |                                                    |
-        |        FERRAMENTAS DE DIAGNÓSTICO INICIADAS        |
-        |                                                    |
-        |                                                    |
-        |                 MOZART INFORMÁTICA                 |
-        |                   DANIEL MOZART                    |
-        |____________________________________________________|
-        "
-        DownloadMztool
-       
-        Diagnostics32
-    
-        DisplayMenu
-     }
-
-     3 {
-        DisplayMenu
-        Exit
-     }
-
-     default {
-        #ENTRADA INVÁLIDA.
-    
-        Write-Host "OPÇÃO INVÁLIDA. INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA"
-        Start-Sleep -Seconds 3
-        DisplayMenu2
-        }
-     
-    }
-    DisplayMenu2
-    Exit
-    }
     
 function DownloadMztool {
 
