@@ -147,7 +147,7 @@ function DisplayMenu {
              }
         
              3 {
-                
+
                 DisplayMenu
                 
              }
@@ -185,11 +185,6 @@ function DisplayMenu {
     }
     }
     
-}
-
-DisplayMenu
-
-
 
 #FUNÇÕES---------------------------------------------------------------
 
@@ -326,4 +321,8 @@ function Diagnostics32 {
             Exit
         }   
     }
+}
+
+DisplayMenu  
+  
 Exit
