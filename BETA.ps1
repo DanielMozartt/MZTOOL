@@ -8,8 +8,6 @@ $TOOL = "C:\TOOL"
 
 #MENU MZTOOL -----------------------------------------------------
 
-DisplayMenu
-
 function DisplayMenu {
     Clear-Host
     Write-Host "
@@ -77,7 +75,7 @@ function DisplayMenu {
     
         #OPÇÃO 2 - DIAGNÓSTICO DE HARDWARE E SISTEMA.
         DisplayMenu2
-    
+        exit
     }
 
     3 {
@@ -98,8 +96,10 @@ function DisplayMenu {
     DisplayMenu
     }
     }
-    DisplayMenu
+    
 }
+
+DisplayMenu
 
 
 
