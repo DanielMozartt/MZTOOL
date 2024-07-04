@@ -171,7 +171,7 @@ function DisplayMenu2 {
      }
 
      3 {
-        DisplayMenu2
+        DisplayMenu
      }
 
      default {
@@ -179,10 +179,13 @@ function DisplayMenu2 {
     
         Write-Host "OPÇÃO INVÁLIDA. INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA"
         Start-Sleep -Seconds 3
-        DisplayMenu
+        DisplayMenu2
         }
 
+        
+
     }
+    DisplayMenu2
     }
     
 function DownloadMztool {
