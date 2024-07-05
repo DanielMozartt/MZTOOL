@@ -25,45 +25,72 @@ $TOOLFOLDER.Attributes = "Hidden"
 
 Start-Process powershell -Verb runAs -WindowStyle hidden { Invoke-WebRequest -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$home\Desktop\AnyDesk.exe" } | Out-Null
 
-#WINGET
-
-Start-Process powershell -Verb runAs -WindowStyle hidden {
-
-    #Instalação do Winget.
-
-    Install-PackageProvider -Name NuGet -Force | Out-Null
-    Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery | Out-Null
-    Repair-WinGetPackageManager
-
-    #Instalação dos softwares Acrobat Reader, Microsoft Powershell 7+, Google Chrome. 
-
-    winget add "Adobe.Acrobat.Reader.64-bit" "Microsoft.Powershell" "Google.Chrome"  --accept-source-agreements --accept-package-agreements
-
-    winget add "Adobe.Acrobat.Reader.64-bit" "Microsoft.Powershell" "Google.Chrome"  --accept-source-agreements --accept-package-agreements
-
-    winget add "Adobe.Acrobat.Reader.64-bit" "Microsoft.Powershell" "Google.Chrome"  --accept-source-agreements --accept-package-agreements
-
-    exit
-
-}
-
-#WINDOWS UPDATE 
-
-Start-Process powershell -Verb runAs -WindowStyle hidden {
-
-    #Instalação do módulo Windows Update.   
- 
+Start-Process powershell -Verb runAs {
+        
     Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
-    Install-PackageProvider -Name NuGet -Force
+    Install-PackageProvider -Name NuGet -Force 
+        
+    #Módulo WINGET.
+    Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
+    Repair-WinGetPackageManager
+    winget source remove --name winget
+    Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
+    Invoke-WebRequest -Uri "https://cdn.winget.microsoft.com/cache/source.msix" -OutFile "$env:TEMP\source.msix"
+    Add-AppPackage -path "$env:TEMP\source.msix"
+    winget source reset --force
+    winget source list       
+        
+    #Módulo WINDOWS UPDATE.
     Install-Module PSWindowsUpdate -AllowClobber -Force
     Import-Module PSWindowsUpdate -Force 
 
-    #Instalação de novas atualizações do Windows através do Windows update.
-    Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
-    Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot -Verbose
+    #WINGET
+    Start-Process powershell -Verb runAs {
 
-    exit
+        Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
+           
+        #Instalação dos softwares Acrobat Reader, Microsoft Powershell 7+, Google Chrome. 
 
+        winget install --id Adobe.Acrobat.Reader.64-bit --accept-source-agreements --accept-package-agreements
+
+        winget install --id Microsoft.Powershell --accept-source-agreements --accept-package-agreements
+
+        winget install --id Google.Chrome --accept-source-agreements --accept-package-agreements
+
+        winget upgrade --all --accept-source-agreements --accept-package-agreements
+
+        Start-Sleep -Seconds 5
+
+        #Remover arquivos temporários.
+
+        Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
+
+        Remove-Item -Path $env:C:\Windows\temp\* -Recurse -Force -ErrorAction SilentlyContinue
+
+        Remove-Item -Path $env:C:\Windows\Prefetch\* -Recurse -Force -ErrorAction SilentlyContinue
+           
+
+    }
+
+    #WINDOWS UPDATE 
+
+    Start-Process powershell -Verb runAs {
+
+        #Instalação de novas atualizações do Windows através do Windows update.
+        Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
+        Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot 
+
+        Start-Sleep -Seconds 5
+
+        #Remover arquivos temporários.
+
+        Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
+
+        Remove-Item -Path $env:C:\Windows\temp\* -Recurse -Force -ErrorAction SilentlyContinue
+
+        Remove-Item -Path $env:C:\Windows\Prefetch\* -Recurse -Force -ErrorAction SilentlyContinue
+            
+    }
 }
 
 #Download do arquivo MZTOOL.zip.

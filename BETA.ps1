@@ -331,6 +331,7 @@ function DisplayMenu {
 
 function Update {
 
+    
     #INSTALAÇÃO DOS MÓDULOS WINGET E WINDOWS UPDATE.
 
     Start-Process powershell -Verb runAs {
@@ -376,8 +377,7 @@ function Update {
             Remove-Item -Path $env:C:\Windows\temp\* -Recurse -Force -ErrorAction SilentlyContinue
 
             Remove-Item -Path $env:C:\Windows\Prefetch\* -Recurse -Force -ErrorAction SilentlyContinue
-
-            pause
+           
 
         }
 
@@ -398,13 +398,10 @@ function Update {
             Remove-Item -Path $env:C:\Windows\temp\* -Recurse -Force -ErrorAction SilentlyContinue
 
             Remove-Item -Path $env:C:\Windows\Prefetch\* -Recurse -Force -ErrorAction SilentlyContinue
-
-            pause
+            
         }
     }
        
-
-
 
     Start-Sleep -Seconds 5
 
