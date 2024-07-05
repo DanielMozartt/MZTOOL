@@ -337,9 +337,15 @@ function Update {
         
         Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
         Install-PackageProvider -Name NuGet -Force 
+        
+        #Módulo WINGET.
         Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
         Repair-WinGetPackageManager
+        
+        #Módulo WINDOWS UPDATE.
         Install-Module PSWindowsUpdate -AllowClobber -Force
+        Import-Module PSWindowsUpdate -Force 
+
         #WINGET
         Start-Process powershell -Verb runAs {
 
@@ -347,11 +353,11 @@ function Update {
            
             #Instalação dos softwares Acrobat Reader, Microsoft Powershell 7+, Google Chrome. 
 
-            winget install "Adobe.Acrobat.Reader.64-bit" --accept-source-agreements --accept-package-agreements
+            winget install --id Adobe.Acrobat.Reader.64-bit --accept-source-agreements --accept-package-agreements
 
-            winget install "Microsoft.Powershell" --accept-source-agreements --accept-package-agreements
+            winget install --id Microsoft.Powershell --accept-source-agreements --accept-package-agreements
 
-            winget install "Google.Chrome" --accept-source-agreements --accept-package-agreements
+            winget install --id Google.Chrome --accept-source-agreements --accept-package-agreements
 
             winget upgrade --all --accept-source-agreements --accept-package-agreements
 
@@ -372,10 +378,6 @@ function Update {
         #WINDOWS UPDATE 
 
         Start-Process powershell -Verb runAs {
-
-            
-            Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
-            Import-Module PSWindowsUpdate -Force 
 
             #Instalação de novas atualizações do Windows através do Windows update.
             Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
