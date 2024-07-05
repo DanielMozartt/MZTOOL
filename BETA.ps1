@@ -332,64 +332,65 @@ function DisplayMenu {
 function Update {
 
     #WINGET
+    Start-Process powershell -Verb runAs {
+        Start-Process powershell -Verb runAs {
 
-    Start-Process powershell -Verb runAs -WindowStyle hidden {
+            #Instalação do Winget.
 
-        #Instalação do Winget.
+            Install-PackageProvider -Name NuGet -Force | Out-Null
+            Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery | Out-Null
+            Repair-WinGetPackageManager
 
-        Install-PackageProvider -Name NuGet -Force | Out-Null
-        Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery | Out-Null
-        Repair-WinGetPackageManager
+            #Instalação dos softwares Acrobat Reader, Microsoft Powershell 7+, Google Chrome. 
 
-        #Instalação dos softwares Acrobat Reader, Microsoft Powershell 7+, Google Chrome. 
+            winget add "Adobe.Acrobat.Reader.64-bit"   --accept-source-agreements --accept-package-agreements
 
-        winget add "Adobe.Acrobat.Reader.64-bit"   --accept-source-agreements --accept-package-agreements
+            winget add "Microsoft.Powershell"  --accept-source-agreements --accept-package-agreements
 
-        winget add "Microsoft.Powershell"  --accept-source-agreements --accept-package-agreements
+            winget add "Google.Chrome"  --accept-source-agreements --accept-package-agreements
 
-        winget add "Google.Chrome"  --accept-source-agreements --accept-package-agreements
+            winget upgrade --all --accept-source-agreements --accept-package-agreements --silent --skip-dependencies --include-unknown
 
-        winget upgrade --all --accept-source-agreements --accept-package-agreements --silent --skip-dependencies --include-unknown
+            Start-Sleep -Seconds 5
 
-        Start-Sleep -Seconds 5
+            #Remover arquivos temporários.
 
-        #Remover arquivos temporários.
+            Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
 
-        Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
+            Remove-Item -Path $env:C:\Windows\temp\* -Recurse -Force -ErrorAction SilentlyContinue
 
-        Remove-Item -Path $env:C:\Windows\temp\* -Recurse -Force -ErrorAction SilentlyContinue
+            Remove-Item -Path $env:C:\Windows\Prefetch\* -Recurse -Force -ErrorAction SilentlyContinue
 
-        Remove-Item -Path $env:C:\Windows\Prefetch\* -Recurse -Force -ErrorAction SilentlyContinue
+            exit
 
-        exit
+        }
 
-    }
+        #WINDOWS UPDATE 
 
-    #WINDOWS UPDATE 
+        Start-Process powershell -Verb runAs {
 
-    Start-Process powershell -Verb runAs -WindowStyle hidden {
-
-        #Instalação do módulo Windows Update.   
+            #Instalação do módulo Windows Update.   
  
-        Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
-        Install-PackageProvider -Name NuGet -Force
-        Install-Module PSWindowsUpdate -AllowClobber -Force
-        Import-Module PSWindowsUpdate -Force 
+            Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
+            Install-PackageProvider -Name NuGet -Force
+            Install-Module PSWindowsUpdate -AllowClobber -Force
+            Import-Module PSWindowsUpdate -Force 
 
-        #Instalação de novas atualizações do Windows através do Windows update.
-        Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
-        Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot -Verbose
+            #Instalação de novas atualizações do Windows através do Windows update.
+            Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
+            Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot -Verbose
 
-        Start-Sleep -Seconds 5
+            Start-Sleep -Seconds 5
 
-        #Remover arquivos temporários.
+            #Remover arquivos temporários.
 
-        Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
+            Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
 
-        Remove-Item -Path $env:C:\Windows\temp\* -Recurse -Force -ErrorAction SilentlyContinue
+            Remove-Item -Path $env:C:\Windows\temp\* -Recurse -Force -ErrorAction SilentlyContinue
 
-        Remove-Item -Path $env:C:\Windows\Prefetch\* -Recurse -Force -ErrorAction SilentlyContinue
-
+            Remove-Item -Path $env:C:\Windows\Prefetch\* -Recurse -Force -ErrorAction SilentlyContinue
+        }
+        
         exit
 
     }
