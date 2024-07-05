@@ -336,20 +336,20 @@ function Update {
         Start-Process powershell -Verb runAs {
 
             #Instalação do Winget.
-
-            Install-PackageProvider -Name NuGet -Force | Out-Null
-            Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery | Out-Null
+            Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
+            Install-PackageProvider -Name NuGet -Force 
+            Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
             Repair-WinGetPackageManager
 
             #Instalação dos softwares Acrobat Reader, Microsoft Powershell 7+, Google Chrome. 
 
-            winget add "Adobe.Acrobat.Reader.64-bit"   --accept-source-agreements --accept-package-agreements
+            winget install "Adobe.Acrobat.Reader.64-bit"   --accept-source-agreements --accept-package-agreements
 
-            winget add "Microsoft.Powershell"  --accept-source-agreements --accept-package-agreements
+            winget install "Microsoft.Powershell"  --accept-source-agreements --accept-package-agreements
 
-            winget add "Google.Chrome"  --accept-source-agreements --accept-package-agreements
+            winget install "Google.Chrome"  --accept-source-agreements --accept-package-agreements
 
-            winget upgrade --all --accept-source-agreements --accept-package-agreements --silent --skip-dependencies --include-unknown
+            winget upgrade --all --accept-source-agreements --accept-package-agreements --include-unknown
 
             Start-Sleep -Seconds 5
 
