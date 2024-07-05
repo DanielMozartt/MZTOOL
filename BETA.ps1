@@ -393,9 +393,9 @@ function Update {
 
             pause
         }
-
-       
     }
+       
+
 
 
     Start-Sleep -Seconds 5
