@@ -341,6 +341,12 @@ function Update {
         #Módulo WINGET.
         Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
         Repair-WinGetPackageManager
+        winget source remove --name winget
+        Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
+        Invoke-WebRequest -Uri "https://cdn.winget.microsoft.com/cache/source.msix" -OutFile "$env:TEMP\source.msix"
+        Add-AppPackage -path "$env:TEMP\source.msix"
+        winget source reset --force
+        winget source list
         
         #Módulo WINDOWS UPDATE.
         Install-Module PSWindowsUpdate -AllowClobber -Force
@@ -361,7 +367,7 @@ function Update {
 
             winget upgrade --all --accept-source-agreements --accept-package-agreements
 
-            Start-Sleep -Seconds 5
+            Start-Sleep -Seconds 50
 
             #Remover arquivos temporários.
 
@@ -381,7 +387,7 @@ function Update {
 
             #Instalação de novas atualizações do Windows através do Windows update.
             Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
-            Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot -Verbose
+            Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot 
 
             Start-Sleep -Seconds 5
 
