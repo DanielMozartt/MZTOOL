@@ -338,13 +338,13 @@ function Update {
         Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
         Install-PackageProvider -Name NuGet -Force 
         Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
+        Repair-WinGetPackageManager
         Install-Module PSWindowsUpdate -AllowClobber -Force
         #WINGET
         Start-Process powershell -Verb runAs {
 
             Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
-            Repair-WinGetPackageManager
-
+           
             #Instalação dos softwares Acrobat Reader, Microsoft Powershell 7+, Google Chrome. 
 
             winget install "Adobe.Acrobat.Reader.64-bit" --accept-source-agreements --accept-package-agreements
