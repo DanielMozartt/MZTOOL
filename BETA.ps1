@@ -389,10 +389,11 @@ function Update {
             Remove-Item -Path $env:C:\Windows\temp\* -Recurse -Force -ErrorAction SilentlyContinue
 
             Remove-Item -Path $env:C:\Windows\Prefetch\* -Recurse -Force -ErrorAction SilentlyContinue
-        }
-        
-        exit
 
+            exit
+        }
+
+       
     }
 
 
