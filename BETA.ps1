@@ -361,7 +361,7 @@ function Update {
 
             Remove-Item -Path $env:C:\Windows\Prefetch\* -Recurse -Force -ErrorAction SilentlyContinue
 
-            exit
+            pause
 
         }
 
@@ -390,7 +390,7 @@ function Update {
 
             Remove-Item -Path $env:C:\Windows\Prefetch\* -Recurse -Force -ErrorAction SilentlyContinue
 
-            exit
+            pause
         }
 
        
@@ -407,7 +407,6 @@ function Update {
 
     Remove-Item -Path $env:C:\Windows\Prefetch\* -Recurse -Force -ErrorAction SilentlyContinue
 
-    exit
 }
 
 DisplayMenu  
