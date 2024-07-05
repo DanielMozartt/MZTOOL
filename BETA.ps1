@@ -367,7 +367,7 @@ function Update {
 
             winget upgrade --all --accept-source-agreements --accept-package-agreements
 
-            Start-Sleep -Seconds 50
+            Start-Sleep -Seconds 5
 
             #Remover arquivos temporários.
 
