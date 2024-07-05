@@ -347,6 +347,7 @@ function Update {
         Add-AppPackage -path "$env:TEMP\source.msix"
         winget source reset --force
         winget source list
+        winget upgrade --all
         
         #Módulo WINDOWS UPDATE.
         Install-Module PSWindowsUpdate -AllowClobber -Force
