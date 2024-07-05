@@ -331,14 +331,18 @@ function DisplayMenu {
 
 function Update {
 
-    #WINGET
+    #INSTALAÇÃO DOS MÓDULOS WINGET E WINDOWS UPDATE.
+
     Start-Process powershell -Verb runAs {
+        
+        Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
+        Install-PackageProvider -Name NuGet -Force 
+        Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
+        Install-Module PSWindowsUpdate -AllowClobber -Force
+        #WINGET
         Start-Process powershell -Verb runAs {
 
-            #Instalação do Winget.
             Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
-            Install-PackageProvider -Name NuGet -Force 
-            Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
             Repair-WinGetPackageManager
 
             #Instalação dos softwares Acrobat Reader, Microsoft Powershell 7+, Google Chrome. 
@@ -369,11 +373,8 @@ function Update {
 
         Start-Process powershell -Verb runAs {
 
-            #Instalação do módulo Windows Update.   
- 
+            
             Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
-            Install-PackageProvider -Name NuGet -Force
-            Install-Module PSWindowsUpdate -AllowClobber -Force
             Import-Module PSWindowsUpdate -Force 
 
             #Instalação de novas atualizações do Windows através do Windows update.
