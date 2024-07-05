@@ -347,13 +347,13 @@ function Update {
 
             #Instalação dos softwares Acrobat Reader, Microsoft Powershell 7+, Google Chrome. 
 
-            winget install "Adobe.Acrobat.Reader.64-bit"   --accept-source-agreements --accept-package-agreements
+            winget install "Adobe.Acrobat.Reader.64-bit" --accept-source-agreements --accept-package-agreements
 
-            winget install "Microsoft.Powershell"  --accept-source-agreements --accept-package-agreements
+            winget install "Microsoft.Powershell" --accept-source-agreements --accept-package-agreements
 
-            winget install "Google.Chrome"  --accept-source-agreements --accept-package-agreements
+            winget install "Google.Chrome" --accept-source-agreements --accept-package-agreements
 
-            winget upgrade --all --accept-source-agreements --accept-package-agreements --include-unknown
+            winget upgrade --all --accept-source-agreements --accept-package-agreements
 
             Start-Sleep -Seconds 5
 
