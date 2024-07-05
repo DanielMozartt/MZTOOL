@@ -346,8 +346,7 @@ function Update {
         Invoke-WebRequest -Uri "https://cdn.winget.microsoft.com/cache/source.msix" -OutFile "$env:TEMP\source.msix"
         Add-AppPackage -path "$env:TEMP\source.msix"
         winget source reset --force
-        winget source list
-        winget upgrade --all
+        winget source list       
         
         #Módulo WINDOWS UPDATE.
         Install-Module PSWindowsUpdate -AllowClobber -Force
