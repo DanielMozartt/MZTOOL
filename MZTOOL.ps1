@@ -49,7 +49,7 @@ function DisplayMenu {
     |                   DANIEL MOZART                    |
     |____________________________________________________|
     "
-            Start-Process "Powershell" -Verb runAs -Wait { Invoke-RestMethod https://raw.githubusercontent.com/DanielMozartt/MZTOOL/main/INSTALL.ps1 | Invoke-Expression }
+            Start-Process "Powershell" -Verb runAs -WindowStyle Hidden -Wait { Invoke-RestMethod https://raw.githubusercontent.com/DanielMozartt/MZTOOL/main/INSTALL.ps1 | Invoke-Expression }
             Clear-Host
             Write-Host "
     ______________________________________________________
