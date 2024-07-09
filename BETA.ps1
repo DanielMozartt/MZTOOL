@@ -158,7 +158,7 @@ function DisplayMenu {
                         #ENTRADA INVÁLIDA.
             
                         Write-Host "OPÇÃO INVÁLIDA. INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA"
-                        Start-Sleep -Seconds 3
+                        Start-Sleep -Seconds 2
                         DisplayMenu2
                     }
              
@@ -195,145 +195,145 @@ function DisplayMenu {
         }
     }
     
-
-    #FUNÇÕES---------------------------------------------------------------
-
-
-    
-    function DownloadMztool {
-
-        Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
-    
-        #Criação do diretório C:\TOOL.
-
-        $TOOL = "C:\TOOL"
-    
-        #Se o diretório C:\TOOL já existir, é deletado.
-
-        if ($TOOL) {
-            Remove-Item -Path $TOOL -Recurse -Force -ErrorAction SilentlyContinue
-        }
-
-        [System.IO.Directory]::CreateDirectory($TOOL) | Out-Null
-        $TOOLFOLDER = Get-Item $TOOL 
-        $TOOLFOLDER.Attributes = "Hidden" 
-    
-        #Download do arquivo MZTOOL.zip
-
-        $webClient = New-Object -TypeName System.Net.WebClient
-        $task = $webClient.DownloadFileTaskAsync("https://seulink.net/TOOLZIP", "$TOOL\MZTOOL.zip")
-    
-        Register-ObjectEvent -InputObject $webClient -EventName DownloadProgressChanged -SourceIdentifier WebClient.DownloadProgressChanged | Out-Null
-    
-        Start-Sleep -Seconds 3
-    
-        while (!($task.IsCompleted)) {
-            $EventData = Get-Event -SourceIdentifier WebClient.DownloadProgressChanged | Select-Object -ExpandProperty "SourceEventArgs" -Last 1
-    
-            $ReceivedData = ($EventData | Select-Object -ExpandProperty "BytesReceived")
-            $TotalToReceive = ($EventData | Select-Object -ExpandProperty "TotalBytesToReceive")
-            $TotalPercent = $EventData | Select-Object -ExpandProperty "ProgressPercentage"
-    
-            Start-Sleep -Seconds 2
-    
-            function convertFileSize {
-                param(
-                    $bytes
-                )
-    
-                if ($bytes -lt 1MB) {
-                    return "$([Math]::Round($bytes / 1KB, 2)) KB"
-                }
-                elseif ($bytes -lt 1GB) {
-                    return "$([Math]::Round($bytes / 1MB, 2)) MB"
-                }
-                elseif ($bytes -lt 1TB) {
-                    return "$([Math]::Round($bytes / 1GB, 2)) GB"
-                }
-            }
-            Write-Progress -Activity "Downloading File" -Status "Percent Complete: $($TotalPercent)%" -CurrentOperation "Downloaded $(convertFileSize -bytes $ReceivedData) / $(convertFileSize -bytes $TotalToReceive)" -PercentComplete $TotalPercent
-    
-        }
-    
-        Unregister-Event -SourceIdentifier WebClient.DownloadProgressChanged
-        $webClient.Dispose()
-    
-        #Extração do arquivo MZTOOL.zip para a pasta $TOOL.
-    
-        Expand-Archive -LiteralPath $TOOL\MZTOOL.zip -DestinationPath $TOOL
-
-        #Deletar o arquivo MZTOOL.zip.
-
-        Remove-Item $TOOL\MZTOOL.zip 
-     
-    }
-
-    function DesativarUAC {
-        
-        #DESATIVAR O UAC.
-        Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 0        
-    
-    }
-
-    function ReativarUAC {
-    
-        #REATIVAR O UAC.
-        Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 5
-   
-    }
-
-    function EnvTool {
-    
-        #Adicionar $env:Tool.
-        [Environment]::SetEnvironmentVariable("TOOL", "C:\TOOL", "Machine")
-    
-    }
-
-    function Diagnostics64 {
-    
-        Start-Process "Powershell" -Verb runAs -WindowStyle Hidden {
-
-            Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 0
-            Start-Process C:\TOOL\MZTOOL\AIDA_64\aida64.exe
-            Start-Process C:\TOOL\MZTOOL\BLUE_SCREEN_VIEW\BlueScreenView.exe
-            Start-Process C:\TOOL\MZTOOL\CORE_TEMP\Core_Temp_64.exe
-            Start-Process C:\TOOL\MZTOOL\CPU_Z\cpuz_x64.exe
-            Start-Process C:\TOOL\MZTOOL\CRYSTAL_DISK\DiskInfo64.exe
-            Start-Process C:\TOOL\MZTOOL\HDSENTINEL\HDSentinel.exe
-            Start-Process C:\TOOL\MZTOOL\HWINFO\HWiNFO64.exe
-            Start-Process C:\TOOL\MZTOOL\GPU_Z.exe
-            Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 5
-            Exit
-        }   
-    }
-
-    function Diagnostics32 {
-    
-        Start-Process "Powershell" -Verb runAs -WindowStyle Hidden {
-    
-            Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 0
-            
-            Start-Process "Powershell" -Verb runAs -WindowStyle Hidden {
-
-                C:\TOOL\MZTOOL\AIDA_64\aida64.exe
-                C:\TOOL\MZTOOL\BLUE_SCREEN_VIEW\BlueScreenView.exe
-                C:\TOOL\MZTOOL\CORE_TEMP\Core_Temp_32.exe
-                C:\TOOL\MZTOOL\CPU_Z\cpuz_x32.exe
-                C:\TOOL\MZTOOL\CRYSTAL_DISK\DiskInfo32.exe
-                C:\TOOL\MZTOOL\HDSENTINEL\HDSentinel.exe
-                C:\TOOL\MZTOOL\HWINFO\HWiNFO32.exe
-                C:\TOOL\MZTOOL\GPU_Z.exe
-
-            }
-
-            Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 5
-
-            DelTemp
-           
-            Exit
-        }   
-    }
 }
+#FUNÇÕES---------------------------------------------------------------
+
+
+    
+function DownloadMztool {
+
+    Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
+    
+    #Criação do diretório C:\TOOL.
+
+    $TOOL = "C:\TOOL"
+    
+    #Se o diretório C:\TOOL já existir, é deletado.
+
+    if ($TOOL) {
+        Remove-Item -Path $TOOL -Recurse -Force -ErrorAction SilentlyContinue
+    }
+
+    [System.IO.Directory]::CreateDirectory($TOOL) | Out-Null
+    $TOOLFOLDER = Get-Item $TOOL 
+    $TOOLFOLDER.Attributes = "Hidden" 
+    
+    #Download do arquivo MZTOOL.zip
+
+    $webClient = New-Object -TypeName System.Net.WebClient
+    $task = $webClient.DownloadFileTaskAsync("https://seulink.net/TOOLZIP", "$TOOL\MZTOOL.zip")
+    
+    Register-ObjectEvent -InputObject $webClient -EventName DownloadProgressChanged -SourceIdentifier WebClient.DownloadProgressChanged | Out-Null
+    
+    Start-Sleep -Seconds 3
+    
+    while (!($task.IsCompleted)) {
+        $EventData = Get-Event -SourceIdentifier WebClient.DownloadProgressChanged | Select-Object -ExpandProperty "SourceEventArgs" -Last 1
+    
+        $ReceivedData = ($EventData | Select-Object -ExpandProperty "BytesReceived")
+        $TotalToReceive = ($EventData | Select-Object -ExpandProperty "TotalBytesToReceive")
+        $TotalPercent = $EventData | Select-Object -ExpandProperty "ProgressPercentage"
+    
+        Start-Sleep -Seconds 2
+    
+        function convertFileSize {
+            param(
+                $bytes
+            )
+    
+            if ($bytes -lt 1MB) {
+                return "$([Math]::Round($bytes / 1KB, 2)) KB"
+            }
+            elseif ($bytes -lt 1GB) {
+                return "$([Math]::Round($bytes / 1MB, 2)) MB"
+            }
+            elseif ($bytes -lt 1TB) {
+                return "$([Math]::Round($bytes / 1GB, 2)) GB"
+            }
+        }
+        Write-Progress -Activity "Downloading File" -Status "Percent Complete: $($TotalPercent)%" -CurrentOperation "Downloaded $(convertFileSize -bytes $ReceivedData) / $(convertFileSize -bytes $TotalToReceive)" -PercentComplete $TotalPercent
+    
+    }
+    
+    Unregister-Event -SourceIdentifier WebClient.DownloadProgressChanged
+    $webClient.Dispose()
+    
+    #Extração do arquivo MZTOOL.zip para a pasta $TOOL.
+    
+    Expand-Archive -LiteralPath $TOOL\MZTOOL.zip -DestinationPath $TOOL
+
+    #Deletar o arquivo MZTOOL.zip.
+
+    Remove-Item $TOOL\MZTOOL.zip 
+     
+}
+
+function DesativarUAC {
+        
+    #DESATIVAR O UAC.
+    Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 0        
+    
+}
+
+function ReativarUAC {
+    
+    #REATIVAR O UAC.
+    Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 5
+   
+}
+
+function EnvTool {
+    
+    #Adicionar $env:Tool.
+    [Environment]::SetEnvironmentVariable("TOOL", "C:\TOOL", "Machine")
+    
+}
+
+function Diagnostics64 {
+    
+    Start-Process "Powershell" -Verb runAs -WindowStyle Hidden {
+
+        Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 0
+        Start-Process C:\TOOL\MZTOOL\AIDA_64\aida64.exe
+        Start-Process C:\TOOL\MZTOOL\BLUE_SCREEN_VIEW\BlueScreenView.exe
+        Start-Process C:\TOOL\MZTOOL\CORE_TEMP\Core_Temp_64.exe
+        Start-Process C:\TOOL\MZTOOL\CPU_Z\cpuz_x64.exe
+        Start-Process C:\TOOL\MZTOOL\CRYSTAL_DISK\DiskInfo64.exe
+        Start-Process C:\TOOL\MZTOOL\HDSENTINEL\HDSentinel.exe
+        Start-Process C:\TOOL\MZTOOL\HWINFO\HWiNFO64.exe
+        Start-Process C:\TOOL\MZTOOL\GPU_Z.exe
+        Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 5
+        Exit
+    }   
+}
+
+function Diagnostics32 {
+    
+    Start-Process "Powershell" -Verb runAs -WindowStyle Hidden {
+    
+        Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 0
+            
+        Start-Process "Powershell" -Verb runAs -WindowStyle Hidden {
+
+            C:\TOOL\MZTOOL\AIDA_64\aida64.exe
+            C:\TOOL\MZTOOL\BLUE_SCREEN_VIEW\BlueScreenView.exe
+            C:\TOOL\MZTOOL\CORE_TEMP\Core_Temp_32.exe
+            C:\TOOL\MZTOOL\CPU_Z\cpuz_x32.exe
+            C:\TOOL\MZTOOL\CRYSTAL_DISK\DiskInfo32.exe
+            C:\TOOL\MZTOOL\HDSENTINEL\HDSentinel.exe
+            C:\TOOL\MZTOOL\HWINFO\HWiNFO32.exe
+            C:\TOOL\MZTOOL\GPU_Z.exe
+
+        }
+
+        Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 5
+
+        DelTemp
+           
+        Exit
+    }   
+}
+#}
 
 function Update {
 
@@ -391,9 +391,18 @@ function Update {
         Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot 
               
     }
+          
+}
 
-    DelTemp
-       
+function Office2007 {
+
+    Start-Process powershell -Verb runAs -WindowStyle hidden -Wait { 
+
+        Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 0
+
+        Invoke-Command -ScriptBlock { Start-Process "$TOOL\OFFICE\2007\Setup.exe" -ArgumentList "/adminfile Silent.msp" -Wait }
+   
+    }
 }
 
 function DelTemp {
