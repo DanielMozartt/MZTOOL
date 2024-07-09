@@ -609,18 +609,12 @@ function WingetInstall {
 }
 function Update { 
     
-    while ($u -ne 2) {   
-
-        #Atualização de pacotes de softwares instalados.
-        Winget Upgrade --All --Accept-Source-Agreements --Accept-Package-Agreements --Include-Unknown
+    #Atualização de pacotes de softwares instalados.
+    Winget Upgrade --All --Accept-Source-Agreements --Accept-Package-Agreements --Include-Unknown
     
-        #Instalação de novas atualizações do Windows através do Windows Update.
-        Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot
-
-        $u++
-    
-    }    
-
+    #Instalação de novas atualizações do Windows através do Windows Update.
+    Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot
+      
 }
 
 function AnyDesk {
@@ -630,8 +624,6 @@ function AnyDesk {
 }
 
 function Office365 {
-
-    EnvTool
 
     [xml]$XML = @'
 <Configuration ID="646616bb-84c9-4354-9908-8abd74c04f4c">
@@ -654,22 +646,22 @@ function Office365 {
   <Display Level="Full" AcceptEULA="TRUE" />
 </Configuration> 
 '@
-    $365 = "$Env:TOOL\OFFICE\365"
+    $365 = "$TOOL\OFFICE\365"
     
     #Se o diretório $Env:TOOL\OFFICE\365 já existir, é deletado.
 
-    if ($Env:TOOL) {
+    if ($TOOL) {
 
-        Remove-Item -Path "$Env:TOOL"-Recurse -Force -ErrorAction SilentlyContinue
+        Remove-Item -Path "$TOOL"-Recurse -Force -ErrorAction SilentlyContinue
     }
 
     [System.IO.Directory]::CreateDirectory($365) | Out-Null
-    $TOOLFOLDER = Get-Item $Env:TOOL 
+    $TOOLFOLDER = Get-Item $TOOL 
     $TOOLFOLDER.Attributes = 'Hidden'  
     
-    $XML.save("$Env:TOOL\OFFICE\365\OFFICE365.xml") 
+    $XML.save("$TOOL\OFFICE\365\OFFICE365.xml") 
 
-    $365XML = "$Env:TOOL\OFFICE\365\OFFICE365.xml"
+    $365XML = "$TOOL\OFFICE\365\OFFICE365.xml"
 
     Winget Install --Id Microsoft.Office --Override "/configure $365XML" --Accept-Source-Agreements --Accept-Package-Agreements
  
@@ -679,17 +671,15 @@ function Office2007 {
 
     EnvTool
    
-    Start-Process "$env:TOOL\OFFICE\2007\Setup.exe" -ArgumentList '/adminfile Silent.msp'
+    Start-Process "$TOOL\OFFICE\2007\Setup.exe" -ArgumentList '/adminfile Silent.msp'
       
 }
 
 function DriverBooster {
     
-    EnvTool
+    Expand-Archive -LiteralPath "$TOOL\MZTOOL\DRIVER_BOOSTER.zip" -DestinationPath "$TOOL\MZTOOL\DRIVER_BOOSTER"
 
-    Expand-Archive -LiteralPath "$env:TOOL\MZTOOL\DRIVER_BOOSTER.zip" -DestinationPath "$env:TOOL\MZTOOL\DRIVER_BOOSTER"
-
-    Start-Process "$env:TOOL\MZTOOL\DRIVER_BOOSTER\DriverBoosterPortable.exe"
+    Start-Process "$TOOL\MZTOOL\DRIVER_BOOSTER\DriverBoosterPortable.exe"
 
     Start-Sleep -Seconds 30
 
@@ -699,7 +689,7 @@ function DriverBooster {
 
     Start-Sleep -Seconds 10
 
-    Remove-Item -Path "$env:TOOL\MZTOOL\DRIVER_BOOSTER" -Recurse -Force -ErrorAction SilentlyContinue
+    Remove-Item -Path "$TOOL\MZTOOL\DRIVER_BOOSTER" -Recurse -Force -ErrorAction SilentlyContinue
 
 }
 
