@@ -49,7 +49,7 @@ Start-Process powershell -Verb runAs {
                   
     #Instalação dos softwares Acrobat Reader, Microsoft Powershell 7+, Google Chrome. 
             
-    while ($i -ne 3) {
+    while ($i -ne 5) {
                 
             
         winget install --id Microsoft.Powershell --accept-source-agreements --accept-package-agreements
@@ -62,11 +62,11 @@ Start-Process powershell -Verb runAs {
 
     }
 
-    while ($i -ne 3) {
+    while ($j -ne 3) {
            
         winget upgrade --all --accept-source-agreements --accept-package-agreements
             
-        $i++
+        $j++
 
     }
 
