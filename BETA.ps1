@@ -19,7 +19,7 @@ function DisplayMenu {
     | |2| DIAGNÓSTICO DE HARDWARE E SISTEMA              |
     | |3| INSTALAR WINGET & WINDOWS UPDATE               |
     | |4| INSTALAR OFFICE 2007                           |
-    | |5| SAIR                                           |
+    | |0| SAIR                                           |
     |                                                    |
     |                 MOZART INFORMÁTICA | DANIEL MOZART |
     |____________________________________________________|
@@ -270,7 +270,19 @@ function DisplayMenu {
 
         }
 
+       
+
         4 {
+            
+            Start-Process "Powershell" -Verb runAs -Wait { 
+            
+                Office2007
+            
+            }
+
+        }
+
+        0 {
             #OPÇÃO 3 - ENCERRAR SISTEMA.
 
             Write-Host "ENCERRANDO MZTOOL"
@@ -280,15 +292,6 @@ function DisplayMenu {
             Exit-PSSession
         }
 
-        5 {
-            
-            Start-Process "Powershell" -Verb runAs -Wait { 
-            
-                Office2007
-            
-            }
-
-        }
         default {
             #ENTRADA INVÁLIDA.
 
