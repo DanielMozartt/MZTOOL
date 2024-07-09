@@ -609,7 +609,7 @@ function WingetInstall {
 }
 function Update { 
     
-    while ($i -ne 2) {   
+    while ($u -ne 2) {   
 
         #Atualização de pacotes de softwares instalados.
         Winget Upgrade --All --Accept-Source-Agreements --Accept-Package-Agreements --Include-Unknown
@@ -617,7 +617,7 @@ function Update {
         #Instalação de novas atualizações do Windows através do Windows Update.
         Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot
 
-        $i++
+        $u++
     
     }    
 
