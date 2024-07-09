@@ -38,14 +38,9 @@ else {
 $Host.UI.RawUI.BackgroundColor = "DarkBlue"
 
 EnvTool
-Install
+EnvInstall
+EnvMZTOOL
 DelTemp
-function Install {
-
-    $env:INSTALL = 'https://raw.githubusercontent.com/DanielMozartt/MZTOOL/main/INSTALL.ps1'
-    
-}
-
 
 #MENU MZTOOL -----------------------------------------------------
 
@@ -455,11 +450,23 @@ function ReativarUAC {
 function EnvTool {
     
     #Adicionar $env:Tool.
-    if ($env:TOOL) {
-       
-    }
-    else {
+    if (-not (Test-Path $env:TOOL)) {
         [Environment]::SetEnvironmentVariable("TOOL", "C:\TOOL", "Machine")
+    }
+}
+
+function EnvInstall {
+    #Adicionar $env:INSTALL.
+    if (-not (Test-Path $env:INSTALL)) {
+        [Environment]::SetEnvironmentVariable("INSTALL", "https://raw.githubusercontent.com/DanielMozartt/MZTOOL/main/INSTALL.ps1", "MACHINE")
+    }
+}
+
+function EnvMZTOOL {
+    #Adicionar $env:MZTOOL.
+    if (-not (Test-Path $env:MZTOOL)) {
+        
+        [Environment]::SetEnvironmentVariable("MZTOOL", "https://seulink.net/MZTBETA", "MACHINE")
     }
 }
 
