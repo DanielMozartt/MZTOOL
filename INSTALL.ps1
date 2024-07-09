@@ -44,53 +44,60 @@ Start-Process powershell -Verb runAs {
     Install-Module PSWindowsUpdate -AllowClobber -Force
     Import-Module PSWindowsUpdate -Force 
 
+        
     #WINGET
-    Start-Process powershell -Verb runAs {
-
-        Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
-           
-        #Instalação dos softwares Acrobat Reader, Microsoft Powershell 7+, Google Chrome. 
-
-        winget install --id Adobe.Acrobat.Reader.64-bit --accept-source-agreements --accept-package-agreements
-
+                  
+    #Instalação dos softwares Acrobat Reader, Microsoft Powershell 7+, Google Chrome. 
+            
+    while ($i -ne 3) {
+                
+            
         winget install --id Microsoft.Powershell --accept-source-agreements --accept-package-agreements
+           
+        winget install --id Adobe.Acrobat.Reader.64-bit --accept-source-agreements --accept-package-agreements
 
         winget install --id Google.Chrome --accept-source-agreements --accept-package-agreements
 
-        winget upgrade --all --accept-source-agreements --accept-package-agreements
-
-        Start-Sleep -Seconds 5
-
-        #Remover arquivos temporários.
-
-        Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
-
-        Remove-Item -Path $env:C:\Windows\temp\* -Recurse -Force -ErrorAction SilentlyContinue
-
-        Remove-Item -Path $env:C:\Windows\Prefetch\* -Recurse -Force -ErrorAction SilentlyContinue
-           
+        $i++
 
     }
+
+    while ($i -ne 3) {
+           
+        winget upgrade --all --accept-source-agreements --accept-package-agreements
+            
+        $i++
+
+    }
+
+    Start-Sleep -Seconds 5
+
+    #Remover arquivos temporários.
+
+    Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
+
+    Remove-Item -Path $env:C:\Windows\temp\* -Recurse -Force -ErrorAction SilentlyContinue
+
+    Remove-Item -Path $env:C:\Windows\Prefetch\* -Recurse -Force -ErrorAction SilentlyContinue
+           
 
     #WINDOWS UPDATE 
 
-    Start-Process powershell -Verb runAs {
+    #Instalação de novas atualizações do Windows através do Windows update.
+    Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
+    Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot 
 
-        #Instalação de novas atualizações do Windows através do Windows update.
-        Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
-        Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot 
+    Start-Sleep -Seconds 5
 
-        Start-Sleep -Seconds 5
+    #Remover arquivos temporários.
 
-        #Remover arquivos temporários.
+    Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
 
-        Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
+    Remove-Item -Path $env:C:\Windows\temp\* -Recurse -Force -ErrorAction SilentlyContinue
 
-        Remove-Item -Path $env:C:\Windows\temp\* -Recurse -Force -ErrorAction SilentlyContinue
-
-        Remove-Item -Path $env:C:\Windows\Prefetch\* -Recurse -Force -ErrorAction SilentlyContinue
+    Remove-Item -Path $env:C:\Windows\Prefetch\* -Recurse -Force -ErrorAction SilentlyContinue
             
-    }
+        
 }
 
 #Download do arquivo MZTOOL.zip.
