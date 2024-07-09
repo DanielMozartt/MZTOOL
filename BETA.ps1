@@ -605,6 +605,7 @@ EnvTool
 
 DisplayMenu 
 
+Exit
 
 # Run your code that needs to be elevated here
 Write-Host -NoNewLine "Press any key to continue..."
