@@ -2,8 +2,6 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
 
 $Host.UI.RawUI.BackgroundColor = "DarkBlue"
 
-$INSTALL = 'https://raw.githubusercontent.com/DanielMozartt/MZTOOL/main/INSTALL.ps1'
-
 #MENU MZTOOL -----------------------------------------------------
 
 function DisplayMenu {
@@ -48,7 +46,12 @@ function DisplayMenu {
     |                   DANIEL MOZART                    |
     |____________________________________________________|
     "
-            Start-Process "Powershell" -Verb runAs -Wait { Invoke-RestMethod $INSTALL | Invoke-Expression }
+            Start-Process "Powershell" -Verb runAs -Wait { 
+
+                $INSTALL = 'https://raw.githubusercontent.com/DanielMozartt/MZTOOL/main/INSTALL.ps1'
+                Invoke-RestMethod $INSTALL | Invoke-Expression 
+                
+            }
             Clear-Host
             Write-Host "
     ______________________________________________________
