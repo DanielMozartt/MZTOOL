@@ -188,6 +188,15 @@ function DisplayMenu {
             Exit-PSSession
         }
 
+        5 {
+            
+            Start-Process "Powershell" -Verb runAs -Wait { 
+            
+                Office2007
+            
+            }
+
+        }
         default {
             #ENTRADA INVÁLIDA.
 
@@ -392,7 +401,8 @@ function Office2007 {
         Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 0
 
         Invoke-Command -ScriptBlock { Start-Process "$TOOL\OFFICE\2007\Setup.exe" -ArgumentList "/adminfile Silent.msp" -Wait }
-   
+        
+        Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 5
     }
 }
 
