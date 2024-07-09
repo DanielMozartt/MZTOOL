@@ -92,6 +92,8 @@ function DisplayMenu {
             Office2007
             DriverBooster
             ModuleUpdate
+            WingetInstall
+            Update
             DelTemp
 
                      
@@ -576,14 +578,23 @@ function ModuleUpdate {
         
     #Módulo WINDOWS UPDATE.
     Install-Module PSWindowsUpdate -AllowClobber -Force
-    Import-Module PSWindowsUpdate -Force 
-
+    Import-Module PSWindowsUpdate -Force         
         
+    #Atualização de pacotes de softwares instalados.
+
+    #Instalação de novas atualizações do Windows através do Windows Update.
+        
+       
+              
+}
+
+function WingetInstall {
+    
     #WINGET
                   
     #Instalação dos softwares Acrobat Reader, Microsoft Powershell 7+, Google Chrome. 
            
-    while ($i -ne 5) {
+    while ($i -ne 3) {
                 
             
         Winget Install --Id Microsoft.Powershell --Accept-Source-Agreements --Accept-Package-Agreements
@@ -595,30 +606,18 @@ function ModuleUpdate {
         $i++
 
     }
-        
-    #Atualização de pacotes de softwares instalados.
-
-    #Instalação de novas atualizações do Windows através do Windows Update.
-        
-    while ($j -ne 3) {       
-
-        Update
-
-        $j++
-
-    }       
-              
 }
-
 function Update { 
     
-           
-    #Atualização de pacotes de softwares instalados.
-    Winget Upgrade --All --Accept-Source-Agreements --Accept-Package-Agreements --Include-Unknown
+    while ($i -ne 2) {   
+
+        #Atualização de pacotes de softwares instalados.
+        Winget Upgrade --All --Accept-Source-Agreements --Accept-Package-Agreements --Include-Unknown
     
-    #Instalação de novas atualizações do Windows através do Windows Update.
-    Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot
+        #Instalação de novas atualizações do Windows através do Windows Update.
+        Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot
     
+    }    
 
 }
 
