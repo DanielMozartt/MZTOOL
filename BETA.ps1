@@ -37,6 +37,7 @@ else {
 
 $Host.UI.RawUI.BackgroundColor = "DarkBlue"
 
+[Environment]::SetEnvironmentVariable("TOOL", "C:\TOOL", "Machine") 
 
 
 #MENU MZTOOL -----------------------------------------------------
@@ -557,34 +558,34 @@ function Update {
 
 function AnyDesk {
 
-    Start-Process powershell -Verb runAs -WindowStyle hidden { 
-        Invoke-WebRequest -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$home\Desktop\AnyDesk.exe" } | Out-Null
-
+    Invoke-WebRequest -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$home\Desktop\AnyDesk.exe"
+       
 }
 
 function Office2007 {
    
-    Invoke-Command -ScriptBlock { Start-Process "$env:TOOL\OFFICE\2007\Setup.exe" -ArgumentList "/adminfile Silent.msp" -Wait }
+    Start-Process "$env:TOOL\OFFICE\2007\Setup.exe" -ArgumentList "/adminfile Silent.msp"
       
 }
 
 function DriverBooster {
 
-    Expand-Archive -LiteralPath $TOOL\MZTOOL\DRIVER_BOOSTER.zip -DestinationPath $TOOL\MZTOOL\DRIVER_BOOSTER
+    Expand-Archive -LiteralPath $env:TOOL\MZTOOL\DRIVER_BOOSTER.zip -DestinationPath $env:TOOL\MZTOOL\DRIVER_BOOSTER
 
-    Start-Process $TOOL\MZTOOL\DRIVER_BOOSTER\DriverBoosterPortable.exe
+    Start-Process $env:TOOL\MZTOOL\DRIVER_BOOSTER\DriverBoosterPortable.exe
 
     Start-Sleep -Seconds 30
 
     #Finaliza o serviço do software Driver Booster e deleta a pasta temporária do mesmo.
 
-    taskkill /f /IM DriverBooster.exe /T
+    Stop-Process -Name "DriverBooster" -Force
 
     Start-Sleep -Seconds 10
 
-    Remove-Item -Path $TOOL\MZTOOL\DRIVER_BOOSTER -Recurse -Force -ErrorAction SilentlyContinue
+    Remove-Item -Path $env:TOOL\MZTOOL\DRIVER_BOOSTER -Recurse -Force -ErrorAction SilentlyContinue
 
 }
+
 
 
 function DelTemp {
