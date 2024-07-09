@@ -168,11 +168,12 @@ function DisplayMenu {
                 }
                        
             }
+            
             DisplayMenu2
         }
 
         3 {
-            function DisplayMenu2 {
+            function DisplayMenu3 {
     
                 Clear-Host
         
@@ -257,16 +258,14 @@ function DisplayMenu {
             
                         Write-Host "OPÇÃO INVÁLIDA. INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA"
                         Start-Sleep -Seconds 2
-                        DisplayMenu2
+                        DisplayMenu3
                     }
              
                 }
                        
             }
-            DisplayMenu2
-            
 
-            DisplayMenu
+            DisplayMenu3
 
         }
 
@@ -279,6 +278,8 @@ function DisplayMenu {
                 Office2007
             
             }
+
+            DisplayMenu
 
         }
 
