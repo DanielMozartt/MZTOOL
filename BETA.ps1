@@ -36,7 +36,7 @@ else {
 
 $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
 
-[Environment]::SetEnvironmentVariable('TOOL', 'C:\TOOL', 'Machine') | OUT NULL
+[Environment]::SetEnvironmentVariable('TOOL', 'C:\TOOL', 'Machine') | Out-Null
 
 
 #MENU MZTOOL -----------------------------------------------------
@@ -655,24 +655,22 @@ function Office365 {
     
     #Se o diretório $Env:TOOL\OFFICE\365 já existir, é deletado.
 
-    if ($365) {
+    if ($Env:TOOL) {
 
-        Remove-Item -Path $365-Recurse -Force -ErrorAction SilentlyContinue
+        Remove-Item -Path "$Env:TOOL"-Recurse -Force -ErrorAction SilentlyContinue
     }
 
     [System.IO.Directory]::CreateDirectory($365) | Out-Null
-    $365FOLDER = Get-Item $365 
-    $365FOLDER.Attributes = 'Hidden' 
+    $TOOLFOLDER = Get-Item $Env:TOOL 
+    $TOOLFOLDER.Attributes = 'Hidden'  
     
     $XML.save("$Env:TOOL\OFFICE\365\OFFICE365.xml") 
 
     $365XML = "$Env:TOOL\OFFICE\365\OFFICE365.xml"
 
-    Winget Install --Id Microsoft.Office --Override "/configure $365XML"
+    Winget Install --Id Microsoft.Office --Override "/configure $365XML" --Accept-Source-Agreements --Accept-Package-Agreements
  
 }
-
-
     
 function Office2007 {
    
