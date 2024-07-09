@@ -445,7 +445,7 @@ function DownloadMztool {
 
     #Criação do diretório C:\TOOL.
 
-    $TOOL = "$env:TOOL"
+    $TOOL = 'C:\TOOL'
     
     #Se o diretório C:\TOOL já existir, é deletado.
 
@@ -534,7 +534,7 @@ function EnvTool {
 
 function Diagnostics64 {
    
-    $TOOL = "$env:TOOL\MZTOOL"
+    $TOOL = 'C:\TOOL\MZTOOL'
 
     Start-Process $TOOL\AIDA_64\aida64.exe
     Start-Process $TOOL\BLUE_SCREEN_VIEW\BlueScreenView.exe
@@ -627,7 +627,7 @@ function AnyDesk {
 
 function Office365 {
 
-    $TOOL = "$env:TOOL"
+    $TOOL = 'C:\TOOL'
 
     [xml]$XML = @'
 <Configuration ID="646616bb-84c9-4354-9908-8abd74c04f4c">
@@ -673,7 +673,7 @@ function Office365 {
     
 function Office2007 {
 
-    $TOOL = "$env:TOOL"
+    $TOOL = 'C:\TOOL'
    
     Start-Process "$TOOL\OFFICE\2007\Setup.exe" -ArgumentList '/adminfile Silent.msp'
       
@@ -681,7 +681,7 @@ function Office2007 {
 
 function DriverBooster {
     
-    $TOOL = "$env:TOOL"
+    $TOOL = 'C:\TOOL'
 
     Expand-Archive -LiteralPath "$TOOL\MZTOOL\DRIVER_BOOSTER.zip" -DestinationPath "$TOOL\MZTOOL\DRIVER_BOOSTER"
 
