@@ -4,8 +4,10 @@ $Host.UI.RawUI.BackgroundColor = "DarkBlue"
 
 #Sincroniza o Horário do Sistema com o servidor Time.Windows.
 Start-Process powershell -Verb runAs -WindowStyle hidden {
+
     net start w32time | Out-Null
     w32tm /resync /force | Out-Null
+    
 }
 #Criação do diretório C:\TOOL.
 
@@ -14,7 +16,9 @@ $TOOL = "C:\TOOL"
 #Se o diretório C:\TOOL já existir, é deletado.
 
 if ($TOOL) {
+
     Remove-Item -Path $TOOL -Recurse -Force -ErrorAction SilentlyContinue
+
 }
 
 [System.IO.Directory]::CreateDirectory($TOOL) | Out-Null
