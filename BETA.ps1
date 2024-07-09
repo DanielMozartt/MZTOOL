@@ -451,11 +451,10 @@ function ReativarUAC {
 function EnvTool {
     
     #Adicionar variáveis de ambiente.
-    if (!(Test-Path -Path env:TOOL)) {
-        [Environment]::SetEnvironmentVariable("TOOL", "C:\TOOL", "Machine")
-        [Environment]::SetEnvironmentVariable("INSTALL", "https://raw.githubusercontent.com/DanielMozartt/MZTOOL/main/INSTALL.ps1", "MACHINE")
-        [Environment]::SetEnvironmentVariable("MZTOOL", "https://seulink.net/MZTBETA", "MACHINE")
-    }
+    [Environment]::SetEnvironmentVariable("TOOL", "C:\TOOL", "Machine")
+    [Environment]::SetEnvironmentVariable("INSTALL", "https://raw.githubusercontent.com/DanielMozartt/MZTOOL/main/INSTALL.ps1", "MACHINE")
+    [Environment]::SetEnvironmentVariable("MZTOOL", "https://seulink.net/MZTBETA", "MACHINE")
+   
 }
 
 
