@@ -317,8 +317,11 @@ function DisplayMenu {
        
 
         4 {
-            Clear-Host
-            Write-Host "
+
+            function DisplayMenu4 {
+            
+                Clear-Host            
+                Write-Host "
     ______________________________________________________
     |                                                    |
     |                      MZTOOL                        |
@@ -335,7 +338,7 @@ function DisplayMenu {
     |                   DANIEL MOZART                    |
     |____________________________________________________|
     "
-            function DisplayMenu4 {
+            
        
          
                 $SUBMENU4 = Read-Host "INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA"
@@ -393,6 +396,7 @@ function DisplayMenu {
              
                         DisplayMenu 
                     }
+                    
                     Default {
                         #ENTRADA INVÁLIDA.
 
