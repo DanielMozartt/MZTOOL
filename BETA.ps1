@@ -36,7 +36,7 @@ else {
 
 $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
 
-[Environment]::SetEnvironmentVariable('TOOL', 'C:\TOOL', 'Machine') 
+[Environment]::SetEnvironmentVariable('TOOL', 'C:\TOOL', 'Machine') | OUT NULL
 
 
 #MENU MZTOOL -----------------------------------------------------
@@ -121,8 +121,7 @@ function DisplayMenu {
         
             function DisplayMenu2 {
     
-                Clear-Host
-        
+                Clear-Host        
                 Write-Host '
             ______________________________________________________
             |                                                    |
@@ -221,8 +220,7 @@ function DisplayMenu {
         3 {
             function DisplayMenu3 {
     
-                Clear-Host
-        
+                Clear-Host        
                 Write-Host '
             ______________________________________________________
             |                                                    |
@@ -491,6 +489,7 @@ function DownloadMztool {
                 return "$([Math]::Round($bytes / 1GB, 2)) GB"
             }
         }
+
         Write-Progress -Activity 'Downloading File' -Status "Percent Complete: $($TotalPercent)%" -CurrentOperation "Downloaded $(convertFileSize -bytes $ReceivedData) / $(convertFileSize -bytes $TotalToReceive)" -PercentComplete $TotalPercent
     
     }
@@ -562,7 +561,8 @@ function ModuleUpdate {
 
     
     #INSTALAÇÃO DOS MÓDULOS WINGET E WINDOWS UPDATE.       
-       
+    
+    #Pacote NuGet.
     Install-PackageProvider -Name NuGet -Force 
         
     #Módulo WINGET.
@@ -582,7 +582,7 @@ function ModuleUpdate {
     #WINGET
                   
     #Instalação dos softwares Acrobat Reader, Microsoft Powershell 7+, Google Chrome. 
-            
+    Wait-Event -SourceIdentifier 'Office2007'        
     while ($i -ne 5) {
                 
             
@@ -630,9 +630,50 @@ function AnyDesk {
 
 function Office365 {
 
-    Winget Install --Id Microsoft.Office --Accept-Source-Agreements --Accept-Package-Agreements
+    [xml]$XML = @'
+<Configuration ID="646616bb-84c9-4354-9908-8abd74c04f4c">
+  <Add OfficeClientEdition="64" Channel="Current" MigrateArch="TRUE">
+    <Product ID="O365BusinessEEANoTeamsRetail">
+      <Language ID="pt-br" />
+      <Language ID="MatchPreviousMSI" />
+      <ExcludeApp ID="Groove" />
+      <ExcludeApp ID="Lync" />
+    </Product>
+  </Add>
+  <Updates Enabled="TRUE" />
+  <RemoveMSI />
+  <AppSettings>
+    <User Key="software\microsoft\office\16.0\excel\options" Name="defaultformat" Value="60" Type="REG_DWORD" App="excel16" Id="L_SaveExcelfilesas" />
+    <User Key="software\microsoft\office\16.0\powerpoint\options" Name="defaultformat" Value="52" Type="REG_DWORD" App="ppt16" Id="L_SavePowerPointfilesas" />
+    <User Key="software\microsoft\office\16.0\word\options" Name="defaultformat" Value="ODT" Type="REG_SZ" App="word16" Id="L_SaveWordfilesas" />
+    <User Key="software\microsoft\office\16.0\word\options" Name="verticalruler" Value="1" Type="REG_DWORD" App="word16" Id="L_VerticalrulerPrintviewonly" />
+  </AppSettings>
+  <Display Level="Full" AcceptEULA="TRUE" />
+</Configuration> 
+'@
+    $365 = "$Env:TOOL\OFFICE\365"
+    
+    #Se o diretório $Env:TOOL\OFFICE\365 já existir, é deletado.
+
+    if ($365) {
+
+        Remove-Item -Path $365-Recurse -Force -ErrorAction SilentlyContinue
+    }
+
+    [System.IO.Directory]::CreateDirectory($365) | Out-Null
+    $365FOLDER = Get-Item $365 
+    $365FOLDER.Attributes = 'Hidden' 
+    
+    $XML.save("$Env:TOOL\OFFICE\365\OFFICE365.xml") 
+
+    $365XML = "$Env:TOOL\OFFICE\365\OFFICE365.xml"
+
+    Winget Install --Id Microsoft.Office --Override "/configure $365XML"
+ 
 }
 
+
+    
 function Office2007 {
    
     Start-Process "$env:TOOL\OFFICE\2007\Setup.exe" -ArgumentList '/adminfile Silent.msp'
