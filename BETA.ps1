@@ -598,11 +598,13 @@ function DelTemp {
     Remove-Item -Path $env:C:\Windows\Prefetch\* -Recurse -Force -ErrorAction SilentlyContinue
 }
 
+
 DelTemp
+
+EnvTool
 
 DisplayMenu 
 
-EnvTool
 
 # Run your code that needs to be elevated here
 Write-Host -NoNewLine "Press any key to continue..."
