@@ -627,6 +627,8 @@ function AnyDesk {
 
 function Office365 {
 
+    $TOOL = "$env:TOOL"
+
     [xml]$XML = @'
 <Configuration ID="646616bb-84c9-4354-9908-8abd74c04f4c">
   <Add OfficeClientEdition="64" Channel="Current" MigrateArch="TRUE">
@@ -671,7 +673,7 @@ function Office365 {
     
 function Office2007 {
 
-    $TOOL = $env:TOOL
+    $TOOL = "$env:TOOL"
    
     Start-Process "$TOOL\OFFICE\2007\Setup.exe" -ArgumentList '/adminfile Silent.msp'
       
@@ -679,7 +681,7 @@ function Office2007 {
 
 function DriverBooster {
     
-    $TOOL = $env:TOOL
+    $TOOL = "$env:TOOL"
 
     Expand-Archive -LiteralPath "$TOOL\MZTOOL\DRIVER_BOOSTER.zip" -DestinationPath "$TOOL\MZTOOL\DRIVER_BOOSTER"
 
