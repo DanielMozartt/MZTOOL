@@ -182,8 +182,12 @@ function DisplayMenu {
                 |____________________________________________________|
                 "
                         DownloadMztool 
+
+                        DesativarUAC
                
                         Diagnostics32 
+
+                        ReativarUAC
 
                         Start-Sleep -1
 
@@ -435,116 +439,99 @@ function EnvTool {
 
 function Diagnostics64 {
     
-    Start-Process "Powershell" -Verb runAs -WindowStyle Hidden {
-
-        Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 0
-        Start-Process C:\TOOL\MZTOOL\AIDA_64\aida64.exe
-        Start-Process C:\TOOL\MZTOOL\BLUE_SCREEN_VIEW\BlueScreenView.exe
-        Start-Process C:\TOOL\MZTOOL\CORE_TEMP\Core_Temp_64.exe
-        Start-Process C:\TOOL\MZTOOL\CPU_Z\cpuz_x64.exe
-        Start-Process C:\TOOL\MZTOOL\CRYSTAL_DISK\DiskInfo64.exe
-        Start-Process C:\TOOL\MZTOOL\HDSENTINEL\HDSentinel.exe
-        Start-Process C:\TOOL\MZTOOL\HWINFO\HWiNFO64.exe
-        Start-Process C:\TOOL\MZTOOL\GPU_Z.exe
-        Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 5
-    
-    }   
+    Start-Process C:\TOOL\MZTOOL\AIDA_64\aida64.exe
+    Start-Process C:\TOOL\MZTOOL\BLUE_SCREEN_VIEW\BlueScreenView.exe
+    Start-Process C:\TOOL\MZTOOL\CORE_TEMP\Core_Temp_64.exe
+    Start-Process C:\TOOL\MZTOOL\CPU_Z\cpuz_x64.exe
+    Start-Process C:\TOOL\MZTOOL\CRYSTAL_DISK\DiskInfo64.exe
+    Start-Process C:\TOOL\MZTOOL\HDSENTINEL\HDSentinel.exe
+    Start-Process C:\TOOL\MZTOOL\HWINFO\HWiNFO64.exe
+    Start-Process C:\TOOL\MZTOOL\GPU_Z.exe
+        
 }
 
 function Diagnostics32 {
-    
-    Start-Process "Powershell" -Verb runAs -WindowStyle Hidden {
-    
-        Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 0
-        C:\TOOL\MZTOOL\AIDA_64\aida64.exe
-        C:\TOOL\MZTOOL\BLUE_SCREEN_VIEW\BlueScreenView.exe
-        C:\TOOL\MZTOOL\CORE_TEMP\Core_Temp_32.exe
-        C:\TOOL\MZTOOL\CPU_Z\cpuz_x32.exe
-        C:\TOOL\MZTOOL\CRYSTAL_DISK\DiskInfo32.exe
-        C:\TOOL\MZTOOL\HDSENTINEL\HDSentinel.exe
-        C:\TOOL\MZTOOL\HWINFO\HWiNFO32.exe
-        C:\TOOL\MZTOOL\GPU_Z.exe
-        Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 5
-    
-    }   
+              
+    Start-Process C:\TOOL\MZTOOL\AIDA_64\aida64.exe
+    Start-Process C:\TOOL\MZTOOL\BLUE_SCREEN_VIEW\BlueScreenView.exe
+    Start-Process C:\TOOL\MZTOOL\CORE_TEMP\Core_Temp_32.exe
+    Start-Process C:\TOOL\MZTOOL\CPU_Z\cpuz_x32.exe
+    Start-Process C:\TOOL\MZTOOL\CRYSTAL_DISK\DiskInfo32.exe
+    Start-Process C:\TOOL\MZTOOL\HDSENTINEL\HDSentinel.exe
+    Start-Process C:\TOOL\MZTOOL\HWINFO\HWiNFO32.exe
+    Start-Process C:\TOOL\MZTOOL\GPU_Z.exe
+        
 }
 
 
 function ModuleUpdate {
 
     
-    #INSTALAÇÃO DOS MÓDULOS WINGET E WINDOWS UPDATE.
-
-    Start-Process powershell -Verb runAs {
+    #INSTALAÇÃO DOS MÓDULOS WINGET E WINDOWS UPDATE.       
+       
+    Install-PackageProvider -Name NuGet -Force 
         
-        Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
-        Install-PackageProvider -Name NuGet -Force 
+    #Módulo WINGET.
+    Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
+    Repair-WinGetPackageManager
+    winget source remove --name winget
+    Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
+    Invoke-WebRequest -Uri "https://cdn.winget.microsoft.com/cache/source.msix" -OutFile "$env:TEMP\source.msix"
+    Add-AppPackage -path "$env:TEMP\source.msix"
+    winget source reset --force            
         
-        #Módulo WINGET.
-        Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
-        Repair-WinGetPackageManager
-        winget source remove --name winget
-        Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
-        Invoke-WebRequest -Uri "https://cdn.winget.microsoft.com/cache/source.msix" -OutFile "$env:TEMP\source.msix"
-        Add-AppPackage -path "$env:TEMP\source.msix"
-        winget source reset --force            
-        
-        #Módulo WINDOWS UPDATE.
-        Install-Module PSWindowsUpdate -AllowClobber -Force
-        Import-Module PSWindowsUpdate -Force 
+    #Módulo WINDOWS UPDATE.
+    Install-Module PSWindowsUpdate -AllowClobber -Force
+    Import-Module PSWindowsUpdate -Force 
 
         
-        #WINGET
+    #WINGET
                   
-        #Instalação dos softwares Acrobat Reader, Microsoft Powershell 7+, Google Chrome. 
+    #Instalação dos softwares Acrobat Reader, Microsoft Powershell 7+, Google Chrome. 
             
-        while ($i -ne 5) {
+    while ($i -ne 5) {
                 
             
-            winget install --id Microsoft.Powershell --accept-source-agreements --accept-package-agreements
+        winget install --id Microsoft.Powershell --accept-source-agreements --accept-package-agreements
            
-            winget install --id Adobe.Acrobat.Reader.64-bit --accept-source-agreements --accept-package-agreements
+        winget install --id Adobe.Acrobat.Reader.64-bit --accept-source-agreements --accept-package-agreements
 
-            winget install --id Google.Chrome --accept-source-agreements --accept-package-agreements
+        winget install --id Google.Chrome --accept-source-agreements --accept-package-agreements
 
-            $i++
+        $i++
 
-        }
-        
-        #Atualização de pacotes de softwares instalados.
-        
-        while ($j -ne 3) {
-           
-            #winget upgrade --all --accept-source-agreements --accept-package-agreements
-
-            Update
-
-            pause
-
-            $j++
-
-        }           
-
-        #WINDOWS UPDATE 
-
-        #Instalação de novas atualizações do Windows através do Windows Update.
-        Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot 
-              
     }
-          
+        
+    #Atualização de pacotes de softwares instalados.
+        
+    while ($j -ne 3) {
+           
+        #winget upgrade --all --accept-source-agreements --accept-package-agreements
+
+        Update
+
+        pause
+
+        $j++
+
+    }           
+
+    #WINDOWS UPDATE 
+
+    #Instalação de novas atualizações do Windows através do Windows Update.
+    Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot 
+              
 }
 
 function Update { 
     
-    Start-Process powershell -Verb runAs {
-        
-        #Atualização de pacotes de softwares instalados.
-        winget upgrade --all --accept-source-agreements --accept-package-agreements --include-unknown
+           
+    #Atualização de pacotes de softwares instalados.
+    winget upgrade --all --accept-source-agreements --accept-package-agreements --include-unknown
     
-        #Instalação de novas atualizações do Windows através do Windows Update.
-        Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot
-
-    }
+    #Instalação de novas atualizações do Windows através do Windows Update.
+    Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot
+    
 
 }
 
@@ -573,7 +560,9 @@ function DelTemp {
 }
 
 DisplayMenu  
+
 # Run your code that needs to be elevated here
 Write-Host -NoNewLine "Press any key to continue..."
 $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+
 Exit
