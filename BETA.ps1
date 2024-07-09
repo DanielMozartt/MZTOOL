@@ -83,10 +83,18 @@ function DisplayMenu {
     |                   DANIEL MOZART                    |
     |____________________________________________________|
     "            
-            $INSTALL = 'https://raw.githubusercontent.com/DanielMozartt/MZTOOL/main/INSTALL.ps1'
-            Invoke-RestMethod $INSTALL | Invoke-Expression 
+            <#$INSTALL = 'https://raw.githubusercontent.com/DanielMozartt/MZTOOL/main/INSTALL.ps1'
+            Invoke-RestMethod $INSTALL | Invoke-Expression#>
+            
+            Hora
+            AnyDesk
+            DownloadMztool
+            Office2007
+            DriverBooster
+            ModuleUpdate
+            DelTemp
 
-           
+                     
             Clear-Host
             Write-Host "
     ______________________________________________________
@@ -360,7 +368,12 @@ function DisplayMenu {
 }
 #FUNÇÕES---------------------------------------------------------------
 
+function Hora {
 
+    net start w32time | Out-Null
+    w32tm /resync /force | Out-Null
+
+}
     
 function DownloadMztool {
 
@@ -445,9 +458,8 @@ function ReativarUAC {
 function EnvTool {
     
     #Adicionar variáveis de ambiente.
-    [Environment]::SetEnvironmentVariable("TOOL", "C:\TOOL", "Machine") | OUT NULL
-    [Environment]::SetEnvironmentVariable("INSTALL", "https://raw.githubusercontent.com/DanielMozartt/MZTOOL/main/INSTALL.ps1", "MACHINE") | OUT NULL
-    [Environment]::SetEnvironmentVariable("MZTOOL", "https://seulink.net/MZTBETA", "MACHINE") | OUT NULL
+    [Environment]::SetEnvironmentVariable("TOOL", "C:\TOOL", "Machine") 
+    [Environment]::SetEnvironmentVariable("MZTOOL", "https://seulink.net/MZTBETA", "MACHINE") 
    
 }
 
@@ -543,17 +555,41 @@ function Update {
 
 }
 
+function AnyDesk {
+
+    Start-Process powershell -Verb runAs -WindowStyle hidden { 
+        Invoke-WebRequest -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$home\Desktop\AnyDesk.exe" } | Out-Null
+
+}
+
 function Office2007 {
    
     Invoke-Command -ScriptBlock { Start-Process "$env:TOOL\OFFICE\2007\Setup.exe" -ArgumentList "/adminfile Silent.msp" -Wait }
       
 }
 
+function DriverBooster {
+
+    Expand-Archive -LiteralPath $TOOL\MZTOOL\DRIVER_BOOSTER.zip -DestinationPath $TOOL\MZTOOL\DRIVER_BOOSTER
+
+    Start-Process $TOOL\MZTOOL\DRIVER_BOOSTER\DriverBoosterPortable.exe
+
+    Start-Sleep -Seconds 30
+
+    #Finaliza o serviço do software Driver Booster e deleta a pasta temporária do mesmo.
+
+    taskkill /f /IM DriverBooster.exe /T
+
+    Start-Sleep -Seconds 10
+
+    Remove-Item -Path $TOOL\MZTOOL\DRIVER_BOOSTER -Recurse -Force -ErrorAction SilentlyContinue
+
+}
+
+
 function DelTemp {
 
     #Remover arquivos temporários.
-
-    Start-Sleep 3
 
     Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
 
@@ -562,11 +598,11 @@ function DelTemp {
     Remove-Item -Path $env:C:\Windows\Prefetch\* -Recurse -Force -ErrorAction SilentlyContinue
 }
 
-EnvTool
-
 DelTemp
 
-DisplayMenu  
+DisplayMenu 
+
+EnvTool
 
 # Run your code that needs to be elevated here
 Write-Host -NoNewLine "Press any key to continue..."
