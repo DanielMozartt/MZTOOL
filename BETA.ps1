@@ -37,9 +37,7 @@ else {
 
 $Host.UI.RawUI.BackgroundColor = "DarkBlue"
 
-EnvTool
-pause
-DelTemp
+
 
 #MENU MZTOOL -----------------------------------------------------
 
@@ -571,6 +569,10 @@ function DelTemp {
     Remove-Item -Path $env:C:\Windows\Prefetch\* -Recurse -Force -ErrorAction SilentlyContinue
 }
 
+EnvTool
+pause
+DelTemp
+pause
 DisplayMenu  
 
 # Run your code that needs to be elevated here
