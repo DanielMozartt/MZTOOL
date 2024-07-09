@@ -445,7 +445,7 @@ function DownloadMztool {
 
     #Criação do diretório C:\TOOL.
 
-    $TOOL = $env:TOOL
+    $TOOL = "$env:TOOL"
     
     #Se o diretório C:\TOOL já existir, é deletado.
 
