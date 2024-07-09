@@ -83,8 +83,8 @@ function DisplayMenu {
     |                   DANIEL MOZART                    |
     |____________________________________________________|
     "            
-            
-            Invoke-RestMethod $env:INSTALL | Invoke-Expression 
+            $INSTALL = 'https://raw.githubusercontent.com/DanielMozartt/MZTOOL/main/INSTALL.ps1'
+            Invoke-RestMethod $INSTALL | Invoke-Expression 
 
            
             Clear-Host
