@@ -493,11 +493,15 @@ function ModuleUpdate {
 
 function Update { 
     
-    #Atualização de pacotes de softwares instalados.
-    winget upgrade --all --accept-source-agreements --accept-package-agreements --include-unknown
+    Start-Process powershell -Verb runAs {
+        
+        #Atualização de pacotes de softwares instalados.
+        winget upgrade --all --accept-source-agreements --accept-package-agreements --include-unknown
     
-    #Instalação de novas atualizações do Windows através do Windows update.
-    Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot
+        #Instalação de novas atualizações do Windows através do Windows update.
+        Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot
+
+    }
 
 }
 
