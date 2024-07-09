@@ -34,7 +34,6 @@ else {
 }
   
 
-
 $Host.UI.RawUI.BackgroundColor = "DarkBlue"
 
 [Environment]::SetEnvironmentVariable("TOOL", "C:\TOOL", "Machine") 
