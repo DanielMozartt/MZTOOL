@@ -113,6 +113,8 @@ function DisplayMenu {
                         Diagnostics64
 
                         Start-Sleep -Seconds 1
+
+                        DelTemp
         
                         DisplayMenu
             
@@ -140,6 +142,8 @@ function DisplayMenu {
                         Diagnostics32 
 
                         Start-Sleep -1
+
+                        DelTemp
             
                         DisplayMenu
                     }
@@ -176,7 +180,7 @@ function DisplayMenu {
             #OPÇÃO 3 - ENCERRAR SISTEMA.
 
             Write-Host "ENCERRANDO MZTOOL"
-            Start-Sleep -Seconds 3
+            Start-Sleep -Seconds 2
             Break
             Exit-PSHostProcess
             Exit-PSSession
@@ -186,7 +190,7 @@ function DisplayMenu {
             #ENTRADA INVÁLIDA.
 
             Write-Host "OPÇÃO INVÁLIDA. INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA"
-            Start-Sleep -Seconds 3
+            Start-Sleep -Seconds 2
             DisplayMenu
         }
     }
@@ -267,14 +271,14 @@ function DisplayMenu {
     function DesativarUAC {
         
         #DESATIVAR O UAC.
-        REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f        
+        Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 0        
     
     }
 
     function ReativarUAC {
     
         #REATIVAR O UAC.
-        REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
+        Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 5
    
     }
 
@@ -289,7 +293,7 @@ function DisplayMenu {
     
         Start-Process "Powershell" -Verb runAs -WindowStyle Hidden {
 
-            REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
+            Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 0
             Start-Process C:\TOOL\MZTOOL\AIDA_64\aida64.exe
             Start-Process C:\TOOL\MZTOOL\BLUE_SCREEN_VIEW\BlueScreenView.exe
             Start-Process C:\TOOL\MZTOOL\CORE_TEMP\Core_Temp_64.exe
@@ -298,7 +302,7 @@ function DisplayMenu {
             Start-Process C:\TOOL\MZTOOL\HDSENTINEL\HDSentinel.exe
             Start-Process C:\TOOL\MZTOOL\HWINFO\HWiNFO64.exe
             Start-Process C:\TOOL\MZTOOL\GPU_Z.exe
-            REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
+            Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 5
             Exit
         }   
     }
@@ -307,7 +311,7 @@ function DisplayMenu {
     
         Start-Process "Powershell" -Verb runAs -WindowStyle Hidden {
     
-            REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
+            Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 0
             
             Start-Process "Powershell" -Verb runAs -WindowStyle Hidden {
 
@@ -322,7 +326,9 @@ function DisplayMenu {
 
             }
 
-            REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
+            Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 5
+
+            DelTemp
            
             Exit
         }   
@@ -346,8 +352,7 @@ function Update {
         Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
         Invoke-WebRequest -Uri "https://cdn.winget.microsoft.com/cache/source.msix" -OutFile "$env:TEMP\source.msix"
         Add-AppPackage -path "$env:TEMP\source.msix"
-        winget source reset --force
-        winget source list       
+        winget source reset --force            
         
         #Módulo WINDOWS UPDATE.
         Install-Module PSWindowsUpdate -AllowClobber -Force
@@ -358,7 +363,7 @@ function Update {
                   
         #Instalação dos softwares Acrobat Reader, Microsoft Powershell 7+, Google Chrome. 
             
-        while ($i -ne 3) {
+        while ($i -ne 5) {
                 
             
             winget install --id Microsoft.Powershell --accept-source-agreements --accept-package-agreements
@@ -371,44 +376,37 @@ function Update {
 
         }
 
-        while ($i -ne 3) {
+        while ($j -ne 3) {
            
             winget upgrade --all --accept-source-agreements --accept-package-agreements
             
-            $i++
+            $j++
 
-        }
-
-        Start-Sleep -Seconds 5
-
-        #Remover arquivos temporários.
-
-        Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
-
-        Remove-Item -Path $env:C:\Windows\temp\* -Recurse -Force -ErrorAction SilentlyContinue
-
-        Remove-Item -Path $env:C:\Windows\Prefetch\* -Recurse -Force -ErrorAction SilentlyContinue
-           
+        }           
 
         #WINDOWS UPDATE 
 
         #Instalação de novas atualizações do Windows através do Windows update.
         Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
         Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot 
-
-        Start-Sleep -Seconds 5
-
-        #Remover arquivos temporários.
-
-        Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
-
-        Remove-Item -Path $env:C:\Windows\temp\* -Recurse -Force -ErrorAction SilentlyContinue
-
-        Remove-Item -Path $env:C:\Windows\Prefetch\* -Recurse -Force -ErrorAction SilentlyContinue
-            
-        
+              
     }
+
+    DelTemp
        
+}
+
+function DelTemp {
+
+    #Remover arquivos temporários.
+
+    Start-Sleep 3
+
+    Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
+
+    Remove-Item -Path $env:C:\Windows\temp\* -Recurse -Force -ErrorAction SilentlyContinue
+
+    Remove-Item -Path $env:C:\Windows\Prefetch\* -Recurse -Force -ErrorAction SilentlyContinue
 }
 
 DisplayMenu  
