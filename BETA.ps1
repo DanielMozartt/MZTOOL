@@ -318,9 +318,32 @@ function DisplayMenu {
        
 
         4 {
-            
             Clear-Host
             Write-Host "
+    ______________________________________________________
+    |                                                    |
+    |                      MZTOOL                        |
+    | _________________________________________________  | 
+    |                 MICROSOFT OFFICE                   |
+    |                                                    |
+    |                                                    |
+    | |1| INSTALAR OFFICE 2007                           | 
+    | |2| INSTALAR OFFICE 365                            |
+    | |3| VOLTAR                                         |
+    |                                                    |
+    |                                                    |
+    |                 MOZART INFORMÁTICA                 |
+    |                   DANIEL MOZART                    |
+    |____________________________________________________|
+    "
+            function DisplayMenu4 {
+       
+         
+                $SUBMENU4 = Read-Host "INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA"
+                switch ($SUBMENU4) {
+                    1 { 
+                        Clear-Host
+                        Write-Host "
     ______________________________________________________
     |                                                    |
     |                      MZTOOL                        |
@@ -335,23 +358,60 @@ function DisplayMenu {
     |                   DANIEL MOZART                    |
     |____________________________________________________|
     "
-            DownloadMztool
+                        DownloadMztool
               
-            Office2007
+                        Office2007
 
-            Start-Sleep -1
+                        Start-Sleep -1
 
-            DelTemp
+                        DelTemp
              
-            DisplayMenu
+                        DisplayMenu
+                    }
 
-        }
+                    2 {
+                        Clear-Host
+                        Write-Host "
+    ______________________________________________________
+    |                                                    |
+    |                      MZTOOL                        |
+    | _________________________________________________  | 
+    |               MICROSOFT OFFICE 365                 |
+    |                                                    |
+    |                                                    |
+    |                    INSTALANDO                      |
+    |                                                    |
+    |                                                    |
+    |                 MOZART INFORMÁTICA                 |
+    |                   DANIEL MOZART                    |
+    |____________________________________________________|
+    "
+                        Office365 
+
+                        Start-Sleep -1
+
+                        DelTemp
+             
+                        DisplayMenu 
+                    }
+                    Default {
+                        #ENTRADA INVÁLIDA.
+
+                        Write-Host "OPÇÃO INVÁLIDA. INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA"
+                        Start-Sleep -Seconds 1
+                        DisplayMenu4 
+                    }
+                }
+
+            }
+            DisplayMenu4
+        } 
 
         0 {
             #OPÇÃO 3 - ENCERRAR SISTEMA.
 
             Write-Host "ENCERRANDO MZTOOL"
-            Start-Sleep -Seconds 2
+            Start-Sleep -Seconds 1
             Break
             Exit-PSHostProcess
             Exit-PSSession
@@ -361,7 +421,7 @@ function DisplayMenu {
             #ENTRADA INVÁLIDA.
 
             Write-Host "OPÇÃO INVÁLIDA. INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA"
-            Start-Sleep -Seconds 2
+            Start-Sleep -Seconds 1
             DisplayMenu
         }
     }
@@ -385,6 +445,7 @@ function DownloadMztool {
     #Se o diretório C:\TOOL já existir, é deletado.
 
     if ($TOOL) {
+
         Remove-Item -Path $TOOL -Recurse -Force -ErrorAction SilentlyContinue
     }
 
@@ -502,11 +563,11 @@ function ModuleUpdate {
     #Módulo WINGET.
     Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
     Repair-WinGetPackageManager
-    winget source remove --name winget
+    Winget Source Remove --Name Winget
     Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
     Invoke-WebRequest -Uri "https://cdn.winget.microsoft.com/cache/source.msix" -OutFile "$env:TEMP\source.msix"
     Add-AppPackage -path "$env:TEMP\source.msix"
-    winget source reset --force            
+    Winget Source Reset --Force            
         
     #Módulo WINDOWS UPDATE.
     Install-Module PSWindowsUpdate -AllowClobber -Force
@@ -520,11 +581,11 @@ function ModuleUpdate {
     while ($i -ne 5) {
                 
             
-        winget install --id Microsoft.Powershell --accept-source-agreements --accept-package-agreements
+        Winget Install --Id Microsoft.Powershell --Accept-Source-Agreements --Accept-Package-Agreements
            
-        winget install --id Adobe.Acrobat.Reader.64-bit --accept-source-agreements --accept-package-agreements
+        Winget Install --Id Adobe.Acrobat.Reader.64-bit --Accept-Source-Agreements --Accept-Package-Agreements
 
-        winget install --id Google.Chrome --accept-source-agreements --accept-package-agreements
+        Winget Install --Id Google.Chrome --Accept-Source-Agreements --Accept-Package-Agreements
 
         $i++
 
@@ -548,7 +609,7 @@ function Update {
     
            
     #Atualização de pacotes de softwares instalados.
-    winget upgrade --all --accept-source-agreements --accept-package-agreements --include-unknown
+    Winget Upgrade --All --Accept-Source-Agreements --Accept-Package-Agreements --Include-Unknown
     
     #Instalação de novas atualizações do Windows através do Windows Update.
     Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot
@@ -560,6 +621,11 @@ function AnyDesk {
 
     Invoke-WebRequest -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$home\Desktop\AnyDesk.exe"
        
+}
+
+function Office365 {
+
+    Winget Install --Id Microsoft.Office --Accept-Source-Agreements --Accept-Package-Agreements
 }
 
 function Office2007 {
