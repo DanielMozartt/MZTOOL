@@ -616,6 +616,8 @@ function Update {
     
         #Instalação de novas atualizações do Windows através do Windows Update.
         Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot
+
+        $i++
     
     }    
 
@@ -628,6 +630,8 @@ function AnyDesk {
 }
 
 function Office365 {
+
+    EnvTool
 
     [xml]$XML = @'
 <Configuration ID="646616bb-84c9-4354-9908-8abd74c04f4c">
@@ -672,12 +676,16 @@ function Office365 {
 }
     
 function Office2007 {
+
+    EnvTool
    
     Start-Process "$env:TOOL\OFFICE\2007\Setup.exe" -ArgumentList '/adminfile Silent.msp'
       
 }
 
 function DriverBooster {
+    
+    EnvTool
 
     Expand-Archive -LiteralPath "$env:TOOL\MZTOOL\DRIVER_BOOSTER.zip" -DestinationPath "$env:TOOL\MZTOOL\DRIVER_BOOSTER"
 
