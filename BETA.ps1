@@ -445,7 +445,7 @@ function DownloadMztool {
 
     #Criação do diretório C:\TOOL.
 
-    $TOOL = 'C:\TOOL'
+    $TOOL = $env:TOOL
     
     #Se o diretório C:\TOOL já existir, é deletado.
 
@@ -533,15 +533,17 @@ function EnvTool {
 
 
 function Diagnostics64 {
-    
-    Start-Process C:\TOOL\MZTOOL\AIDA_64\aida64.exe
-    Start-Process C:\TOOL\MZTOOL\BLUE_SCREEN_VIEW\BlueScreenView.exe
-    Start-Process C:\TOOL\MZTOOL\CORE_TEMP\Core_Temp_64.exe
-    Start-Process C:\TOOL\MZTOOL\CPU_Z\cpuz_x64.exe
-    Start-Process C:\TOOL\MZTOOL\CRYSTAL_DISK\DiskInfo64.exe
-    Start-Process C:\TOOL\MZTOOL\HDSENTINEL\HDSentinel.exe
-    Start-Process C:\TOOL\MZTOOL\HWINFO\HWiNFO64.exe
-    Start-Process C:\TOOL\MZTOOL\GPU_Z.exe
+   
+    $TOOL = "$env:TOOL\MZTOOL"
+
+    Start-Process $TOOL\AIDA_64\aida64.exe
+    Start-Process $TOOL\BLUE_SCREEN_VIEW\BlueScreenView.exe
+    Start-Process $TOOL\CORE_TEMP\Core_Temp_64.exe
+    Start-Process $TOOL\CPU_Z\cpuz_x64.exe
+    Start-Process $TOOL\CRYSTAL_DISK\DiskInfo64.exe
+    Start-Process $TOOL\HDSENTINEL\HDSentinel.exe
+    Start-Process $TOOL\HWINFO\HWiNFO64.exe
+    Start-Process $TOOL\GPU_Z.exe
         
 }
 
@@ -669,7 +671,7 @@ function Office365 {
     
 function Office2007 {
 
-    EnvTool
+    $TOOL = $env:TOOL
    
     Start-Process "$TOOL\OFFICE\2007\Setup.exe" -ArgumentList '/adminfile Silent.msp'
       
@@ -677,6 +679,8 @@ function Office2007 {
 
 function DriverBooster {
     
+    $TOOL = $env:TOOL
+
     Expand-Archive -LiteralPath "$TOOL\MZTOOL\DRIVER_BOOSTER.zip" -DestinationPath "$TOOL\MZTOOL\DRIVER_BOOSTER"
 
     Start-Process "$TOOL\MZTOOL\DRIVER_BOOSTER\DriverBoosterPortable.exe"
