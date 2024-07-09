@@ -37,6 +37,9 @@ else {
 
 $Host.UI.RawUI.BackgroundColor = "DarkBlue"
 
+EnvTool
+DelTemp
+
 #MENU MZTOOL -----------------------------------------------------
 
 function DisplayMenu {
@@ -547,14 +550,13 @@ function Update {
 
 function Office2007 {
 
-    #tart-Process powershell -Verb runAs -WindowStyle hidden -Wait { 
+    
+    #Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 0
 
-    Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 0
-
-    Invoke-Command -ScriptBlock { Start-Process "$TOOL\OFFICE\2007\Setup.exe" -ArgumentList "/adminfile Silent.msp" -Wait }
+    Invoke-Command -ScriptBlock { Start-Process "$env:TOOL\OFFICE\2007\Setup.exe" -ArgumentList "/adminfile Silent.msp" -Wait }
         
     Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 5
-    #}
+
 }
 
 function DelTemp {
