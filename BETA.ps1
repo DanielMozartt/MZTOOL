@@ -38,7 +38,14 @@ else {
 $Host.UI.RawUI.BackgroundColor = "DarkBlue"
 
 EnvTool
+Install
 DelTemp
+function Install {
+
+    $env:INSTALL = 'https://raw.githubusercontent.com/DanielMozartt/MZTOOL/main/INSTALL.ps1'
+    
+}
+
 
 #MENU MZTOOL -----------------------------------------------------
 
@@ -83,13 +90,11 @@ function DisplayMenu {
     |                 MOZART INFORMÁTICA                 |
     |                   DANIEL MOZART                    |
     |____________________________________________________|
-    "
-            Start-Process "Powershell" -Verb runAs -Wait { 
+    "            
+            
+            Invoke-RestMethod $env:INSTALL | Invoke-Expression 
 
-                $INSTALL = 'https://raw.githubusercontent.com/DanielMozartt/MZTOOL/main/INSTALL.ps1'
-                Invoke-RestMethod $INSTALL | Invoke-Expression 
-
-            }
+           
             Clear-Host
             Write-Host "
     ______________________________________________________
@@ -317,11 +322,28 @@ function DisplayMenu {
 
         4 {
             
-                       
+            Clear-Host
+            Write-Host "
+    ______________________________________________________
+    |                                                    |
+    |                      MZTOOL                        |
+    | _________________________________________________  | 
+    |               MICROSOFT OFFICE 2007                |
+    |                                                    |
+    |                                                    |
+    |                    INSTALANDO                      |
+    |                                                    |
+    |                                                    |
+    |                 MOZART INFORMÁTICA                 |
+    |                   DANIEL MOZART                    |
+    |____________________________________________________|
+    "
+            
+              
             Office2007
 
-            pause      
-
+            DelTemp
+             
             DisplayMenu
 
         }
@@ -433,8 +455,12 @@ function ReativarUAC {
 function EnvTool {
     
     #Adicionar $env:Tool.
-    [Environment]::SetEnvironmentVariable("TOOL", "C:\TOOL", "Machine")
-    
+    if ($env:TOOL) {
+       
+    }
+    else {
+        [Environment]::SetEnvironmentVariable("TOOL", "C:\TOOL", "Machine")
+    }
 }
 
 function Diagnostics64 {
