@@ -40,6 +40,8 @@ $Host.UI.RawUI.BackgroundColor = "DarkBlue"
 EnvTool
 EnvInstall
 EnvMZTOOL
+
+pause
 DelTemp
 
 #MENU MZTOOL -----------------------------------------------------
