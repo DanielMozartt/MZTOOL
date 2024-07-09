@@ -2,6 +2,8 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
 
 $Host.UI.RawUI.BackgroundColor = "DarkBlue"
 
+$INSTALL = "https://raw.githubusercontent.com/DanielMozartt/MZTOOL/main/INSTALL.ps1"
+
 #MENU MZTOOL -----------------------------------------------------
 
 function DisplayMenu {
@@ -45,7 +47,7 @@ function DisplayMenu {
     |                   DANIEL MOZART                    |
     |____________________________________________________|
     "
-            Start-Process "Powershell" -Verb runAs -Wait { Invoke-RestMethod https://raw.githubusercontent.com/DanielMozartt/MZTOOL/main/INSTALL.ps1 | Invoke-Expression }
+            Start-Process "Powershell" -Verb runAs -Wait { Invoke-RestMethod $INSTALL | Invoke-Expression }
             Clear-Host
             Write-Host "
     ______________________________________________________
@@ -202,8 +204,6 @@ function DisplayMenu {
     
 function DownloadMztool {
 
-    Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
-    
     #Criação do diretório C:\TOOL.
 
     $TOOL = "C:\TOOL"
@@ -303,7 +303,7 @@ function Diagnostics64 {
         Start-Process C:\TOOL\MZTOOL\HWINFO\HWiNFO64.exe
         Start-Process C:\TOOL\MZTOOL\GPU_Z.exe
         Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 5
-        Exit
+    
     }   
 }
 
@@ -312,25 +312,16 @@ function Diagnostics32 {
     Start-Process "Powershell" -Verb runAs -WindowStyle Hidden {
     
         Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 0
-            
-        Start-Process "Powershell" -Verb runAs -WindowStyle Hidden {
-
-            C:\TOOL\MZTOOL\AIDA_64\aida64.exe
-            C:\TOOL\MZTOOL\BLUE_SCREEN_VIEW\BlueScreenView.exe
-            C:\TOOL\MZTOOL\CORE_TEMP\Core_Temp_32.exe
-            C:\TOOL\MZTOOL\CPU_Z\cpuz_x32.exe
-            C:\TOOL\MZTOOL\CRYSTAL_DISK\DiskInfo32.exe
-            C:\TOOL\MZTOOL\HDSENTINEL\HDSentinel.exe
-            C:\TOOL\MZTOOL\HWINFO\HWiNFO32.exe
-            C:\TOOL\MZTOOL\GPU_Z.exe
-
-        }
-
+        C:\TOOL\MZTOOL\AIDA_64\aida64.exe
+        C:\TOOL\MZTOOL\BLUE_SCREEN_VIEW\BlueScreenView.exe
+        C:\TOOL\MZTOOL\CORE_TEMP\Core_Temp_32.exe
+        C:\TOOL\MZTOOL\CPU_Z\cpuz_x32.exe
+        C:\TOOL\MZTOOL\CRYSTAL_DISK\DiskInfo32.exe
+        C:\TOOL\MZTOOL\HDSENTINEL\HDSentinel.exe
+        C:\TOOL\MZTOOL\HWINFO\HWiNFO32.exe
+        C:\TOOL\MZTOOL\GPU_Z.exe
         Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 5
-
-        DelTemp
-           
-        Exit
+    
     }   
 }
 
