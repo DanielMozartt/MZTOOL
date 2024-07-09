@@ -181,13 +181,9 @@ function DisplayMenu {
                 |____________________________________________________|
                 "
                         DownloadMztool 
-
-                        DesativarUAC
-               
+                                     
                         Diagnostics32 
-
-                        ReativarUAC
-
+                      
                         Start-Sleep -1
 
                         DelTemp
