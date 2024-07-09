@@ -445,9 +445,9 @@ function ReativarUAC {
 function EnvTool {
     
     #Adicionar variáveis de ambiente.
-    [Environment]::SetEnvironmentVariable("TOOL", "C:\TOOL", "Machine")
-    [Environment]::SetEnvironmentVariable("INSTALL", "https://raw.githubusercontent.com/DanielMozartt/MZTOOL/main/INSTALL.ps1", "MACHINE")
-    [Environment]::SetEnvironmentVariable("MZTOOL", "https://seulink.net/MZTBETA", "MACHINE")
+    [Environment]::SetEnvironmentVariable("TOOL", "C:\TOOL", "Machine") | OUT NULL
+    [Environment]::SetEnvironmentVariable("INSTALL", "https://raw.githubusercontent.com/DanielMozartt/MZTOOL/main/INSTALL.ps1", "MACHINE") | OUT NULL
+    [Environment]::SetEnvironmentVariable("MZTOOL", "https://seulink.net/MZTBETA", "MACHINE") | OUT NULL
    
 }
 
@@ -563,9 +563,9 @@ function DelTemp {
 }
 
 EnvTool
-pause
+
 DelTemp
-pause
+
 DisplayMenu  
 
 # Run your code that needs to be elevated here
