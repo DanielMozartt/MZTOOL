@@ -85,7 +85,7 @@ function DisplayMenu {
     "            
             <#$INSTALL = 'https://raw.githubusercontent.com/DanielMozartt/MZTOOL/main/INSTALL.ps1'
             Invoke-RestMethod $INSTALL | Invoke-Expression#>
-            
+            EnvTool
             Hora
             AnyDesk
             DownloadMztool
