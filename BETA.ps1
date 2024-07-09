@@ -54,7 +54,7 @@ function DisplayMenu {
     | |1| INSTALAÇÃO COMPLETA                            |
     | |2| DIAGNÓSTICO DE HARDWARE E SISTEMA              |
     | |3| INSTALAR WINGET & WINDOWS UPDATE               |
-    | |4| INSTALAR OFFICE 2007                           |
+    | |4| INSTALAR OFFICE                                |
     | |0| SAIR                                           |
     |                                                    |
     |                 MOZART INFORMÁTICA | DANIEL MOZART |
