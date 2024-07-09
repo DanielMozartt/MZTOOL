@@ -310,15 +310,10 @@ function DisplayMenu {
 
         4 {
             
-            Start-Process "Powershell" -Verb runAs -Wait { 
-            
-                Office2007
+                       
+            Office2007
 
-                pause
-            
-            }
-
-            pause
+            pause      
 
             DisplayMenu
 
