@@ -13,12 +13,13 @@ function DisplayMenu {
     |                                                    |
     |                      MZTOOL                        |
     | _________________________________________________  | 
-    |                                                    |
+    |                                                    | 
     |                                                    |
     | |1| INSTALAÇÃO COMPLETA                            |
     | |2| DIAGNÓSTICO DE HARDWARE E SISTEMA              |
     | |3| INSTALAR WINGET & WINDOWS UPDATE               |
-    | |4| SAIR                                           |
+    | |4| INSTALAR OFFICE 2007                           |
+    | |5| SAIR                                           |
     |                                                    |
     |                 MOZART INFORMÁTICA | DANIEL MOZART |
     |____________________________________________________|
@@ -37,7 +38,7 @@ function DisplayMenu {
     |                                                    |
     |                      MZTOOL                        |
     | _________________________________________________  | 
-    |                                                    |
+    |                INSTALAÇÃO COMPLETA                 |
     |                                                    |
     |                                                    |
     |                   EM INSTALAÇÃO                    |
@@ -57,7 +58,7 @@ function DisplayMenu {
     |                                                    |
     |                                                    |
     |                                                    |
-    |     INSTALAÇÃO CONCLUÍDA - ENCERRANDO MZTOOL       |
+    |      INSTALAÇÃO CONCLUÍDA - ENCERRANDO MZTOOL      |
     |                                                    |
     |                                                    |
     |                 MOZART INFORMÁTICA                 |
@@ -81,7 +82,7 @@ function DisplayMenu {
             |                                                    |
             |                      MZTOOL                        |
             | _________________________________________________  | 
-            |                                                    |
+            |            FERRAMENTAS DE DIAGNÓSTICOS             |
             |                                                    |
             | |1| ARQUITETURA X64 | 64Bits                       |
             | |2| ARQUITETURA X32 | 32Bits                       |
@@ -100,7 +101,7 @@ function DisplayMenu {
             |                                                    |
             |                      MZTOOL                        |
             | _________________________________________________  | 
-            |                                                    |
+            |            FERRAMENTAS DE DIAGNÓSTICOS             |
             |                                                    |
             |                                                    |
             |        FERRAMENTAS DE DIAGNÓSTICO INICIADAS        |
@@ -129,7 +130,7 @@ function DisplayMenu {
                 |                                                    |
                 |                      MZTOOL                        |
                 | _________________________________________________  | 
-                |                                                    |
+                |            FERRAMENTAS DE DIAGNÓSTICOS             |
                 |                                                    |
                 |                                                    |
                 |        FERRAMENTAS DE DIAGNÓSTICO INICIADAS        |
@@ -171,8 +172,99 @@ function DisplayMenu {
         }
 
         3 {
+            function DisplayMenu2 {
+    
+                Clear-Host
+        
+                Write-Host  "
+            ______________________________________________________
+            |                                                    |
+            |                      MZTOOL                        |
+            | _________________________________________________  | 
+            |             WINGET & WINDOWS UPDATE                |
+            |                                                    |
+            | |1| ISTALAR MÓDULOS WINGET E WINDOWS UPDATE        |
+            | |2| INSTALAR ATUALIZAÇÕES (MÓDULOS JÁ INSTALADOS)  |
+            | |3| VOLTAR                                         |
+            |                                                    |
+            |                                                    |
+            |                 MOZART INFORMÁTICA | DANIEL MOZART |
+            |____________________________________________________|
+            "
+                $SUBMENU3 = Read-Host "INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA"
+                Switch ($SUBMENU3) {
+                    1 {
+                        Clear-Host
+                        Write-Host "
+            ______________________________________________________
+            |                                                    |
+            |                      MZTOOL                        |
+            | _________________________________________________  | 
+            |             WINGET & WINDOWS UPDATE                |
+            |                                                    |
+            |                                                    |
+            |           INSTALAÇÃO DE MÓDULOS INICIADA           |
+            |                                                    |
+            |                                                    |
+            |                 MOZART INFORMÁTICA                 |
+            |                   DANIEL MOZART                    |
+            |____________________________________________________|
+            "
+                        ModuleUpdate
+
+                        Start-Sleep -Seconds 1
+
+                        DelTemp
+        
+                        DisplayMenu
             
-            Update
+                    }
+        
+                    2 { 
+                        Clear-Host
+                        Write-Host "
+            ______________________________________________________
+            |                                                    |
+            |                      MZTOOL                        |
+            | _________________________________________________  | 
+            |             WINGET & WINDOWS UPDATE                |
+            |                                                    |
+            |                                                    |
+            |        INSTALAÇÃO DE ATUALIZAÇÕES INICIADA         |
+            |                                                    |
+            |                                                    |
+            |                 MOZART INFORMÁTICA                 |
+            |                   DANIEL MOZART                    |
+            |____________________________________________________|
+            "
+                        Update 
+
+                        Start-Sleep -1
+
+                        DelTemp
+            
+                        DisplayMenu
+                    }
+        
+                    3 {
+
+                        DisplayMenu
+                
+                    }
+        
+                    default {
+                        #ENTRADA INVÁLIDA.
+            
+                        Write-Host "OPÇÃO INVÁLIDA. INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA"
+                        Start-Sleep -Seconds 2
+                        DisplayMenu2
+                    }
+             
+                }
+                       
+            }
+            DisplayMenu2
+            
 
             DisplayMenu
 
@@ -335,7 +427,7 @@ function Diagnostics32 {
 }
 
 
-function Update {
+function ModuleUpdate {
 
     
     #INSTALAÇÃO DOS MÓDULOS WINGET E WINDOWS UPDATE.
@@ -375,11 +467,17 @@ function Update {
             $i++
 
         }
-
+        
+        #Atualização de pacotes de softwares instalados.
+        
         while ($j -ne 3) {
            
-            winget upgrade --all --accept-source-agreements --accept-package-agreements
-            
+            #winget upgrade --all --accept-source-agreements --accept-package-agreements
+
+            Update
+
+            pause
+
             $j++
 
         }           
@@ -387,11 +485,20 @@ function Update {
         #WINDOWS UPDATE 
 
         #Instalação de novas atualizações do Windows através do Windows update.
-        Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
         Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot 
               
     }
           
+}
+
+function Update { 
+    
+    #Atualização de pacotes de softwares instalados.
+    winget upgrade --all --accept-source-agreements --accept-package-agreements --include-unknown
+    
+    #Instalação de novas atualizações do Windows através do Windows update.
+    Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot
+
 }
 
 function Office2007 {
