@@ -484,7 +484,7 @@ function ModuleUpdate {
 
         #WINDOWS UPDATE 
 
-        #Instalação de novas atualizações do Windows através do Windows update.
+        #Instalação de novas atualizações do Windows através do Windows Update.
         Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot 
               
     }
@@ -498,7 +498,7 @@ function Update {
         #Atualização de pacotes de softwares instalados.
         winget upgrade --all --accept-source-agreements --accept-package-agreements --include-unknown
     
-        #Instalação de novas atualizações do Windows através do Windows update.
+        #Instalação de novas atualizações do Windows através do Windows Update.
         Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot
 
     }
