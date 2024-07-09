@@ -150,7 +150,7 @@ Start-Process powershell -Verb runAs -WindowStyle hidden { Invoke-WebRequest -Ur
 
 #Desativar o UAC.
 
-REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
+Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 0
 
 #Deletar o arquivo MZTOOL.zip.
 
@@ -194,9 +194,13 @@ Remove-Item -Path $TOOL\MZTOOL\DRIVER_BOOSTER -Recurse -Force -ErrorAction Silen
 
 [Environment]::SetEnvironmentVariable("TOOL", "C:\TOOL", "Machine")
 
+#Informa estado de ativação do Windows.
+
+slmgr /xpr
+
 #Reativar UAC.
 
-REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
+Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 5
 
 exit
 
