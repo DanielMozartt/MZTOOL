@@ -518,23 +518,16 @@ function ModuleUpdate {
     }
         
     #Atualização de pacotes de softwares instalados.
+
+    #Instalação de novas atualizações do Windows através do Windows Update.
         
-    while ($j -ne 3) {
-           
-        #winget upgrade --all --accept-source-agreements --accept-package-agreements
+    while ($j -ne 3) {       
 
         Update
 
-        pause
-
         $j++
 
-    }           
-
-    #WINDOWS UPDATE 
-
-    #Instalação de novas atualizações do Windows através do Windows Update.
-    Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot 
+    }       
               
 }
 
