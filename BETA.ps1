@@ -2,7 +2,7 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
 
 $Host.UI.RawUI.BackgroundColor = "DarkBlue"
 
-$INSTALL = "https://raw.githubusercontent.com/DanielMozartt/MZTOOL/main/INSTALL.ps1"
+$INSTALL = 'https://raw.githubusercontent.com/DanielMozartt/MZTOOL/main/INSTALL.ps1'
 
 #MENU MZTOOL -----------------------------------------------------
 
