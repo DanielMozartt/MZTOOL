@@ -335,9 +335,11 @@ function DisplayMenu {
     |                   DANIEL MOZART                    |
     |____________________________________________________|
     "
-            
+            DownloadMztool
               
             Office2007
+
+            Start-Sleep -1
 
             DelTemp
              
@@ -571,14 +573,9 @@ function Update {
 }
 
 function Office2007 {
-
-    
-    #Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 0
-
+   
     Invoke-Command -ScriptBlock { Start-Process "$env:TOOL\OFFICE\2007\Setup.exe" -ArgumentList "/adminfile Silent.msp" -Wait }
-        
-    Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 5
-
+      
 }
 
 function DelTemp {
