@@ -582,7 +582,7 @@ function ModuleUpdate {
     #WINGET
                   
     #Instalação dos softwares Acrobat Reader, Microsoft Powershell 7+, Google Chrome. 
-    Wait-Event -SourceIdentifier 'Office2007'        
+           
     while ($i -ne 5) {
                 
             
