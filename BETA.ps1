@@ -50,7 +50,7 @@ function DisplayMenu {
 
                 $INSTALL = 'https://raw.githubusercontent.com/DanielMozartt/MZTOOL/main/INSTALL.ps1'
                 Invoke-RestMethod $INSTALL | Invoke-Expression 
-                
+
             }
             Clear-Host
             Write-Host "
@@ -278,8 +278,12 @@ function DisplayMenu {
             Start-Process "Powershell" -Verb runAs -Wait { 
             
                 Office2007
+
+                pause
             
             }
+
+            pause
 
             DisplayMenu
 
