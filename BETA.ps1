@@ -2,7 +2,7 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
 
 # Get the ID and security principal of the current user account
 $myWindowsID = [System.Security.Principal.WindowsIdentity]::GetCurrent()
-$myWindowsPrincipal = new-object System.Security.Principal.WindowsPrincipal($myWindowsID)
+$myWindowsPrincipal = New-Object System.Security.Principal.WindowsPrincipal($myWindowsID)
   
 # Get the security principal for the Administrator role
 $adminRole = [System.Security.Principal.WindowsBuiltInRole]::Administrator
@@ -10,40 +10,40 @@ $adminRole = [System.Security.Principal.WindowsBuiltInRole]::Administrator
 # Check to see if we are currently running "as Administrator"
 if ($myWindowsPrincipal.IsInRole($adminRole)) {
     # We are running "as Administrator" - so change the title and background color to indicate this
-    $Host.UI.RawUI.WindowTitle = $myInvocation.MyCommand.Definition + "(Elevated)"
-    $Host.UI.RawUI.BackgroundColor = "DarkBlue"
-    clear-host
+    $Host.UI.RawUI.WindowTitle = $myInvocation.MyCommand.Definition + '(Elevated)'
+    $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
+    Clear-Host
 }
 else {
     # We are not running "as Administrator" - so relaunch as administrator
     
     # Create a new process object that starts PowerShell
-    $newProcess = new-object System.Diagnostics.ProcessStartInfo "PowerShell";
+    $newProcess = New-Object System.Diagnostics.ProcessStartInfo 'PowerShell'
     
     # Specify the current script path and name as a parameter
-    $newProcess.Arguments = $myInvocation.MyCommand.Definition;
+    $newProcess.Arguments = $myInvocation.MyCommand.Definition
     
     # Indicate that the process should be elevated
-    $newProcess.Verb = "runas";
+    $newProcess.Verb = 'runas'
     
     # Start the new process
-    [System.Diagnostics.Process]::Start($newProcess);
+    [System.Diagnostics.Process]::Start($newProcess)
     
     # Exit from the current, unelevated, process
     exit
 }
   
 
-$Host.UI.RawUI.BackgroundColor = "DarkBlue"
+$Host.UI.RawUI.BackgroundColor = 'DarkBlue'
 
-[Environment]::SetEnvironmentVariable("TOOL", "C:\TOOL", "Machine") 
+[Environment]::SetEnvironmentVariable('TOOL', 'C:\TOOL', 'Machine') 
 
 
 #MENU MZTOOL -----------------------------------------------------
 
 function DisplayMenu {
     Clear-Host
-    Write-Host "
+    Write-Host '
     ______________________________________________________
     |                                                    |
     |                      MZTOOL                        |
@@ -58,16 +58,16 @@ function DisplayMenu {
     |                                                    |
     |                 MOZART INFORMÁTICA | DANIEL MOZART |
     |____________________________________________________|
-    "
+    '
     
-    $MENU = Read-Host "INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA"
+    $MENU = Read-Host 'INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA'
     Switch ($MENU) {
 
         1 {
             #OPÇÃO 1 - INSTALAR SOFTWARES E ATUALIZAÇÕES DO SISTEMA.
 
             Clear-Host
-            Write-Host "
+            Write-Host '
     
     ______________________________________________________
     |                                                    |
@@ -82,7 +82,7 @@ function DisplayMenu {
     |                 MOZART INFORMÁTICA                 |
     |                   DANIEL MOZART                    |
     |____________________________________________________|
-    "            
+    '            
             <#$INSTALL = 'https://raw.githubusercontent.com/DanielMozartt/MZTOOL/main/INSTALL.ps1'
             Invoke-RestMethod $INSTALL | Invoke-Expression#>
             EnvTool
@@ -96,7 +96,7 @@ function DisplayMenu {
 
                      
             Clear-Host
-            Write-Host "
+            Write-Host '
     ______________________________________________________
     |                                                    |
     |                      MZTOOL                        |
@@ -110,7 +110,7 @@ function DisplayMenu {
     |                 MOZART INFORMÁTICA                 |
     |                   DANIEL MOZART                    |
     |____________________________________________________|
-    "
+    '
             Start-Sleep -Seconds 5
             Exit
         }
@@ -123,7 +123,7 @@ function DisplayMenu {
     
                 Clear-Host
         
-                Write-Host  "
+                Write-Host '
             ______________________________________________________
             |                                                    |
             |                      MZTOOL                        |
@@ -137,12 +137,12 @@ function DisplayMenu {
             |                                                    |
             |                 MOZART INFORMÁTICA | DANIEL MOZART |
             |____________________________________________________|
-            "
-                $SUBMENU2 = Read-Host "INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA"
+            '
+                $SUBMENU2 = Read-Host 'INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA'
                 Switch ($SUBMENU2) {
                     1 {
                         Clear-Host
-                        Write-Host "
+                        Write-Host '
             ______________________________________________________
             |                                                    |
             |                      MZTOOL                        |
@@ -156,7 +156,7 @@ function DisplayMenu {
             |                 MOZART INFORMÁTICA                 |
             |                   DANIEL MOZART                    |
             |____________________________________________________|
-            "
+            '
                         DownloadMztool
            
                         Diagnostics64
@@ -171,7 +171,7 @@ function DisplayMenu {
         
                     2 { 
                         Clear-Host
-                        Write-Host "
+                        Write-Host '
                 ______________________________________________________
                 |                                                    |
                 |                      MZTOOL                        |
@@ -185,7 +185,7 @@ function DisplayMenu {
                 |                 MOZART INFORMÁTICA                 |
                 |                   DANIEL MOZART                    |
                 |____________________________________________________|
-                "
+                '
                         DownloadMztool 
                                      
                         Diagnostics32 
@@ -206,7 +206,7 @@ function DisplayMenu {
                     default {
                         #ENTRADA INVÁLIDA.
             
-                        Write-Host "OPÇÃO INVÁLIDA. INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA"
+                        Write-Host 'OPÇÃO INVÁLIDA. INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA'
                         Start-Sleep -Seconds 2
                         DisplayMenu2
                     }
@@ -223,7 +223,7 @@ function DisplayMenu {
     
                 Clear-Host
         
-                Write-Host  "
+                Write-Host '
             ______________________________________________________
             |                                                    |
             |                      MZTOOL                        |
@@ -237,12 +237,12 @@ function DisplayMenu {
             |                                                    |
             |                 MOZART INFORMÁTICA | DANIEL MOZART |
             |____________________________________________________|
-            "
-                $SUBMENU3 = Read-Host "INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA"
+            '
+                $SUBMENU3 = Read-Host 'INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA'
                 Switch ($SUBMENU3) {
                     1 {
                         Clear-Host
-                        Write-Host "
+                        Write-Host '
             ______________________________________________________
             |                                                    |
             |                      MZTOOL                        |
@@ -256,7 +256,7 @@ function DisplayMenu {
             |                 MOZART INFORMÁTICA                 |
             |                   DANIEL MOZART                    |
             |____________________________________________________|
-            "
+            '
                         ModuleUpdate
 
                         Start-Sleep -Seconds 1
@@ -269,7 +269,7 @@ function DisplayMenu {
         
                     2 { 
                         Clear-Host
-                        Write-Host "
+                        Write-Host '
             ______________________________________________________
             |                                                    |
             |                      MZTOOL                        |
@@ -283,7 +283,7 @@ function DisplayMenu {
             |                 MOZART INFORMÁTICA                 |
             |                   DANIEL MOZART                    |
             |____________________________________________________|
-            "
+            '
                         Update 
 
                         Start-Sleep -1
@@ -302,7 +302,7 @@ function DisplayMenu {
                     default {
                         #ENTRADA INVÁLIDA.
             
-                        Write-Host "OPÇÃO INVÁLIDA. INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA"
+                        Write-Host 'OPÇÃO INVÁLIDA. INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA'
                         Start-Sleep -Seconds 2
                         DisplayMenu3
                     }
@@ -321,7 +321,7 @@ function DisplayMenu {
             function DisplayMenu4 {
             
                 Clear-Host            
-                Write-Host "
+                Write-Host '
     ______________________________________________________
     |                                                    |
     |                      MZTOOL                        |
@@ -337,15 +337,15 @@ function DisplayMenu {
     |                 MOZART INFORMÁTICA                 |
     |                   DANIEL MOZART                    |
     |____________________________________________________|
-    "
+    '
             
        
          
-                $SUBMENU4 = Read-Host "INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA"
+                $SUBMENU4 = Read-Host 'INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA'
                 switch ($SUBMENU4) {
                     1 { 
                         Clear-Host
-                        Write-Host "
+                        Write-Host '
     ______________________________________________________
     |                                                    |
     |                      MZTOOL                        |
@@ -359,7 +359,7 @@ function DisplayMenu {
     |                 MOZART INFORMÁTICA                 |
     |                   DANIEL MOZART                    |
     |____________________________________________________|
-    "
+    '
                         DownloadMztool
               
                         Office2007
@@ -373,7 +373,7 @@ function DisplayMenu {
 
                     2 {
                         Clear-Host
-                        Write-Host "
+                        Write-Host '
     ______________________________________________________
     |                                                    |
     |                      MZTOOL                        |
@@ -387,7 +387,9 @@ function DisplayMenu {
     |                 MOZART INFORMÁTICA                 |
     |                   DANIEL MOZART                    |
     |____________________________________________________|
-    "
+    '    
+                        ModuleUpdate
+
                         Office365 
 
                         Start-Sleep -1
@@ -396,11 +398,11 @@ function DisplayMenu {
              
                         DisplayMenu 
                     }
-                    
+
                     Default {
                         #ENTRADA INVÁLIDA.
 
-                        Write-Host "OPÇÃO INVÁLIDA. INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA"
+                        Write-Host 'OPÇÃO INVÁLIDA. INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA'
                         Start-Sleep -Seconds 1
                         DisplayMenu4 
                     }
@@ -413,7 +415,7 @@ function DisplayMenu {
         0 {
             #OPÇÃO 3 - ENCERRAR SISTEMA.
 
-            Write-Host "ENCERRANDO MZTOOL"
+            Write-Host 'ENCERRANDO MZTOOL'
             Start-Sleep -Seconds 1
             Break
             Exit-PSHostProcess
@@ -423,7 +425,7 @@ function DisplayMenu {
         default {
             #ENTRADA INVÁLIDA.
 
-            Write-Host "OPÇÃO INVÁLIDA. INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA"
+            Write-Host 'OPÇÃO INVÁLIDA. INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA'
             Start-Sleep -Seconds 1
             DisplayMenu
         }
@@ -443,7 +445,7 @@ function DownloadMztool {
 
     #Criação do diretório C:\TOOL.
 
-    $TOOL = "C:\TOOL"
+    $TOOL = 'C:\TOOL'
     
     #Se o diretório C:\TOOL já existir, é deletado.
 
@@ -454,23 +456,23 @@ function DownloadMztool {
 
     [System.IO.Directory]::CreateDirectory($TOOL) | Out-Null
     $TOOLFOLDER = Get-Item $TOOL 
-    $TOOLFOLDER.Attributes = "Hidden" 
+    $TOOLFOLDER.Attributes = 'Hidden' 
     
     #Download do arquivo MZTOOL.zip
 
     $webClient = New-Object -TypeName System.Net.WebClient
-    $task = $webClient.DownloadFileTaskAsync("https://seulink.net/TOOLZIP", "$TOOL\MZTOOL.zip")
+    $task = $webClient.DownloadFileTaskAsync('https://seulink.net/TOOLZIP', "$TOOL\MZTOOL.zip")
     
     Register-ObjectEvent -InputObject $webClient -EventName DownloadProgressChanged -SourceIdentifier WebClient.DownloadProgressChanged | Out-Null
     
     Start-Sleep -Seconds 3
     
     while (!($task.IsCompleted)) {
-        $EventData = Get-Event -SourceIdentifier WebClient.DownloadProgressChanged | Select-Object -ExpandProperty "SourceEventArgs" -Last 1
+        $EventData = Get-Event -SourceIdentifier WebClient.DownloadProgressChanged | Select-Object -ExpandProperty 'SourceEventArgs' -Last 1
     
-        $ReceivedData = ($EventData | Select-Object -ExpandProperty "BytesReceived")
-        $TotalToReceive = ($EventData | Select-Object -ExpandProperty "TotalBytesToReceive")
-        $TotalPercent = $EventData | Select-Object -ExpandProperty "ProgressPercentage"
+        $ReceivedData = ($EventData | Select-Object -ExpandProperty 'BytesReceived')
+        $TotalToReceive = ($EventData | Select-Object -ExpandProperty 'TotalBytesToReceive')
+        $TotalPercent = $EventData | Select-Object -ExpandProperty 'ProgressPercentage'
     
         Start-Sleep -Seconds 2
     
@@ -489,7 +491,7 @@ function DownloadMztool {
                 return "$([Math]::Round($bytes / 1GB, 2)) GB"
             }
         }
-        Write-Progress -Activity "Downloading File" -Status "Percent Complete: $($TotalPercent)%" -CurrentOperation "Downloaded $(convertFileSize -bytes $ReceivedData) / $(convertFileSize -bytes $TotalToReceive)" -PercentComplete $TotalPercent
+        Write-Progress -Activity 'Downloading File' -Status "Percent Complete: $($TotalPercent)%" -CurrentOperation "Downloaded $(convertFileSize -bytes $ReceivedData) / $(convertFileSize -bytes $TotalToReceive)" -PercentComplete $TotalPercent
     
     }
     
@@ -523,8 +525,8 @@ function ReativarUAC {
 function EnvTool {
     
     #Adicionar variáveis de ambiente.
-    [Environment]::SetEnvironmentVariable("TOOL", "C:\TOOL", "Machine") 
-    [Environment]::SetEnvironmentVariable("MZTOOL", "https://seulink.net/MZTBETA", "MACHINE") 
+    [Environment]::SetEnvironmentVariable('TOOL', 'C:\TOOL', 'Machine') 
+    [Environment]::SetEnvironmentVariable('MZTOOL', 'https://seulink.net/MZTBETA', 'MACHINE') 
    
 }
 
@@ -568,8 +570,8 @@ function ModuleUpdate {
     Repair-WinGetPackageManager
     Winget Source Remove --Name Winget
     Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
-    Invoke-WebRequest -Uri "https://cdn.winget.microsoft.com/cache/source.msix" -OutFile "$env:TEMP\source.msix"
-    Add-AppPackage -path "$env:TEMP\source.msix"
+    Invoke-WebRequest -Uri 'https://cdn.winget.microsoft.com/cache/source.msix' -OutFile "$env:TEMP\source.msix"
+    Add-AppPackage -Path "$env:TEMP\source.msix"
     Winget Source Reset --Force            
         
     #Módulo WINDOWS UPDATE.
@@ -622,7 +624,7 @@ function Update {
 
 function AnyDesk {
 
-    Invoke-WebRequest -Uri "https://download.anydesk.com/AnyDesk-CM.exe" -OutFile "$home\Desktop\AnyDesk.exe"
+    Invoke-WebRequest -Uri 'https://download.anydesk.com/AnyDesk-CM.exe' -OutFile "$home\Desktop\AnyDesk.exe"
        
 }
 
@@ -633,25 +635,25 @@ function Office365 {
 
 function Office2007 {
    
-    Start-Process "$env:TOOL\OFFICE\2007\Setup.exe" -ArgumentList "/adminfile Silent.msp"
+    Start-Process "$env:TOOL\OFFICE\2007\Setup.exe" -ArgumentList '/adminfile Silent.msp'
       
 }
 
 function DriverBooster {
 
-    Expand-Archive -LiteralPath $env:TOOL\MZTOOL\DRIVER_BOOSTER.zip -DestinationPath $env:TOOL\MZTOOL\DRIVER_BOOSTER
+    Expand-Archive -LiteralPath "$env:TOOL\MZTOOL\DRIVER_BOOSTER.zip" -DestinationPath "$env:TOOL\MZTOOL\DRIVER_BOOSTER"
 
-    Start-Process $env:TOOL\MZTOOL\DRIVER_BOOSTER\DriverBoosterPortable.exe
+    Start-Process "$env:TOOL\MZTOOL\DRIVER_BOOSTER\DriverBoosterPortable.exe"
 
     Start-Sleep -Seconds 30
 
     #Finaliza o serviço do software Driver Booster e deleta a pasta temporária do mesmo.
 
-    Stop-Process -Name "DriverBooster" -Force
+    Stop-Process -Name 'DriverBooster' -Force
 
     Start-Sleep -Seconds 10
 
-    Remove-Item -Path $env:TOOL\MZTOOL\DRIVER_BOOSTER -Recurse -Force -ErrorAction SilentlyContinue
+    Remove-Item -Path "$env:TOOL\MZTOOL\DRIVER_BOOSTER" -Recurse -Force -ErrorAction SilentlyContinue
 
 }
 
@@ -678,7 +680,7 @@ DisplayMenu
 Exit
 
 # Run your code that needs to be elevated here
-Write-Host -NoNewLine "Press any key to continue..."
-$null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+Write-Host -NoNewline 'Press any key to continue...'
+$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
 
 Exit
