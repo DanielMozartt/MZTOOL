@@ -10,7 +10,7 @@ $adminRole = [System.Security.Principal.WindowsBuiltInRole]::Administrator
 # Check to see if we are currently running "as Administrator"
 if ($myWindowsPrincipal.IsInRole($adminRole)) {
     # We are running "as Administrator" - so change the title and background color to indicate this
-    $Host.UI.RawUI.WindowTitle = $myInvocation.MyCommand.Definition + '(Elevated)'
+    $Host.UI.RawUI.WindowTitle = 'MZTOOL ⭡'
     $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
     Clear-Host
 }
