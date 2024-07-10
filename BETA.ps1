@@ -90,8 +90,9 @@ function DisplayMenu {
             DriverBooster
             ModuleUpdate
             WingetInstall
-            Update
+            WinUpdate
             DelTemp
+            EnvTool
 
                      
             Clear-Host
@@ -281,7 +282,9 @@ function DisplayMenu {
             |                   DANIEL MOZART                    |
             |____________________________________________________|
             '
-                        Update 
+                        WingetUpdate
+
+                        WinUpdate 
 
                         Start-Sleep -1
 
@@ -509,25 +512,11 @@ function DownloadMztool {
      
 }
 
-function DesativarUAC {
-        
-    #DESATIVAR O UAC.
-    Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 0        
-    
-}
-
-function ReativarUAC {
-    
-    #REATIVAR O UAC.
-    Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 5
-   
-}
-
 function EnvTool {
     
     #Adicionar variáveis de ambiente.
-    [Environment]::SetEnvironmentVariable('TOOL', 'C:\TOOL', 'Machine') 
-    [Environment]::SetEnvironmentVariable('MZTOOL', 'https://seulink.net/MZTBETA', 'MACHINE') 
+    [Environment]::SetEnvironmentVariable('TOOL', 'C:\TOOL', 'Machine') | Out-Null
+    [Environment]::SetEnvironmentVariable('MZTOOL', 'https://seulink.net/MZTBETA', 'MACHINE') | Out-Null
    
 }
 
@@ -544,19 +533,25 @@ function Diagnostics64 {
     Start-Process $TOOL\HDSENTINEL\HDSentinel.exe
     Start-Process $TOOL\HWINFO\HWiNFO64.exe
     Start-Process $TOOL\GPU_Z.exe
+
+    Clear-Host
         
 }
 
 function Diagnostics32 {
+
+    $TOOL = 'C:\TOOL\MZTOOL'
               
-    Start-Process C:\TOOL\MZTOOL\AIDA_64\aida64.exe
-    Start-Process C:\TOOL\MZTOOL\BLUE_SCREEN_VIEW\BlueScreenView.exe
-    Start-Process C:\TOOL\MZTOOL\CORE_TEMP\Core_Temp_32.exe
-    Start-Process C:\TOOL\MZTOOL\CPU_Z\cpuz_x32.exe
-    Start-Process C:\TOOL\MZTOOL\CRYSTAL_DISK\DiskInfo32.exe
-    Start-Process C:\TOOL\MZTOOL\HDSENTINEL\HDSentinel.exe
-    Start-Process C:\TOOL\MZTOOL\HWINFO\HWiNFO32.exe
-    Start-Process C:\TOOL\MZTOOL\GPU_Z.exe
+    Start-Process $TOOL\AIDA_64\aida64.exe
+    Start-Process $TOOL\BLUE_SCREEN_VIEW\BlueScreenView.exe
+    Start-Process $TOOL\CORE_TEMP\Core_Temp_32.exe
+    Start-Process $TOOL\CPU_Z\cpuz_x32.exe
+    Start-Process $TOOL\CRYSTAL_DISK\DiskInfo32.exe
+    Start-Process $TOOL\HDSENTINEL\HDSentinel.exe
+    Start-Process $TOOL\HWINFO\HWiNFO32.exe
+    Start-Process $TOOL\GPU_Z.exe
+
+    Clear-Host
         
 }
 
@@ -586,6 +581,8 @@ function ModuleUpdate {
     #Módulo WINDOWS UPDATE.
     Install-Module PSWindowsUpdate -AllowClobber -Force
     Import-Module PSWindowsUpdate -Force         
+
+    Clear-Host
                
 }
 
@@ -594,27 +591,31 @@ function WingetInstall {
     #WINGET
                   
     #Instalação dos softwares Acrobat Reader, Microsoft Powershell 7+, Google Chrome. 
-           
-    while ($i -ne 3) {
-                
-            
-        Winget Install --Id Microsoft.Powershell --Accept-Source-Agreements --Accept-Package-Agreements
-           
-        Winget Install --Id Adobe.Acrobat.Reader.64-bit --Accept-Source-Agreements --Accept-Package-Agreements
+    
+    Winget Install --Id Microsoft.Powershell --Accept-Source-Agreements --Accept-Package-Agreements
+    
+    Winget Install --Id Google.Chrome --Accept-Source-Agreements --Accept-Package-Agreements
+    
+    Winget Install --Id Adobe.Acrobat.Reader.64-bit --Accept-Source-Agreements --Accept-Package-Agreements
 
-        Winget Install --Id Google.Chrome --Accept-Source-Agreements --Accept-Package-Agreements
-
-        $i++
-
-    }
+    Clear-Host
+      
 }
-function Update { 
+function WingetUpdate { 
     
     #Atualização de pacotes de softwares instalados.
     Winget Upgrade --All --Accept-Source-Agreements --Accept-Package-Agreements --Include-Unknown
+
+    Clear-Host
+         
+}
+
+function WinUpdate { 
     
     #Instalação de novas atualizações do Windows através do Windows Update.
     Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot
+
+    Clear-Host
       
 }
 
@@ -670,6 +671,7 @@ function Office365 {
     Winget Install --Id 9WZDNCRD29V9 --Source msstore --Accept-Source-Agreements --Accept-Package-Agreements
     Winget Install --Id 9WZDNCRD29V9 --Accept-Source-Agreements --Accept-Package-Agreements
 
+
  
 }
     
@@ -679,13 +681,11 @@ function Office2007 {
    
     Start-Process "$TOOL\OFFICE\2007\Setup.exe" -ArgumentList '/adminfile Silent.msp' -Wait
 
-    <# Add-WindowsCapability –Online -Name NetFx3~~~~ –Source D:\sources\sxs
+    Add-WindowsCapability –Online -Name NetFx3~~~~ –Source D:\sources\sxs
 
-    Enable-WindowsOptionalFeature -Online -FeatureName 'NetFx3'
+    Start-Process 'winword.exe'
 
-    DISM /Online /Enable-Feature /FeatureName:NetFx3 /All 
-
-    Start-Process 'winword.exe'#>
+    Clear-Host
       
 }
 
@@ -707,6 +707,8 @@ function DriverBooster {
 
     Remove-Item -Path "$TOOL\MZTOOL\DRIVER_BOOSTER" -Recurse -Force -ErrorAction SilentlyContinue
 
+    Clear-Host
+
 }
 
 
@@ -720,6 +722,8 @@ function DelTemp {
     Remove-Item -Path $env:C:\Windows\temp\* -Recurse -Force -ErrorAction SilentlyContinue
 
     Remove-Item -Path $env:C:\Windows\Prefetch\* -Recurse -Force -ErrorAction SilentlyContinue
+
+    Clear-Host
 }
 
 function awin {
