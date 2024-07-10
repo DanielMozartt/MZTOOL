@@ -684,8 +684,11 @@ function Office2007 {
     Add-WindowsCapability –Online -Name NetFx3~~~~ –Source D:\sources\sxs
 
     Start-Process 'winword.exe'
+<<<<<<< HEAD
 
     Clear-Host
+=======
+>>>>>>> 001e30b83827132fc7c3443ea961a07bdab1e79f
       
 }
 
