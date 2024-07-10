@@ -713,11 +713,6 @@ function DelTemp {
     Remove-Item -Path $env:C:\Windows\Prefetch\* -Recurse -Force -ErrorAction SilentlyContinue
 }
 
-
-DelTemp
-
-EnvTool
-
 DisplayMenu 
 
 Exit
