@@ -571,6 +571,7 @@ function ModuleUpdate {
     Repair-WinGetPackageManager
     Winget Source Remove --Name winget
     Winget Source Remove --Name msstore
+    Winget Source Reset --Force   
     Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
     Invoke-WebRequest -Uri 'https://cdn.winget.microsoft.com/cache/source.msix' -OutFile "$env:TEMP\source.msix"
     Add-AppPackage -Path "$env:TEMP\source.msix"
