@@ -409,7 +409,7 @@ function DisplayMenu {
             DisplayMenu4
         } 
 
-        9 {
+        0 {
             #OPÇÃO 3 - ENCERRAR SISTEMA.
 
             Write-Host 'ENCERRANDO MZTOOL'
@@ -419,7 +419,7 @@ function DisplayMenu {
             Exit-PSSession
         }
 
-        0 {
+        . {
 
             awin
 
