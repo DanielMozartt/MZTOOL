@@ -664,7 +664,7 @@ function Office365 {
 
     $365XML = "$TOOL\OFFICE\365\OFFICE365.xml"
 
-    Winget Install --Id Microsoft.Office --Override "/configure $365XML" --Accept-Source-Agreements --Accept-Package-Agreements
+    Winget Install --Id 9WZDNCRD29V9 --Override "/configure $365XML" --Accept-Source-Agreements --Accept-Package-Agreements
  
 }
     
@@ -673,6 +673,8 @@ function Office2007 {
     $TOOL = 'C:\TOOL'
    
     Start-Process "$TOOL\OFFICE\2007\Setup.exe" -ArgumentList '/adminfile Silent.msp'
+
+    Start-Process 'winword'
       
 }
 
