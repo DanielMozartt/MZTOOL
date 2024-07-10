@@ -571,22 +571,18 @@ function ModuleUpdate {
     Repair-WinGetPackageManager
     Winget Source Remove --Name winget
     Winget Source Remove --Name msstore
-    Winget Source Reset --Force   
     Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
     Invoke-WebRequest -Uri 'https://cdn.winget.microsoft.com/cache/source.msix' -OutFile "$env:TEMP\source.msix"
     Add-AppPackage -Path "$env:TEMP\source.msix"
-    Winget Source Reset --Force            
+    #Get-AppxPackage *appInstaller* | Reset-AppxPackage
+    Start-Sleep 3
+    Winget Source Reset --Force  
+    Winget Upgrade --All --Accept-Source-Agreements --Accept-Package-Agreements         
         
     #Módulo WINDOWS UPDATE.
     Install-Module PSWindowsUpdate -AllowClobber -Force
     Import-Module PSWindowsUpdate -Force         
-        
-    #Atualização de pacotes de softwares instalados.
-
-    #Instalação de novas atualizações do Windows através do Windows Update.
-        
-       
-              
+               
 }
 
 function WingetInstall {
