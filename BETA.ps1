@@ -574,11 +574,12 @@ function ModuleUpdate {
     Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
     Invoke-WebRequest -Uri 'https://cdn.winget.microsoft.com/cache/source.msix' -OutFile "$env:TEMP\source.msix"
     Add-AppPackage -Path "$env:TEMP\source.msix"
-    #Get-AppxPackage *appInstaller* | Reset-AppxPackage
     Start-Sleep 3
     Winget Source Reset --Force  
-    Winget Upgrade --All --Accept-Source-Agreements --Accept-Package-Agreements         
-        
+    Winget Upgrade --All --Accept-Source-Agreements --Accept-Package-Agreements
+    Get-AppxPackage *appInstaller* | Reset-AppxPackage 
+    Start-Sleep 3
+
     #Módulo WINDOWS UPDATE.
     Install-Module PSWindowsUpdate -AllowClobber -Force
     Import-Module PSWindowsUpdate -Force         
@@ -660,10 +661,12 @@ function Office365 {
     
     $XML.save("$TOOL\OFFICE\365\OFFICE365.xml") 
 
-    $365XML = "$TOOL\OFFICE\365\OFFICE365.xml"
+    #$365XML = "$TOOL\OFFICE\365\OFFICE365.xml"
 
-    #Winget Install --Id 9WZDNCRD29V9 --Override "/configure $365XML" --Accept-Source-Agreements --Accept-Package-Agreements
+    #Winget Install --Id Microsoft.Office --Override "/configure $365XML" --Accept-Source-Agreements --Accept-Package-Agreements
     Winget Install --Id 9WZDNCRD29V9 --Source msstore --Accept-Source-Agreements --Accept-Package-Agreements
+    Winget Install --Id 9WZDNCRD29V9 --Accept-Source-Agreements --Accept-Package-Agreements
+
  
 }
     
