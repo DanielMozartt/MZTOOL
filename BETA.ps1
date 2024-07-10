@@ -413,6 +413,7 @@ function DisplayMenu {
             #OPÇÃO 3 - ENCERRAR SISTEMA.
 
             Write-Host 'ENCERRANDO MZTOOL'
+            DelTemp
             Start-Sleep -Seconds 1
             Break
             Exit-PSHostProcess
@@ -677,10 +678,6 @@ function Office2007 {
     $TOOL = 'C:\TOOL'
    
     Start-Process "$TOOL\OFFICE\2007\Setup.exe" -ArgumentList '/adminfile Silent.msp'
-
-    Add-WindowsCapability –Online -Name NetFx3~~~~ –Source D:\sources\sxs
-
-    Enable-WindowsOptionalFeature -Online -FeatureName 'NetFx3'
 
     Start-Process 'winword.exe'
       
