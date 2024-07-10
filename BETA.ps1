@@ -679,6 +679,12 @@ function Office2007 {
    
     Start-Process "$TOOL\OFFICE\2007\Setup.exe" -ArgumentList '/adminfile Silent.msp' -Wait
 
+    Add-WindowsCapability –Online -Name NetFx3~~~~ –Source D:\sources\sxs
+
+    Enable-WindowsOptionalFeature -Online -FeatureName 'NetFx3'
+
+    DISM /Online /Enable-Feature /FeatureName:NetFx3 /All 
+
     Start-Process 'winword.exe'
       
 }
