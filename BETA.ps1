@@ -569,7 +569,8 @@ function ModuleUpdate {
     #Módulo WINGET.
     Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
     Repair-WinGetPackageManager
-    Winget Source Remove --Name Winget
+    Winget Source Remove --Name winget
+    Winget Source Remove --Name msstore
     Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
     Invoke-WebRequest -Uri 'https://cdn.winget.microsoft.com/cache/source.msix' -OutFile "$env:TEMP\source.msix"
     Add-AppPackage -Path "$env:TEMP\source.msix"
@@ -665,7 +666,7 @@ function Office365 {
     $365XML = "$TOOL\OFFICE\365\OFFICE365.xml"
 
     #Winget Install --Id 9WZDNCRD29V9 --Override "/configure $365XML" --Accept-Source-Agreements --Accept-Package-Agreements
-    Winget Install --Id 9WZDNCRD29V9 --Accept-Source-Agreements --Accept-Package-Agreements
+    Winget Install --Id 9WZDNCRD29V9 --Source msstore --Accept-Source-Agreements --Accept-Package-Agreements
  
 }
     
