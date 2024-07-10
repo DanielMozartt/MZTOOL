@@ -677,7 +677,7 @@ function Office2007 {
 
     $TOOL = 'C:\TOOL'
    
-    Start-Process "$TOOL\OFFICE\2007\Setup.exe" -ArgumentList '/adminfile Silent.msp'
+    Start-Process "$TOOL\OFFICE\2007\Setup.exe" -ArgumentList '/adminfile Silent.msp' -Wait
 
     Start-Process 'winword.exe'
       
