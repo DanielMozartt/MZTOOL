@@ -72,20 +72,17 @@ function DisplayMenu {
     ______________________________________________________
     |                                                    |
     |                      MZTOOL                        |
-    | _________________________________________________  | 
-    |                INSTALAÇÃO COMPLETA                 |
+    | __________________________________________________ | 
+    |                                                    |
+    |                     AGUARDE                        |
+    |                                                    |
+    |                  EM INSTALAÇÃO                     |
     |                                                    |
     |                                                    |
-    |                   EM INSTALAÇÃO                    |
-    |                                                    |
-    |                                                    |
-    |                 MOZART INFORMÁTICA                 |
-    |                   DANIEL MOZART                    |
+    |                                 MOZART INFORMÁTICA |
+    |                                      DANIEL MOZART |
     |____________________________________________________|
     '            
-            <#$INSTALL = 'https://raw.githubusercontent.com/DanielMozartt/MZTOOL/main/INSTALL.ps1'
-            Invoke-RestMethod $INSTALL | Invoke-Expression#>
-            EnvTool
             Hora
             AnyDesk
             DownloadMztool
