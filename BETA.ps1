@@ -15,7 +15,11 @@ if ($myWindowsPrincipal.IsInRole($adminRole)) {
 
     $Host.UI.RawUI.WindowTitle = 'MZTOOL ⭡' >$null
     $Host.UI.RawUI.BackgroundColor = 'DarkBlue' >$null
-    Set-ConsoleWindow >$null
+    $H = Get-Host
+    $Win = $H.UI.RawUI.WindowSize
+    $Win.Height = 10
+    $Win.Width = 10
+    $H.UI.RawUI.Set_WindowSize($Win)
     Clear-Host
 }
 else {
@@ -36,13 +40,7 @@ else {
 
 
 #MENU MZTOOL -----------------------------------------------------
-function Set-ConsoleWindow {
-    $H = Get-Host
-    $Win = $H.UI.RawUI.WindowSize
-    $Win.Height = 10
-    $Win.Width = 10
-    $H.UI.RawUI.Set_WindowSize($Win)
-}
+
 function DisplayMenu {
     Clear-Host
     Write-Host '
