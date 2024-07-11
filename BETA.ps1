@@ -40,7 +40,7 @@ else {
 #MENU MZTOOL -----------------------------------------------------
 
 function DisplayMenu {
-    $TITLE = 'MZTOOL'
+    
     Clear-Host
     Write-Host '
 ______________________________________________________
