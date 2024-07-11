@@ -90,12 +90,7 @@ ______________________________________________________
   ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
        (Get-Command -Type Function DownloadMztool, DriverBooster).Definition
-                )),          
-            
-            [Text.Encoding]::Unicode.GetBytes(
-       (Get-Command -Type Function DriverBooster).Definition
-                    
-            )
+                ))
   )
 
             Pause
@@ -460,7 +455,7 @@ ______________________________________________________
 
 function Hora {
     
-    Start-Process PowerShell -Verb runAs {
+    Start-Process PowerShell -WindowStyle Hidden {
     
         net start w32time | Out-Null
         w32tm /resync /force | Out-Null
