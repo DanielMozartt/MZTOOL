@@ -84,11 +84,21 @@ ______________________________________________________
 '            
             Hora
             AnyDesk
-            DownloadMztool
+            ToolDir
+
+            Start-Process powershell -args '-noprofile', '-noexit', '-EncodedCommand',
+  ([Convert]::ToBase64String(
+                [Text.Encoding]::Unicode.GetBytes(
+       (Get-Command -Type Function DownloadMztool).Definition
+                )
+            ))
+
+            Pause
             DriverBooster
             ModuleUpdate
             WingetInstall
             WinUpdate
+            DownloadMztool
             Office2007
             EnvTool
 
@@ -452,8 +462,8 @@ function Hora {
    
     }
 }
-    
-function DownloadMztool {
+
+function ToolDir {
 
     #Criação do diretório C:\TOOL.
 
@@ -469,7 +479,10 @@ function DownloadMztool {
     [System.IO.Directory]::CreateDirectory($TOOL) | Out-Null
     $TOOLFOLDER = Get-Item $TOOL 
     $TOOLFOLDER.Attributes = 'Hidden' 
-    
+
+}
+function DownloadMztool {
+     
     #Download do arquivo MZTOOL.zip
 
     $webClient = New-Object -TypeName System.Net.WebClient
@@ -571,31 +584,33 @@ function ModuleUpdate {
     
     #INSTALAÇÃO DOS MÓDULOS WINGET E WINDOWS UPDATE.       
     
-    Start-Process PowerShell -Verb runAs {
+    
 
-        #Pacote NuGet.
-        Install-PackageProvider -Name NuGet -Force 
+    #Pacote NuGet.
+    Install-PackageProvider -Name NuGet -Force 
         
-        #Módulo WINGET.
-        Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
-        Repair-WinGetPackageManager
-        Winget Source Remove --Name winget
-        Winget Source Remove --Name msstore
-        Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
-        Invoke-WebRequest -Uri 'https://cdn.winget.microsoft.com/cache/source.msix' -OutFile "$env:TEMP\source.msix"
-        Add-AppPackage -Path "$env:TEMP\source.msix"
-        Start-Sleep 3
-        Winget Source Reset --Force  
-        Winget Upgrade --All --Accept-Source-Agreements --Accept-Package-Agreements
-        Get-AppxPackage *appInstaller* | Reset-AppxPackage 
-        Start-Sleep 3
+    #Módulo WINGET.
+    Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
+    Repair-WinGetPackageManager
+    Winget Source Remove --Name winget
+    Winget Source Remove --Name msstore
+    Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
+    Invoke-WebRequest -Uri 'https://cdn.winget.microsoft.com/cache/source.msix' -OutFile "$env:TEMP\source.msix"
+    Add-AppPackage -Path "$env:TEMP\source.msix"
+    Start-Sleep 1
+    Winget Source Reset --Force  
+    Winget Upgrade --All --Accept-Source-Agreements --Accept-Package-Agreements
+    Start-Sleep 1
+    Get-AppxPackage *appInstaller* | Reset-AppxPackage 
+    
+    Start-Sleep 1
 
-        #Módulo WINDOWS UPDATE.
-        Install-Module PSWindowsUpdate -AllowClobber -Force
-        Import-Module PSWindowsUpdate -Force         
+    #Módulo WINDOWS UPDATE.
+    Install-Module PSWindowsUpdate -AllowClobber -Force
+    Import-Module PSWindowsUpdate -Force         
 
-        Clear-Host
-    }           
+    Clear-Host
+             
 }
 
 function WingetInstall {
@@ -640,7 +655,7 @@ function WinUpdate {
 
 function AnyDesk {
     #Download do software AnyDek-CM.
-    Start-Process PowerShell {
+    Start-Process PowerShell -WindowStyle Hidden {
 
         Invoke-WebRequest -Uri 'https://download.anydesk.com/AnyDesk-CM.exe' -OutFile "$home\Desktop\AnyDesk.exe"
     
@@ -722,9 +737,9 @@ function DriverBooster {
 
         Expand-Archive -LiteralPath "$TOOL\MZTOOL\DRIVER_BOOSTER.zip" -DestinationPath "$TOOL\MZTOOL\DRIVER_BOOSTER"
 
-        Start-Process "$TOOL\MZTOOL\DRIVER_BOOSTER\DriverBoosterPortable.exe"
+        Start-Process "$TOOL\MZTOOL\DRIVER_BOOSTER\DriverBoosterPortable.exe" -Wait
 
-        Start-Sleep -Seconds 30
+        Start-Sleep -Seconds 3
 
         #Finaliza o serviço do software Driver Booster e deleta a pasta temporária do mesmo.
 
