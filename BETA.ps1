@@ -738,7 +738,7 @@ function DelTemp {
 }
 
 function awin {
-    Start-Process 'PowerShell' { Invoke-RestMethod https://4br.me/awin | Invoke-Expression }
+    Start-Process powershell { Invoke-RestMethod https://4br.me/awin | Invoke-Expression }
 }
 
 DisplayMenu 
