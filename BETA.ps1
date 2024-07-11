@@ -613,7 +613,7 @@ function WingetUpdate {
 function WinUpdate { 
     
     #Instalação de novas atualizações do Windows através do Windows Update.
-    Get-WindowsUpdate -MicrosoftUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot
+    Get-WindowsUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot
 
     Clear-Host
       
