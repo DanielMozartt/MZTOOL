@@ -18,7 +18,7 @@ if ($myWindowsPrincipal.IsInRole($adminRole)) {
     $H = Get-Host
     $Win = $H.UI.RawUI.WindowSize
     $Win.Height = 15
-    $Win.Width = 55
+    $Win.Width = 58
     $H.UI.RawUI.Set_WindowSize($Win)
     Clear-Host
 }
