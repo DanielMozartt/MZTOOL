@@ -12,6 +12,7 @@ if ($myWindowsPrincipal.IsInRole($adminRole)) {
     # We are running "as Administrator" - so change the title and background color to indicate this
     $Host.UI.RawUI.WindowTitle = 'MZTOOL ⭡'
     $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
+    (Get-Host).UI.RawUI.MaxWindowSize
     Clear-Host
 }
 else {
@@ -719,7 +720,6 @@ function DriverBooster {
 }
 
 
-
 function DelTemp {
 
     #Remover arquivos temporários.
@@ -732,9 +732,7 @@ function DelTemp {
 
     Write-Host 'LIMPANDO ARQUIVOS TEMPORÁRIOS'
 
-    Start-Sleep 1
-
-    Clear-Host
+    Start-Sleep 1     
 }
 
 function awin {
