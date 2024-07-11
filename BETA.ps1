@@ -89,11 +89,14 @@ ______________________________________________________
             Start-Process powershell -args '-noprofile', '-noexit', '-EncodedCommand',
   ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
-       (Get-Command -Type Function DownloadMztool).Definition,
+       (Get-Command -Type Function DownloadMztool).Definition
+                )),          
+            [Convert]::ToBase64String(
+                [Text.Encoding]::Unicode.GetBytes(
        (Get-Command -Type Function DriverBooster).Definition
-       
-                )
-            ))
+                    
+                ))
+  )
 
             Pause
             DriverBooster
