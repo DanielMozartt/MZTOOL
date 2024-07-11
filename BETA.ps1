@@ -40,22 +40,23 @@ else {
 #MENU MZTOOL -----------------------------------------------------
 
 function DisplayMenu {
+    $MZT = 'MZTOOL'
     Clear-Host
     Write-Host '
-    ______________________________________________________
-    |                                                    |
-    |                      MZTOOL                        |
-    | _________________________________________________  | 
-    |                                                    | 
-    |                                                    |
-    | |1| INSTALAÇÃO COMPLETA                            |
-    | |2| DIAGNÓSTICO DE HARDWARE E SISTEMA              |
-    | |3| INSTALAR WINGET & WINDOWS UPDATE               |
-    | |4| INSTALAR OFFICE                                |
-    | |0| SAIR                                           |
-    |                                                    |
-    |                 MOZART INFORMÁTICA | DANIEL MOZART |
-    |____________________________________________________|
+______________________________________________________
+|                                                    |
+|                      '$MZT'                          |
+| _________________________________________________  | 
+|                                                    | 
+|                                                    |
+| |1| INSTALAÇÃO COMPLETA                            |
+| |2| DIAGNÓSTICO DE HARDWARE E SISTEMA              |
+| |3| INSTALAR WINGET & WINDOWS UPDATE               |
+| |4| INSTALAR OFFICE                                |
+| |0| SAIR                                           |
+|                                                    |
+|                 MOZART INFORMÁTICA | DANIEL MOZART |
+|____________________________________________________|
     '
     
     $MENU = Read-Host 'INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA'
@@ -67,19 +68,19 @@ function DisplayMenu {
             Clear-Host
             Write-Host '
     
-    ______________________________________________________
-    |                                                    |
-    |                      MZTOOL                        |
-    | __________________________________________________ | 
-    |                                                    |
-    |                     AGUARDE                        |
-    |                                                    |
-    |                  EM INSTALAÇÃO                     |
-    |                                                    |
-    |                                                    |
-    |                                 MOZART INFORMÁTICA |
-    |                                      DANIEL MOZART |
-    |____________________________________________________|
+______________________________________________________
+|                                                    |
+|                      MZTOOL                        |
+| __________________________________________________ | 
+|                                                    |
+|                     AGUARDE                        |
+|                                                    |
+|                  EM INSTALAÇÃO                     |
+|                                                    |
+|                                                    |
+|                                 MOZART INFORMÁTICA |
+|                                      DANIEL MOZART |
+|____________________________________________________|
     '            
             Hora
             AnyDesk
@@ -95,19 +96,19 @@ function DisplayMenu {
                      
             Clear-Host
             Write-Host '
-    ______________________________________________________
-    |                                                    |
-    |                      MZTOOL                        |
-    | _________________________________________________  | 
-    |                                                    |
-    |                                                    |
-    |                                                    |
-    |      INSTALAÇÃO CONCLUÍDA - ENCERRANDO MZTOOL      |
-    |                                                    |
-    |                                                    |
-    |                 MOZART INFORMÁTICA                 |
-    |                   DANIEL MOZART                    |
-    |____________________________________________________|
+ ______________________________________________________
+|                                                    |
+|                      '$MZT'                        |
+| _________________________________________________  | 
+|                                                    |
+|                                                    |
+|                                                    |
+|      INSTALAÇÃO CONCLUÍDA - ENCERRANDO MZTOOL      |
+|                                                    |
+|                                                    |
+|                 MOZART INFORMÁTICA                 |
+|                   DANIEL MOZART                    |
+|____________________________________________________|
     '
             Start-Sleep -Seconds 5
             Exit
