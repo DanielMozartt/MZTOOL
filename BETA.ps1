@@ -13,9 +13,9 @@ if ($myWindowsPrincipal.IsInRole($adminRole)) {
     
     # Executando como administrador. Formatação e estilo aplicadas.
 
-    $Host.UI.RawUI.WindowTitle = 'MZTOOL ⭡'
-    $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
-    Set-ConsoleWindow
+    $Host.UI.RawUI.WindowTitle = 'MZTOOL ⭡' | Out-Null
+    $Host.UI.RawUI.BackgroundColor = 'DarkBlue' | Out-Null
+    Set-ConsoleWindow | Out-Null
     Clear-Host
 }
 else {
