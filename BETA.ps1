@@ -404,12 +404,13 @@ function DisplayMenu {
                         DisplayMenu
                 
                     }
-                    
+
                     Default {
                         #ENTRADA INVÁLIDA.
 
                         Write-Host 'OPÇÃO INVÁLIDA. INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA'
                         Start-Sleep -Seconds 1
+                        Clear-Host
                         DisplayMenu4 
                     }
                 }
