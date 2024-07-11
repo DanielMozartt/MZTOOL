@@ -40,12 +40,12 @@ else {
 #MENU MZTOOL -----------------------------------------------------
 
 function DisplayMenu {
-    $MZT = 'MZTOOL'
+    $TITLE = 'MZTOOL'
     Clear-Host
     Write-Host '
 ______________________________________________________
 |                                                    |
-|                      '$MZT'                          |
+|                      '$TITLE'                      |
 | _________________________________________________  | 
 |                                                    | 
 |                                                    |
@@ -122,39 +122,39 @@ ______________________________________________________
     
                 Clear-Host        
                 Write-Host '
-            ______________________________________________________
-            |                                                    |
-            |                      MZTOOL                        |
-            | _________________________________________________  | 
-            |            FERRAMENTAS DE DIAGNÓSTICOS             |
-            |                                                    |
-            | |1| ARQUITETURA X64 | 64Bits                       |
-            | |2| ARQUITETURA X32 | 32Bits                       |
-            | |3| VOLTAR                                         |
-            |                                                    |
-            |                                                    |
-            |                 MOZART INFORMÁTICA | DANIEL MOZART |
-            |____________________________________________________|
-            '
+______________________________________________________
+|                                                    |
+|                      MZTOOL                        |
+| _________________________________________________  | 
+|            FERRAMENTAS DE DIAGNÓSTICOS             |
+|                                                    |
+| |1| ARQUITETURA X64 | 64Bits                       |
+| |2| ARQUITETURA X32 | 32Bits                       |
+| |3| VOLTAR                                         |
+|                                                    |
+|                                                    |
+|                 MOZART INFORMÁTICA | DANIEL MOZART |
+|____________________________________________________|
+'
                 $SUBMENU2 = Read-Host 'INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA'
                 Switch ($SUBMENU2) {
                     1 {
                         Clear-Host
                         Write-Host '
-            ______________________________________________________
-            |                                                    |
-            |                      MZTOOL                        |
-            | _________________________________________________  | 
-            |            FERRAMENTAS DE DIAGNÓSTICOS             |
-            |                                                    |
-            |                                                    |
-            |        FERRAMENTAS DE DIAGNÓSTICO INICIADAS        |
-            |                                                    |
-            |                                                    |
-            |                 MOZART INFORMÁTICA                 |
-            |                   DANIEL MOZART                    |
-            |____________________________________________________|
-            '
+______________________________________________________
+|                                                    |
+|                      MZTOOL                        |
+| _________________________________________________  | 
+|            FERRAMENTAS DE DIAGNÓSTICOS             |
+|                                                    |
+|                                                    |
+|        FERRAMENTAS DE DIAGNÓSTICO INICIADAS        |
+|                                                    |
+|                                                    |
+|                 MOZART INFORMÁTICA                 |
+|                   DANIEL MOZART                    |
+|____________________________________________________|
+'
                         DownloadMztool
            
                         Diagnostics64
@@ -170,20 +170,20 @@ ______________________________________________________
                     2 { 
                         Clear-Host
                         Write-Host '
-                ______________________________________________________
-                |                                                    |
-                |                      MZTOOL                        |
-                | _________________________________________________  | 
-                |            FERRAMENTAS DE DIAGNÓSTICOS             |
-                |                                                    |
-                |                                                    |
-                |        FERRAMENTAS DE DIAGNÓSTICO INICIADAS        |
-                |                                                    |
-                |                                                    |
-                |                 MOZART INFORMÁTICA                 |
-                |                   DANIEL MOZART                    |
-                |____________________________________________________|
-                '
+______________________________________________________
+|                                                    |
+|                      MZTOOL                        |
+| _________________________________________________  | 
+|            FERRAMENTAS DE DIAGNÓSTICOS             |
+|                                                    |
+|                                                    |
+|        FERRAMENTAS DE DIAGNÓSTICO INICIADAS        |
+|                                                    |
+|                                                    |
+|                 MOZART INFORMÁTICA                 |
+|                   DANIEL MOZART                    |
+|____________________________________________________|
+'
                         DownloadMztool 
                                      
                         Diagnostics32 
@@ -221,39 +221,39 @@ ______________________________________________________
     
                 Clear-Host        
                 Write-Host '
-            ______________________________________________________
-            |                                                    |
-            |                      MZTOOL                        |
-            | _________________________________________________  | 
-            |             WINGET & WINDOWS UPDATE                |
-            |                                                    |
-            | |1| ISTALAR MÓDULOS WINGET E WINDOWS UPDATE        |
-            | |2| INSTALAR ATUALIZAÇÕES (MÓDULOS JÁ INSTALADOS)  |
-            | |3| VOLTAR                                         |
-            |                                                    |
-            |                                                    |
-            |                 MOZART INFORMÁTICA | DANIEL MOZART |
-            |____________________________________________________|
-            '
+ ______________________________________________________
+|                                                    |
+|                      MZTOOL                        |
+| _________________________________________________  | 
+|             WINGET & WINDOWS UPDATE                |
+|                                                    |
+| |1| ISTALAR MÓDULOS WINGET E WINDOWS UPDATE        |
+| |2| INSTALAR ATUALIZAÇÕES (MÓDULOS JÁ INSTALADOS)  |
+| |3| VOLTAR                                         |
+|                                                    |
+|                                                    |
+|                 MOZART INFORMÁTICA | DANIEL MOZART |
+|____________________________________________________|
+'
                 $SUBMENU3 = Read-Host 'INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA'
                 Switch ($SUBMENU3) {
                     1 {
                         Clear-Host
                         Write-Host '
-            ______________________________________________________
-            |                                                    |
-            |                      MZTOOL                        |
-            | _________________________________________________  | 
-            |             WINGET & WINDOWS UPDATE                |
-            |                                                    |
-            |                                                    |
-            |           INSTALAÇÃO DE MÓDULOS INICIADA           |
-            |                                                    |
-            |                                                    |
-            |                 MOZART INFORMÁTICA                 |
-            |                   DANIEL MOZART                    |
-            |____________________________________________________|
-            '
+______________________________________________________
+|                                                    |
+|                      MZTOOL                        |
+| _________________________________________________  | 
+|             WINGET & WINDOWS UPDATE                |
+|                                                    |
+|                                                    |
+|           INSTALAÇÃO DE MÓDULOS INICIADA           |
+|                                                    |
+|                                                    |
+|                 MOZART INFORMÁTICA                 |
+|                   DANIEL MOZART                    |
+|____________________________________________________|
+'
                         ModuleUpdate
 
                         Start-Sleep -Seconds 1
@@ -267,20 +267,20 @@ ______________________________________________________
                     2 { 
                         Clear-Host
                         Write-Host '
-            ______________________________________________________
-            |                                                    |
-            |                      MZTOOL                        |
-            | _________________________________________________  | 
-            |             WINGET & WINDOWS UPDATE                |
-            |                                                    |
-            |                                                    |
-            |        INSTALAÇÃO DE ATUALIZAÇÕES INICIADA         |
-            |                                                    |
-            |                                                    |
-            |                 MOZART INFORMÁTICA                 |
-            |                   DANIEL MOZART                    |
-            |____________________________________________________|
-            '
+______________________________________________________
+|                                                    |
+|                      MZTOOL                        |
+| _________________________________________________  | 
+|             WINGET & WINDOWS UPDATE                |
+|                                                    |
+|                                                    |
+|        INSTALAÇÃO DE ATUALIZAÇÕES INICIADA         |
+|                                                    |
+|                                                    |
+|                 MOZART INFORMÁTICA                 |
+|                   DANIEL MOZART                    |
+|____________________________________________________|
+'
                         WingetUpdate
 
                         WinUpdate 
@@ -321,22 +321,22 @@ ______________________________________________________
             
                 Clear-Host            
                 Write-Host '
-    ______________________________________________________
-    |                                                    |
-    |                      MZTOOL                        |
-    | _________________________________________________  | 
-    |                 MICROSOFT OFFICE                   |
-    |                                                    |
-    |                                                    |
-    | |1| INSTALAR OFFICE 2007                           | 
-    | |2| INSTALAR OFFICE 365                            |
-    | |3| VOLTAR                                         |
-    |                                                    |
-    |                                                    |
-    |                 MOZART INFORMÁTICA                 |
-    |                   DANIEL MOZART                    |
-    |____________________________________________________|
-    '
+______________________________________________________
+|                                                    |
+|                      MZTOOL                        |
+| _________________________________________________  | 
+|                 MICROSOFT OFFICE                   |
+|                                                    |
+|                                                    |
+| |1| INSTALAR OFFICE 2007                           | 
+| |2| INSTALAR OFFICE 365                            |
+| |3| VOLTAR                                         |
+|                                                    |
+|                                                    |
+|                 MOZART INFORMÁTICA                 |
+|                   DANIEL MOZART                    |
+|____________________________________________________|
+'
             
        
          
@@ -345,20 +345,20 @@ ______________________________________________________
                     1 { 
                         Clear-Host
                         Write-Host '
-    ______________________________________________________
-    |                                                    |
-    |                      MZTOOL                        |
-    | _________________________________________________  | 
-    |               MICROSOFT OFFICE 2007                |
-    |                                                    |
-    |                                                    |
-    |                    INSTALANDO                      |
-    |                                                    |
-    |                                                    |
-    |                 MOZART INFORMÁTICA                 |
-    |                   DANIEL MOZART                    |
-    |____________________________________________________|
-    '
+______________________________________________________
+|                                                    |
+|                      MZTOOL                        |
+| _________________________________________________  | 
+|               MICROSOFT OFFICE 2007                |
+|                                                    |
+|                                                    |
+|                    INSTALANDO                      |
+|                                                    |
+|                                                    |
+|                 MOZART INFORMÁTICA                 |
+|                   DANIEL MOZART                    |
+|____________________________________________________|
+ '
                         DownloadMztool
               
                         Office2007
@@ -373,20 +373,20 @@ ______________________________________________________
                     2 {
                         Clear-Host
                         Write-Host '
-    ______________________________________________________
-    |                                                    |
-    |                      MZTOOL                        |
-    | _________________________________________________  | 
-    |               MICROSOFT OFFICE 365                 |
-    |                                                    |
-    |                                                    |
-    |                    INSTALANDO                      |
-    |                                                    |
-    |                                                    |
-    |                 MOZART INFORMÁTICA                 |
-    |                   DANIEL MOZART                    |
-    |____________________________________________________|
-    '    
+______________________________________________________
+|                                                    |
+|                      MZTOOL                        |
+| _________________________________________________  | 
+|               MICROSOFT OFFICE 365                 |
+|                                                    |
+|                                                    |
+|                    INSTALANDO                      |
+|                                                    |
+|                                                    |
+|                 MOZART INFORMÁTICA                 |
+|                   DANIEL MOZART                    |
+|____________________________________________________|
+'    
                         ModuleUpdate
 
                         Office365 
