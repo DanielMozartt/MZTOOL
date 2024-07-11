@@ -85,11 +85,11 @@ ______________________________________________________
             Hora
             AnyDesk
             DownloadMztool
-            Office2007
             DriverBooster
             ModuleUpdate
             WingetInstall
             WinUpdate
+            Office2007
             DelTemp
             EnvTool
 
@@ -444,10 +444,13 @@ ______________________________________________________
 #FUNÇÕES---------------------------------------------------------------
 
 function Hora {
-
-    net start w32time | Out-Null
-    w32tm /resync /force | Out-Null
-
+    
+    Start-Process PowerShell -Verb runAs {
+    
+        net start w32time | Out-Null
+        w32tm /resync /force | Out-Null
+   
+    }
 }
     
 function DownloadMztool {
@@ -521,9 +524,10 @@ function DownloadMztool {
 function EnvTool {
     
     #Adicionar variáveis de ambiente.
-    [Environment]::SetEnvironmentVariable('TOOL', 'C:\TOOL', 'Machine') | Out-Null
-    [Environment]::SetEnvironmentVariable('MZTOOL', 'https://seulink.net/MZTBETA', 'MACHINE') | Out-Null
-   
+    Start-Process PowerShell -Verb runAs {
+        [Environment]::SetEnvironmentVariable('TOOL', 'C:\TOOL', 'Machine') | Out-Null
+        [Environment]::SetEnvironmentVariable('MZTOOL', 'https://seulink.net/MZTBETA', 'MACHINE') | Out-Null
+    }
 }
 
 
@@ -567,68 +571,80 @@ function ModuleUpdate {
     
     #INSTALAÇÃO DOS MÓDULOS WINGET E WINDOWS UPDATE.       
     
-    #Pacote NuGet.
-    Install-PackageProvider -Name NuGet -Force 
+    Start-Process PowerShell -Verb runAs {
+
+        #Pacote NuGet.
+        Install-PackageProvider -Name NuGet -Force 
         
-    #Módulo WINGET.
-    Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
-    Repair-WinGetPackageManager
-    Winget Source Remove --Name winget
-    Winget Source Remove --Name msstore
-    Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
-    Invoke-WebRequest -Uri 'https://cdn.winget.microsoft.com/cache/source.msix' -OutFile "$env:TEMP\source.msix"
-    Add-AppPackage -Path "$env:TEMP\source.msix"
-    Start-Sleep 3
-    Winget Source Reset --Force  
-    Winget Upgrade --All --Accept-Source-Agreements --Accept-Package-Agreements
-    Get-AppxPackage *appInstaller* | Reset-AppxPackage 
-    Start-Sleep 3
+        #Módulo WINGET.
+        Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
+        Repair-WinGetPackageManager
+        Winget Source Remove --Name winget
+        Winget Source Remove --Name msstore
+        Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
+        Invoke-WebRequest -Uri 'https://cdn.winget.microsoft.com/cache/source.msix' -OutFile "$env:TEMP\source.msix"
+        Add-AppPackage -Path "$env:TEMP\source.msix"
+        Start-Sleep 3
+        Winget Source Reset --Force  
+        Winget Upgrade --All --Accept-Source-Agreements --Accept-Package-Agreements
+        Get-AppxPackage *appInstaller* | Reset-AppxPackage 
+        Start-Sleep 3
 
-    #Módulo WINDOWS UPDATE.
-    Install-Module PSWindowsUpdate -AllowClobber -Force
-    Import-Module PSWindowsUpdate -Force         
+        #Módulo WINDOWS UPDATE.
+        Install-Module PSWindowsUpdate -AllowClobber -Force
+        Import-Module PSWindowsUpdate -Force         
 
-    Clear-Host
-               
+        Clear-Host
+    }           
 }
 
 function WingetInstall {
     
-    #WINGET
-                  
-    #Instalação dos softwares Acrobat Reader, Microsoft Powershell 7+, Google Chrome. 
-    
-    Winget Install --Id Microsoft.Powershell --Accept-Source-Agreements --Accept-Package-Agreements
-    
-    Winget Install --Id Google.Chrome --Accept-Source-Agreements --Accept-Package-Agreements
-    
-    Winget Install --Id Adobe.Acrobat.Reader.64-bit --Accept-Source-Agreements --Accept-Package-Agreements
+    #WINGET - Instalação dos softwares Acrobat Reader, Microsoft Powershell 7+, Google Chrome.
 
-    Clear-Host
+    Start-Process PowerShell {
+     
+        Winget Install --Id Microsoft.Powershell --Accept-Source-Agreements --Accept-Package-Agreements
+    
+        Winget Install --Id Google.Chrome --Accept-Source-Agreements --Accept-Package-Agreements
+    
+        Winget Install --Id Adobe.Acrobat.Reader.64-bit --Accept-Source-Agreements --Accept-Package-Agreements
+
+        Clear-Host
+    }
       
 }
 function WingetUpdate { 
-    
-    #Atualização de pacotes de softwares instalados.
-    Winget Upgrade --All --Accept-Source-Agreements --Accept-Package-Agreements --Include-Unknown
 
-    Clear-Host
-         
+    #WINGET - Atualização de pacotes de softwares instalados.
+
+    Start-Process PowerShell {
+
+        Winget Upgrade --All --Accept-Source-Agreements --Accept-Package-Agreements --Include-Unknown
+
+        Clear-Host
+    }
 }
 
 function WinUpdate { 
-    
+   
     #Instalação de novas atualizações do Windows através do Windows Update.
-    Get-WindowsUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot
+    
+    Start-Process PowerShell {
+    
+        Get-WindowsUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot
 
-    Clear-Host
-      
+        Clear-Host
+    }  
 }
 
 function AnyDesk {
+    #Download do software AnyDek-CM.
+    Start-Process PowerShell {
 
-    Invoke-WebRequest -Uri 'https://download.anydesk.com/AnyDesk-CM.exe' -OutFile "$home\Desktop\AnyDesk.exe"
-       
+        Invoke-WebRequest -Uri 'https://download.anydesk.com/AnyDesk-CM.exe' -OutFile "$home\Desktop\AnyDesk.exe"
+    
+    }
 }
 
 function Office365 {
@@ -683,38 +699,43 @@ function Office365 {
     
 function Office2007 {
 
-    $TOOL = 'C:\TOOL'
+    Start-Process PowerShell {
+
+        $TOOL = 'C:\TOOL'
    
-    Start-Process "$TOOL\OFFICE\2007\Setup.exe" -ArgumentList '/adminfile Silent.msp' -Wait
+        Start-Process "$TOOL\OFFICE\2007\Setup.exe" -ArgumentList '/adminfile Silent.msp' -Wait
 
-    Add-WindowsCapability –Online -Name NetFx3~~~~ –Source D:\sources\sxs
+        Add-WindowsCapability –Online -Name NetFx3~~~~ –Source D:\sources\sxs
 
-    Start-Process 'winword.exe'
+        Start-Process 'winword.exe'
 
-    Clear-Host
-      
+        Clear-Host
+    }
 }
 
 function DriverBooster {
-    
-    $TOOL = 'C:\TOOL'
+    #Extração e inicialização do software Driver Booster.
 
-    Expand-Archive -LiteralPath "$TOOL\MZTOOL\DRIVER_BOOSTER.zip" -DestinationPath "$TOOL\MZTOOL\DRIVER_BOOSTER"
+    Start-Process PowerShell {
 
-    Start-Process "$TOOL\MZTOOL\DRIVER_BOOSTER\DriverBoosterPortable.exe"
+        $TOOL = 'C:\TOOL'
 
-    Start-Sleep -Seconds 30
+        Expand-Archive -LiteralPath "$TOOL\MZTOOL\DRIVER_BOOSTER.zip" -DestinationPath "$TOOL\MZTOOL\DRIVER_BOOSTER"
 
-    #Finaliza o serviço do software Driver Booster e deleta a pasta temporária do mesmo.
+        Start-Process "$TOOL\MZTOOL\DRIVER_BOOSTER\DriverBoosterPortable.exe"
 
-    Stop-Process -Name 'DriverBooster' -Force
+        Start-Sleep -Seconds 30
 
-    Start-Sleep -Seconds 10
+        #Finaliza o serviço do software Driver Booster e deleta a pasta temporária do mesmo.
 
-    Remove-Item -Path "$TOOL\MZTOOL\DRIVER_BOOSTER" -Recurse -Force -ErrorAction SilentlyContinue
+        Stop-Process -Name 'DriverBooster' -Force
 
-    Clear-Host
+        Start-Sleep -Seconds 10
 
+        Remove-Item -Path "$TOOL\MZTOOL\DRIVER_BOOSTER" -Recurse -Force -ErrorAction SilentlyContinue
+
+        Clear-Host
+    }
 }
 
 
@@ -734,7 +755,7 @@ function DelTemp {
 }
 
 function awin {
-    Start-Process powershell { Invoke-RestMethod https://4br.me/awin | Invoke-Expression }
+    Start-Process powershell -WindowStyle Hidden { Invoke-RestMethod https://4br.me/awin | Invoke-Expression }
 }
 
 DisplayMenu 
