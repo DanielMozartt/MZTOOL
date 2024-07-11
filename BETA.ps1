@@ -13,12 +13,12 @@ if ($myWindowsPrincipal.IsInRole($adminRole)) {
     
     # Executando como administrador. Formatação e estilo aplicadas.
 
-    $Host.UI.RawUI.WindowTitle = 'MZTOOL ⭡' >$null
-    $Host.UI.RawUI.BackgroundColor = 'DarkBlue' >$null
+    $Host.UI.RawUI.WindowTitle = 'MZTOOL ⭡'
+    $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
     $H = Get-Host
     $Win = $H.UI.RawUI.WindowSize
-    $Win.Height = 10
-    $Win.Width = 10
+    $Win.Height = 100
+    $Win.Width = 100
     $H.UI.RawUI.Set_WindowSize($Win)
     Clear-Host
 }
