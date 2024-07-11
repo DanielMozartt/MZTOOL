@@ -13,9 +13,9 @@ if ($myWindowsPrincipal.IsInRole($adminRole)) {
     
     # Executando como administrador. Formatação e estilo aplicadas.
 
-    $Host.UI.RawUI.WindowTitle = 'MZTOOL ⭡' > Out-Null
-    $Host.UI.RawUI.BackgroundColor = 'DarkBlue' > Out-Null
-    Set-ConsoleWindow > Out-Null
+    $Host.UI.RawUI.WindowTitle = 'MZTOOL ⭡' >$null
+    $Host.UI.RawUI.BackgroundColor = 'DarkBlue' >$null
+    Set-ConsoleWindow >$null
     Clear-Host
 }
 else {
@@ -32,7 +32,7 @@ else {
 
 }
   
-[Environment]::SetEnvironmentVariable('TOOL', 'C:\TOOL', 'Machine') | Out-Null
+[Environment]::SetEnvironmentVariable('TOOL', 'C:\TOOL', 'Machine') >$null
 
 
 #MENU MZTOOL -----------------------------------------------------
