@@ -17,7 +17,7 @@ if ($myWindowsPrincipal.IsInRole($adminRole)) {
     $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
     $H = Get-Host
     $Win = $H.UI.RawUI.WindowSize
-    $Win.Height = 60
+    $Win.Height = 20
     $Win.Width = 60
     $H.UI.RawUI.Set_WindowSize($Win)
     Clear-Host
@@ -31,7 +31,7 @@ else {
     $newProcess = New-Object System.Diagnostics.ProcessStartInfo 'PowerShell'
     $newProcess.Arguments = $myInvocation.MyCommand.Definition
     $newProcess.Verb = 'runas'
-    [System.Diagnostics.Process]::Start($newProcess)      
+    [System.Diagnostics.Process]::Start($newProcess) | Out-Null     
     exit
 
 }
