@@ -36,8 +36,6 @@ else {
 
 }
   
-[Environment]::SetEnvironmentVariable('TOOL', 'C:\TOOL', 'Machine') >$null
-
 
 #MENU MZTOOL -----------------------------------------------------
 
