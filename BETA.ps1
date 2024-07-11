@@ -89,7 +89,9 @@ ______________________________________________________
             Start-Process powershell -args '-noprofile', '-noexit', '-EncodedCommand',
   ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
-       (Get-Command -Type Function DownloadMztool).Definition
+       (Get-Command -Type Function DownloadMztool).Definition,
+       (Get-Command -Type Function DriverBooster).Definition
+       
                 )
             ))
 
@@ -484,7 +486,9 @@ function ToolDir {
 function DownloadMztool {
      
     #Download do arquivo MZTOOL.zip
-
+   
+    $TOOL = 'C:\TOOL'
+    
     $webClient = New-Object -TypeName System.Net.WebClient
     $task = $webClient.DownloadFileTaskAsync('https://seulink.net/TOOLZIP', "$TOOL\MZTOOL.zip")
     
