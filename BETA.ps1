@@ -93,7 +93,7 @@ ______________________________________________________
                 ))
             )
 
-            Start-Process powershell -args '-noprofile', '-noexit', '-Wait', '-EncodedCommand',
+            Start-Process powershell -Wait -args '-noprofile', '-noexit', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
                     (Get-Command -Type Function ModuleUpdate, WingetInstall, WinUpdate).Definition
