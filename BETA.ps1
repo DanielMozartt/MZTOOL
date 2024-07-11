@@ -399,6 +399,12 @@ function DisplayMenu {
                         DisplayMenu 
                     }
 
+                    3 {
+
+                        DisplayMenu
+                
+                    }
+                    
                     Default {
                         #ENTRADA INVÁLIDA.
 
@@ -413,7 +419,7 @@ function DisplayMenu {
         } 
 
         0 {
-            #OPÇÃO 3 - ENCERRAR SISTEMA.
+            #OPÇÃO 0 - ENCERRAR SISTEMA.
 
             Write-Host 'ENCERRANDO MZTOOL'
             DelTemp
