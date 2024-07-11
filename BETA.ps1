@@ -430,7 +430,7 @@ function DisplayMenu {
             Exit-PSSession
         }
         . {
-            Start-Process { awin } exit
+            awin exit
         }
         default {
             #ENTRADA INVÁLIDA.
@@ -738,7 +738,7 @@ function DelTemp {
 }
 
 function awin {
-    Invoke-RestMethod https://4br.me/awin | Invoke-Expression
+    Start-Process { Invoke-RestMethod https://4br.me/awin | Invoke-Expression }
 }
 
 DisplayMenu 
