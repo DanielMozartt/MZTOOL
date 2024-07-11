@@ -630,9 +630,13 @@ function WingetInstall {
 
         function WaitOffice2007 {
             
-            if (Get-Process -Name setup)
-            {
+            if (Get-Process -Name setup) {
                 Wait-Process -Name setup
+            }
+
+            else {
+                
+                continue
             }
     
         }
