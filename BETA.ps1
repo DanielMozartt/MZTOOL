@@ -730,6 +730,10 @@ function DelTemp {
 
     Remove-Item -Path $env:C:\Windows\Prefetch\* -Recurse -Force -ErrorAction SilentlyContinue
 
+    Write-Host 'LIMPANDO ARQUIVOS TEMPORÁRIOS'
+
+    Start-Sleep 1
+
     Clear-Host
 }
 
