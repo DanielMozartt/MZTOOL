@@ -369,8 +369,15 @@ ______________________________________________________
 |                   DANIEL MOZART                    |
 |____________________________________________________|
  '
-                        DownloadMztool
-              
+                        $2007Folder = 'C:\TOOL\OFFICE\2007'        
+                        
+                        if (-not ($2007Folder)) {
+                            
+                            ToolDir
+                   
+                            DownloadMztool
+                        }
+               
                         Office2007
 
                         Start-Sleep -1
@@ -620,7 +627,8 @@ function WingetInstall {
     #WINGET - Instalação dos softwares Acrobat Reader, Microsoft Powershell 7+, Google Chrome.
 
     Start-Process PowerShell {
-     
+
+            
         Winget Install --Id Microsoft.Powershell --Accept-Source-Agreements --Accept-Package-Agreements
     
         Winget Install --Id Google.Chrome --Accept-Source-Agreements --Accept-Package-Agreements
@@ -628,6 +636,8 @@ function WingetInstall {
         Winget Install --Id Adobe.Acrobat.Reader.64-bit --Accept-Source-Agreements --Accept-Package-Agreements
 
         Clear-Host
+
+        i++
     }
       
 }
@@ -656,7 +666,9 @@ function WinUpdate {
 }
 
 function AnyDesk {
+
     #Download do software AnyDek-CM.
+
     Start-Process PowerShell -WindowStyle Hidden {
 
         Invoke-WebRequest -Uri 'https://download.anydesk.com/AnyDesk-CM.exe' -OutFile "$home\Desktop\AnyDesk.exe"
@@ -716,18 +728,17 @@ function Office365 {
     
 function Office2007 {
 
-    Start-Process PowerShell {
-
-        $TOOL = 'C:\TOOL'
+    
+    $TOOL = 'C:\TOOL'
    
-        Start-Process "$TOOL\OFFICE\2007\Setup.exe" -ArgumentList '/adminfile Silent.msp' -Wait
+    Start-Process "$TOOL\OFFICE\2007\Setup.exe" -ArgumentList '/adminfile Silent.msp' -Wait
 
-        Add-WindowsCapability –Online -Name NetFx3~~~~ –Source D:\sources\sxs
+    Add-WindowsCapability –Online -Name NetFx3~~~~ –Source D:\sources\sxs
 
-        Start-Process 'winword.exe'
+    Start-Process 'winword.exe'
 
-        Clear-Host
-    }
+    Clear-Host
+   
 }
 
 function DriverBooster {
