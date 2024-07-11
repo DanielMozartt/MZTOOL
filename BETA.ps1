@@ -1,42 +1,37 @@
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
 
-# Get the ID and security principal of the current user account
+# Obtém o ID e o Objeto de Segurança do usuário atual.
 $myWindowsID = [System.Security.Principal.WindowsIdentity]::GetCurrent()
 $myWindowsPrincipal = New-Object System.Security.Principal.WindowsPrincipal($myWindowsID)
-  
-# Get the security principal for the Administrator role
+
+# Obtém o Objeto de Segurança do usuário Administrador.
 $adminRole = [System.Security.Principal.WindowsBuiltInRole]::Administrator
   
-# Check to see if we are currently running "as Administrator"
+# Verifica se o script está sendo executado como administrador.
+
 if ($myWindowsPrincipal.IsInRole($adminRole)) {
-    # We are running "as Administrator" - so change the title and background color to indicate this
+    
+    # Executando como administrador. Formatação e estilo aplicadas.
+
     $Host.UI.RawUI.WindowTitle = 'MZTOOL ⭡'
     $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
     (Get-Host).UI.RawUI.MaxWindowSize
     Clear-Host
 }
 else {
-    # We are not running "as Administrator" - so relaunch as administrator
     
-    # Create a new process object that starts PowerShell
+    # Não está executando como administrador.
+    
+    # Fecha o processo atual e inicia um novo com o script como administrador solicitando UAC.
+
     $newProcess = New-Object System.Diagnostics.ProcessStartInfo 'PowerShell'
-    
-    # Specify the current script path and name as a parameter
     $newProcess.Arguments = $myInvocation.MyCommand.Definition
-    
-    # Indicate that the process should be elevated
     $newProcess.Verb = 'runas'
-    
-    # Start the new process
-    [System.Diagnostics.Process]::Start($newProcess)
-    
-    # Exit from the current, unelevated, process
+    [System.Diagnostics.Process]::Start($newProcess)      
     exit
+
 }
   
-
-$Host.UI.RawUI.BackgroundColor = 'DarkBlue'
-
 [Environment]::SetEnvironmentVariable('TOOL', 'C:\TOOL', 'Machine') | Out-Null
 
 
