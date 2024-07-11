@@ -87,19 +87,19 @@ ______________________________________________________
             ToolDir
 
             Start-Process powershell -args '-noprofile', '-noexit', '-EncodedCommand',
-  ([Convert]::ToBase64String(
+            ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
-       (Get-Command -Type Function DownloadMztool, DriverBooster).Definition
+                    (Get-Command -Type Function DownloadMztool, DriverBooster, Office2007).Definition
                 ))
-  )
+            )
 
-            Pause
-            DriverBooster
-            ModuleUpdate
-            WingetInstall
-            WinUpdate
-            DownloadMztool
-            Office2007
+            Start-Process powershell -args '-noprofile', '-noexit', '-Wait', '-EncodedCommand',
+            ([Convert]::ToBase64String(
+                [Text.Encoding]::Unicode.GetBytes(
+                    (Get-Command -Type Function ModuleUpdate, WingetInstall, WinUpdate).Definition
+                ))
+            )
+             
             EnvTool
 
                      
