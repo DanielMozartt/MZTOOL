@@ -430,7 +430,7 @@ function DisplayMenu {
             Exit-PSSession
         }
         . {
-            awin exit
+            Start-Process { awin } exit
         }
         default {
             #ENTRADA INVÁLIDA.
