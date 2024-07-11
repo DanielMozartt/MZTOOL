@@ -91,11 +91,11 @@ ______________________________________________________
                 [Text.Encoding]::Unicode.GetBytes(
        (Get-Command -Type Function DownloadMztool).Definition
                 )),          
-            [Convert]::ToBase64String(
-                [Text.Encoding]::Unicode.GetBytes(
+            
+            [Text.Encoding]::Unicode.GetBytes(
        (Get-Command -Type Function DriverBooster).Definition
                     
-                ))
+            )
   )
 
             Pause
