@@ -371,13 +371,19 @@ ______________________________________________________
  '
                         $2007Folder = 'C:\TOOL\OFFICE\2007'        
                         
-                        if (-not ($2007Folder)) {
+                        if ($2007Folder) {
                             
                             ToolDir
                    
                             DownloadMztool
                         }
                
+                        else {
+
+                            continue 
+
+                        }
+                        
                         Office2007
 
                         Start-Sleep -1
