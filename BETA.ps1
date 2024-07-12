@@ -375,8 +375,10 @@ ______________________________________________________
 
                             $2007Folder = 'C:\TOOL\OFFICE\2007' 
             
-                            if ($2007Folder) {
+                            if (Test-Path -Path $2007Folder) {
+
                                 continue
+
                             }
 
                             else {
