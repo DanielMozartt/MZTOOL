@@ -492,7 +492,7 @@ function ToolDir {
     
     #Se o diretório C:\TOOL já existir, é deletado.
 
-    if ($TOOL) {
+    if (Test-Path -Path $TOOL) {
 
         Remove-Item -Path $TOOL -Recurse -Force -ErrorAction SilentlyContinue
     }
