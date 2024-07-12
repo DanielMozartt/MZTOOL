@@ -625,7 +625,7 @@ function ModuleUpdate {
 
 function WingetInstall {
     
-    #WINGET - Instalação dos softwares Acrobat Reader, Microsoft Powershell 7+, Google Chrome.
+    #WINGET - Instalação dos softwares Acrobat Reader, Google Chrome, Microsoft Powershell 7+.
 
     Start-Process PowerShell {
 
@@ -651,12 +651,12 @@ function WingetInstall {
 
         WaitOffice2007
         
-        Winget Install --Id Microsoft.Powershell --Accept-Source-Agreements --Accept-Package-Agreements
-        
+        Winget Install --Id Google.Chrome --Accept-Source-Agreements --Accept-Package-Agreements
+
         WaitOffice2007
         
-        Winget Install --Id Google.Chrome --Accept-Source-Agreements --Accept-Package-Agreements
-       
+        Winget Install --Id Microsoft.Powershell --Accept-Source-Agreements --Accept-Package-Agreements
+                       
         Clear-Host
 
         
