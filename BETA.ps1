@@ -755,16 +755,28 @@ function Office2007 {
 
     $Host.UI.RawUI.WindowTitle = 'OFFICE2007'
     $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
+    function WaitOffice2007 {
+            
+        if (Get-Process -Name setup) {
+            Wait-Process -Name setup
+        }
+
+        else {
+                
+            continue
+        }
+    
+    }
     
     $TOOL = 'C:\TOOL'
+
+    Start-Process "$TOOL\OFFICE\2007\Setup.exe" -ArgumentList '/adminfile Silent.msp'
    
     Add-WindowsCapability –Online -Name NetFx3~~~~ –Source D:\sources\sxs
 
-    Start-Process "$TOOL\OFFICE\2007\Setup.exe" -ArgumentList '/adminfile Silent.msp' -Wait
-
+    WaitOffice2007
+    
     Start-Process 'winword.exe'
-
-    Clear-Host
    
 }
 
