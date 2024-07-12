@@ -789,13 +789,18 @@ function DriverBooster {
 
         Start-Process "$TOOL\MZTOOL\DRIVER_BOOSTER\DriverBoosterPortable.exe" -Wait
         
-        Start-Sleep -Seconds 3
+        Start-Sleep -Seconds 1
 
         #Finaliza o serviço do software Driver Booster e deleta a pasta temporária do mesmo.
         function StopDriverBooster {
             
             if (Get-Process -Name 'DriverBooster') {
+                
                 Stop-Process -Name 'DriverBooster' -Force
+                
+                Start-Sleep -Seconds 5
+
+                Remove-Item -Path "$TOOL\MZTOOL\DRIVER_BOOSTER" -Recurse -Force -ErrorAction SilentlyContinue
             }
 
             else {
@@ -804,11 +809,8 @@ function DriverBooster {
             }
     
         }
-        
 
-        Start-Sleep -Seconds 10
-
-        Remove-Item -Path "$TOOL\MZTOOL\DRIVER_BOOSTER" -Recurse -Force -ErrorAction SilentlyContinue
+        StopDriverBooster
 
         Clear-Host
     }
