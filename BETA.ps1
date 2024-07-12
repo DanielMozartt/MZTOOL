@@ -97,13 +97,13 @@ ______________________________________________________
             Start-Process powershell -Wait -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
-                    (Get-Command -Type Function ModuleUpdate).Definition
+                    (Get-Command -Type Function ModuleUpdate, WinUpdate, WingetInstall).Definition
                 ))
             )
 
             WingetInstall  
-            WinUpdate
-                             
+            
+
             Clear-Host
             Write-Host '
 ______________________________________________________
@@ -663,11 +663,11 @@ function WingetInstall {
         
         Winget Install --Id Adobe.Acrobat.Reader.64-bit --Accept-Source-Agreements --Accept-Package-Agreements
 
-        WaitOffice2007
+        #WaitOffice2007
         
         Winget Install --Id Google.Chrome --Accept-Source-Agreements --Accept-Package-Agreements
 
-        WaitOffice2007
+        #WaitOffice2007
         
         Winget Install --Id Microsoft.Powershell --Accept-Source-Agreements --Accept-Package-Agreements
                        
