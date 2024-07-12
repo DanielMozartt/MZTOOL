@@ -374,15 +374,16 @@ ______________________________________________________
                         
                         if ($2007Folder) {
                             
-                            ToolDir
-                   
-                            DownloadMztool
+                            continue
+                            
                         }
                
                         else {
 
-                            continue 
-
+                            ToolDir
+                   
+                            DownloadMztool
+                             
                         }
 
                         Office2007
