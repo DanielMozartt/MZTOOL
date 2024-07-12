@@ -17,7 +17,7 @@ if ($myWindowsPrincipal.IsInRole($adminRole)) {
     $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
     $H = Get-Host
     $Win = $H.UI.RawUI.WindowSize
-    $Win.Height = 15
+    $Win.Height = 17
     $Win.Width = 58
     $H.UI.RawUI.Set_WindowSize($Win)
     EnvTool
