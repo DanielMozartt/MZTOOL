@@ -97,13 +97,13 @@ ______________________________________________________
             Start-Process powershell -Wait -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
-                    (Get-Command -Type Function ModuleUpdate).Definition
+                    (Get-Command -Type Function ModuleUpdate, WinUpdate, WingetInstall).Definition
                 ))
             )
 
             WingetInstall  
-            WinUpdate
-                             
+            
+
             Clear-Host
             Write-Host '
 ______________________________________________________
