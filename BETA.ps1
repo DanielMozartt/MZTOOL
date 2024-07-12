@@ -610,9 +610,7 @@ function ModuleUpdate {
     Start-Sleep 1
     Winget Source Reset --Force  
     Winget Upgrade --All --Accept-Source-Agreements --Accept-Package-Agreements
-    Start-Sleep 1
-    Get-AppxPackage *appInstaller* | Reset-AppxPackage 
-    
+       
     Start-Sleep 1
 
     #Módulo WINDOWS UPDATE.
@@ -794,8 +792,19 @@ function DriverBooster {
         Start-Sleep -Seconds 3
 
         #Finaliza o serviço do software Driver Booster e deleta a pasta temporária do mesmo.
+        function StopDriverBooster {
+            
+            if (Get-Process -Name 'DriverBooster') {
+                Stop-Process -Name 'DriverBooster' -Force
+            }
 
-        Stop-Process -Name 'DriverBooster' -Force
+            else {
+                
+                continue
+            }
+    
+        }
+        
 
         Start-Sleep -Seconds 10
 
