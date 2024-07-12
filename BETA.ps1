@@ -593,8 +593,9 @@ function ModuleUpdate {
     
     #INSTALAÇÃO DOS MÓDULOS WINGET E WINDOWS UPDATE.       
     
+    $Host.UI.RawUI.WindowTitle = 'MODULESUPDATE'
+    $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
     
-
     #Pacote NuGet.
     Install-PackageProvider -Name NuGet -Force 
         
