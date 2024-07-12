@@ -159,7 +159,7 @@ ______________________________________________________
 |            FERRAMENTAS DE DIAGNÓSTICOS             |
 |                                                    |
 |                                                    |
-|        FERRAMENTAS DE DIAGNÓSTICO INICIADAS        |
+|     FERRAMENTAS DE DIAGNÓSTICO X64 INICIADAS       |
 |                                                    |
 |                                                    |
 |                 MOZART INFORMÁTICA                 |
@@ -188,7 +188,7 @@ ______________________________________________________
 |            FERRAMENTAS DE DIAGNÓSTICOS             |
 |                                                    |
 |                                                    |
-|        FERRAMENTAS DE DIAGNÓSTICO INICIADAS        |
+|     FERRAMENTAS DE DIAGNÓSTICO X32 INICIADAS       |
 |                                                    |
 |                                                    |
 |                 MOZART INFORMÁTICA                 |
@@ -496,6 +496,7 @@ function ToolDir {
     $TOOLFOLDER.Attributes = 'Hidden' 
 
 }
+
 function DownloadMztool {
      
     #Download do arquivo MZTOOL.zip
