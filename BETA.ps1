@@ -20,7 +20,7 @@ if ($myWindowsPrincipal.IsInRole($adminRole)) {
     $Win.Height = 17
     $Win.Width = 58
     $H.UI.RawUI.Set_WindowSize($Win)
-    EnvTool
+    
     Clear-Host
 }
 else {
@@ -100,10 +100,7 @@ ______________________________________________________
                     (Get-Command -Type Function ModuleUpdate, WingetInstall, WinUpdate).Definition
                 ))
             )
-             
-            EnvTool
-
-                     
+                                              
             Clear-Host
             Write-Host '
 ______________________________________________________
@@ -120,6 +117,7 @@ ______________________________________________________
 |                   DANIEL MOZART                    |
 |____________________________________________________|
 '
+            EnvTool
             DelTemp
             Start-Sleep -Seconds 5
             Exit
