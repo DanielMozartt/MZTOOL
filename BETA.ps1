@@ -647,19 +647,19 @@ function WingetInstall {
 
         WaitOffice2007
         
+        Winget Install --Id Adobe.Acrobat.Reader.64-bit --Accept-Source-Agreements --Accept-Package-Agreements
+
+        WaitOffice2007
+        
         Winget Install --Id Microsoft.Powershell --Accept-Source-Agreements --Accept-Package-Agreements
         
         WaitOffice2007
         
         Winget Install --Id Google.Chrome --Accept-Source-Agreements --Accept-Package-Agreements
-        
-        WaitOffice2007
-        
-        Winget Install --Id Adobe.Acrobat.Reader.64-bit --Accept-Source-Agreements --Accept-Package-Agreements
-
+       
         Clear-Host
 
-        i++
+        
     }
       
 }
