@@ -370,21 +370,25 @@ ______________________________________________________
 |                   DANIEL MOZART                    |
 |____________________________________________________|
  '
-                        $2007Folder = 'C:\TOOL\OFFICE\2007'        
-                        
-                        if ($2007Folder) {
-                            
-                            continue
-                            
-                                      
-                            else {
+                               
+                        function 2007Folder {
 
+                            $2007Folder = 'C:\TOOL\OFFICE\2007' 
+            
+                            if ($2007Folder) {
+                                continue
+                            }
+
+                            else {
+                
                                 ToolDir
                    
                                 DownloadMztool
-                             
                             }
+    
                         }
+
+                        2007Folder
 
                         Office2007
 
