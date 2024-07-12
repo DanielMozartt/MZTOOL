@@ -20,6 +20,7 @@ if ($myWindowsPrincipal.IsInRole($adminRole)) {
     $Win.Height = 15
     $Win.Width = 58
     $H.UI.RawUI.Set_WindowSize($Win)
+    EnvTool
     Clear-Host
 }
 else {
@@ -383,7 +384,7 @@ ______________________________________________________
                             continue 
 
                         }
-                        
+
                         Office2007
 
                         Start-Sleep -1
@@ -554,7 +555,7 @@ function EnvTool {
     #Adicionar variáveis de ambiente.
     Start-Process PowerShell -WindowStyle Hidden {
         [Environment]::SetEnvironmentVariable('TOOL', 'C:\TOOL', 'Machine') 
-        [Environment]::SetEnvironmentVariable('MZTOOL', 'https://seulink.net/MZTBETA', 'MACHINE')
+        [Environment]::SetEnvironmentVariable('MZTOOL', 'PowerShell irm https://seulink.net/MZTBETA | iex', 'MACHINE')
     }
 }
 
