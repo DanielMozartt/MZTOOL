@@ -86,14 +86,14 @@ ______________________________________________________
             AnyDesk
             ToolDir
 
-            Start-Process powershell -WindowStyle Hidden -args '-noprofile', '-noexit', '-EncodedCommand',
+            Start-Process powershell -args '-noprofile', '-noexit', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
                     (Get-Command -Type Function DownloadMztool, DriverBooster, Office2007).Definition
                 ))
             )
 
-            Start-Process powershell -WindowStyle Hidden -Wait -args '-noprofile', '-noexit', '-EncodedCommand',
+            Start-Process powershell -Wait -args '-noprofile', '-noexit', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
                     (Get-Command -Type Function ModuleUpdate, WingetInstall, WinUpdate).Definition
@@ -546,9 +546,9 @@ function DownloadMztool {
 function EnvTool {
     
     #Adicionar variáveis de ambiente.
-    Start-Process PowerShell -Verb runAs {
-        [Environment]::SetEnvironmentVariable('TOOL', 'C:\TOOL', 'Machine') | Out-Null
-        [Environment]::SetEnvironmentVariable('MZTOOL', 'https://seulink.net/MZTBETA', 'MACHINE') | Out-Null
+    Start-Process PowerShell -WindowStyle Hidden {
+        [Environment]::SetEnvironmentVariable('TOOL', 'C:\TOOL', 'Machine') 
+        [Environment]::SetEnvironmentVariable('MZTOOL', 'https://seulink.net/MZTBETA', 'MACHINE')
     }
 }
 
@@ -628,6 +628,9 @@ function WingetInstall {
 
     Start-Process PowerShell {
 
+        $Host.UI.RawUI.WindowTitle = 'WINGET'
+        $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
+
         function WaitOffice2007 {
             
             if (Get-Process -Name setup) {
@@ -676,6 +679,9 @@ function WinUpdate {
     #Instalação de novas atualizações do Windows através do Windows Update.
     
     Start-Process PowerShell {
+
+        $Host.UI.RawUI.WindowTitle = 'WINUPDATE'
+        $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
     
         Get-WindowsUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot
 
@@ -746,6 +752,8 @@ function Office365 {
     
 function Office2007 {
 
+    $Host.UI.RawUI.WindowTitle = 'OFFICE2007'
+    $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
     
     $TOOL = 'C:\TOOL'
    
@@ -769,7 +777,7 @@ function DriverBooster {
         Expand-Archive -LiteralPath "$TOOL\MZTOOL\DRIVER_BOOSTER.zip" -DestinationPath "$TOOL\MZTOOL\DRIVER_BOOSTER"
 
         Start-Process "$TOOL\MZTOOL\DRIVER_BOOSTER\DriverBoosterPortable.exe" -Wait
-
+        
         Start-Sleep -Seconds 3
 
         #Finaliza o serviço do software Driver Booster e deleta a pasta temporária do mesmo.
