@@ -87,14 +87,14 @@ ______________________________________________________
             AnyDesk
             ToolDir
 
-            Start-Process powershell -args '-noprofile', '-noexit', '-EncodedCommand',
+            Start-Process powershell -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
                     (Get-Command -Type Function DownloadMztool, DriverBooster, Office2007).Definition
                 ))
             )
 
-            Start-Process powershell -Wait -args '-noprofile', '-noexit', '-EncodedCommand',
+            Start-Process powershell -Wait -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
                     (Get-Command -Type Function ModuleUpdate, WingetInstall, WinUpdate).Definition
