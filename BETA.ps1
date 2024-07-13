@@ -653,21 +653,24 @@ function WingetInstall {
            
         }
         
+        for ($i = 1; $i -le 2; $i++) {
 
-        WaitOffice2007Winget
+            WaitOffice2007Winget
         
-        Winget Install --Id Adobe.Acrobat.Reader.64-bit --Accept-Source-Agreements --Accept-Package-Agreements
+            Winget Install --Id Adobe.Acrobat.Reader.64-bit --Accept-Source-Agreements --Accept-Package-Agreements
 
-        WaitOffice2007Winget
+            WaitOffice2007Winget
         
-        Winget Install --Id Google.Chrome --Accept-Source-Agreements --Accept-Package-Agreements
+            Winget Install --Id Google.Chrome --Accept-Source-Agreements --Accept-Package-Agreements
 
-        WaitOffice2007Winget
+            WaitOffice2007Winget
         
-        Winget Install --Id Microsoft.Powershell --Accept-Source-Agreements --Accept-Package-Agreements
-                       
-        Clear-Host
-
+            Winget Install --Id Microsoft.Powershell --Accept-Source-Agreements --Accept-Package-Agreements
+                        
+            Clear-Host
+            
+        }        
+       
         
     }
       
