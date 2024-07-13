@@ -792,6 +792,9 @@ function DriverBooster {
 
     Start-Process PowerShell {
 
+        $Host.UI.RawUI.WindowTitle = 'MZTOOL>DRIVER_BOOSTER'
+        $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
+
         $TOOL = 'C:\TOOL'
 
         Expand-Archive -LiteralPath "$TOOL\MZTOOL\DRIVER_BOOSTER.zip" -DestinationPath "$TOOL\MZTOOL\DRIVER_BOOSTER"
