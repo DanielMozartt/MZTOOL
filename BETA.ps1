@@ -607,7 +607,7 @@ function ModuleUpdate {
     
     #INSTALAÇÃO DOS MÓDULOS WINGET E WINDOWS UPDATE.       
     
-    $Host.UI.RawUI.WindowTitle = 'MODULESUPDATE'
+    $Host.UI.RawUI.WindowTitle = 'MZTOOL> MODULESUPDATE'
     $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
     
     #Pacote NuGet.
@@ -641,7 +641,7 @@ function WingetInstall {
 
     Start-Process PowerShell {
 
-        $Host.UI.RawUI.WindowTitle = 'WINGET'
+        $Host.UI.RawUI.WindowTitle = 'MZTOOL> WINGET'
         $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
 
         function WaitOffice2007Winget {
@@ -681,6 +681,9 @@ function WingetUpdate {
 
     Start-Process PowerShell {
 
+        $Host.UI.RawUI.WindowTitle = 'MZTOOL> WINGETUPDATE'
+        $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
+
         Winget Upgrade --All --Accept-Source-Agreements --Accept-Package-Agreements --Include-Unknown
 
         Clear-Host
@@ -693,7 +696,7 @@ function WinUpdate {
     
     Start-Process PowerShell {
 
-        $Host.UI.RawUI.WindowTitle = 'WINUPDATE'
+        $Host.UI.RawUI.WindowTitle = 'MZTOOL> WINUPDATE'
         $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
     
         Get-WindowsUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot
@@ -765,7 +768,7 @@ function Office365 {
     
 function Office2007 {
 
-    $Host.UI.RawUI.WindowTitle = 'OFFICE2007'
+    $Host.UI.RawUI.WindowTitle = 'MZTOOL> OFFICE2007'
     $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
     function WaitOffice2007B {
             
@@ -792,7 +795,7 @@ function DriverBooster {
 
     Start-Process PowerShell {
 
-        $Host.UI.RawUI.WindowTitle = 'MZTOOL>DRIVER_BOOSTER'
+        $Host.UI.RawUI.WindowTitle = 'MZTOOL> DRIVER_BOOSTER'
         $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
 
         $TOOL = 'C:\TOOL'
