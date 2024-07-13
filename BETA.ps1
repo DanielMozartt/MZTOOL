@@ -646,16 +646,13 @@ function WingetInstall {
 
         function WaitOffice2007Winget {
             
-            if (Get-Process -Name setup) {
+            if (Get-Process -Name setup -ErrorAction SilentlyContinue) {
                 Wait-Process -Name setup
             }
 
-            else {
-                
-                continue
-            }
-    
+           
         }
+        
 
         WaitOffice2007Winget
         
@@ -769,13 +766,8 @@ function Office2007 {
     $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
     function WaitOffice2007B {
             
-        if (Get-Process -Name setup) {
+        if (Get-Process -Name setup -ErrorAction SilentlyContinue) {
             Wait-Process -Name setup
-        }
-
-        else {
-                
-            continue
         }
     
     }
