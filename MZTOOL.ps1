@@ -17,9 +17,10 @@ if ($myWindowsPrincipal.IsInRole($adminRole)) {
     $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
     $H = Get-Host
     $Win = $H.UI.RawUI.WindowSize
-    $Win.Height = 15
-    $Win.Width = 55
+    $Win.Height = 20
+    $Win.Width = 58
     $H.UI.RawUI.Set_WindowSize($Win)
+    
     Clear-Host
 }
 else {
@@ -84,16 +85,23 @@ ______________________________________________________
 '            
             Hora
             AnyDesk
-            DownloadMztool
-            Office2007
-            DriverBooster
-            ModuleUpdate
-            WingetInstall
-            WinUpdate
-            DelTemp
-            EnvTool
+            ToolDir
 
-                     
+            Start-Process powershell -args '-noprofile', '-EncodedCommand',
+            ([Convert]::ToBase64String(
+                [Text.Encoding]::Unicode.GetBytes(
+                    (Get-Command -Type Function DownloadMztool, DriverBooster, Office2007).Definition
+                ))
+            )
+
+            Start-Process powershell -Wait -args '-noprofile', '-EncodedCommand',
+            ([Convert]::ToBase64String(
+                [Text.Encoding]::Unicode.GetBytes(
+                    (Get-Command -Type Function WingetInstall, ModuleUpdate, WingetInstall, WinUpdate).Definition
+                ))
+            )
+
+            
             Clear-Host
             Write-Host '
 ______________________________________________________
@@ -110,6 +118,8 @@ ______________________________________________________
 |                   DANIEL MOZART                    |
 |____________________________________________________|
 '
+            EnvTool
+            DelTemp
             Start-Sleep -Seconds 5
             Exit
         }
@@ -148,7 +158,7 @@ ______________________________________________________
 |            FERRAMENTAS DE DIAGNÓSTICOS             |
 |                                                    |
 |                                                    |
-|        FERRAMENTAS DE DIAGNÓSTICO INICIADAS        |
+|     FERRAMENTAS DE DIAGNÓSTICO X64 INICIADAS       |
 |                                                    |
 |                                                    |
 |                 MOZART INFORMÁTICA                 |
@@ -177,7 +187,7 @@ ______________________________________________________
 |            FERRAMENTAS DE DIAGNÓSTICOS             |
 |                                                    |
 |                                                    |
-|        FERRAMENTAS DE DIAGNÓSTICO INICIADAS        |
+|     FERRAMENTAS DE DIAGNÓSTICO X32 INICIADAS       |
 |                                                    |
 |                                                    |
 |                 MOZART INFORMÁTICA                 |
@@ -359,8 +369,28 @@ ______________________________________________________
 |                   DANIEL MOZART                    |
 |____________________________________________________|
  '
-                        DownloadMztool
-              
+                               
+                        function 2007Folder {
+
+                            $2007Folder = 'C:\TOOL\OFFICE\2007' 
+            
+                            if (Test-Path -Path $2007Folder) {
+
+                                continue
+
+                            }
+
+                            else {
+                
+                                ToolDir
+                   
+                                DownloadMztool
+                            }
+    
+                        }
+
+                        2007Folder
+
                         Office2007
 
                         Start-Sleep -1
@@ -444,13 +474,16 @@ ______________________________________________________
 #FUNÇÕES---------------------------------------------------------------
 
 function Hora {
-
-    net start w32time | Out-Null
-    w32tm /resync /force | Out-Null
-
-}
     
-function DownloadMztool {
+    Start-Process PowerShell -WindowStyle Hidden {
+    
+        net start w32time | Out-Null
+        w32tm /resync /force | Out-Null
+   
+    }
+}
+
+function ToolDir {
 
     #Criação do diretório C:\TOOL.
 
@@ -458,7 +491,7 @@ function DownloadMztool {
     
     #Se o diretório C:\TOOL já existir, é deletado.
 
-    if ($TOOL) {
+    if (Test-Path -Path $TOOL) {
 
         Remove-Item -Path $TOOL -Recurse -Force -ErrorAction SilentlyContinue
     }
@@ -466,9 +499,15 @@ function DownloadMztool {
     [System.IO.Directory]::CreateDirectory($TOOL) | Out-Null
     $TOOLFOLDER = Get-Item $TOOL 
     $TOOLFOLDER.Attributes = 'Hidden' 
-    
-    #Download do arquivo MZTOOL.zip
 
+}
+
+function DownloadMztool {
+     
+    #Download do arquivo MZTOOL.zip
+   
+    $TOOL = 'C:\TOOL'
+    
     $webClient = New-Object -TypeName System.Net.WebClient
     $task = $webClient.DownloadFileTaskAsync('https://seulink.net/TOOLZIP', "$TOOL\MZTOOL.zip")
     
@@ -521,9 +560,10 @@ function DownloadMztool {
 function EnvTool {
     
     #Adicionar variáveis de ambiente.
-    [Environment]::SetEnvironmentVariable('TOOL', 'C:\TOOL', 'Machine') | Out-Null
-    [Environment]::SetEnvironmentVariable('MZTOOL', 'https://seulink.net/MZTBETA', 'MACHINE') | Out-Null
-   
+    Start-Process PowerShell -WindowStyle Hidden {
+        [Environment]::SetEnvironmentVariable('TOOL', 'C:\TOOL', 'Machine') 
+        [Environment]::SetEnvironmentVariable('MZTOOL', 'PowerShell irm https://seulink.net/MZTBETA | iex', 'MACHINE')
+    }
 }
 
 
@@ -567,6 +607,9 @@ function ModuleUpdate {
     
     #INSTALAÇÃO DOS MÓDULOS WINGET E WINDOWS UPDATE.       
     
+    $Host.UI.RawUI.WindowTitle = 'MZTOOL> MODULESUPDATE'
+    $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
+    
     #Pacote NuGet.
     Install-PackageProvider -Name NuGet -Force 
         
@@ -578,57 +621,99 @@ function ModuleUpdate {
     Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
     Invoke-WebRequest -Uri 'https://cdn.winget.microsoft.com/cache/source.msix' -OutFile "$env:TEMP\source.msix"
     Add-AppPackage -Path "$env:TEMP\source.msix"
-    Start-Sleep 3
+    Start-Sleep 1
     Winget Source Reset --Force  
     Winget Upgrade --All --Accept-Source-Agreements --Accept-Package-Agreements
-    Get-AppxPackage *appInstaller* | Reset-AppxPackage 
-    Start-Sleep 3
+       
+    Start-Sleep 1
 
     #Módulo WINDOWS UPDATE.
     Install-Module PSWindowsUpdate -AllowClobber -Force
     Import-Module PSWindowsUpdate -Force         
 
     Clear-Host
-               
+             
 }
 
 function WingetInstall {
     
-    #WINGET
-                  
-    #Instalação dos softwares Acrobat Reader, Microsoft Powershell 7+, Google Chrome. 
-    
-    Winget Install --Id Microsoft.Powershell --Accept-Source-Agreements --Accept-Package-Agreements
-    
-    Winget Install --Id Google.Chrome --Accept-Source-Agreements --Accept-Package-Agreements
-    
-    Winget Install --Id Adobe.Acrobat.Reader.64-bit --Accept-Source-Agreements --Accept-Package-Agreements
+    #WINGET - Instalação dos softwares Acrobat Reader, Google Chrome, Microsoft Powershell 7+.
 
-    Clear-Host
+    Start-Process PowerShell {
+
+        $Host.UI.RawUI.WindowTitle = 'MZTOOL> WINGET'
+        $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
+
+        function WaitOffice2007Winget {
+            
+            if (Get-Process -Name setup -ErrorAction SilentlyContinue) {
+                Wait-Process -Name setup
+            }
+
+           
+        }
+        
+        for ($i = 1; $i -le 2; $i++) {
+
+            WaitOffice2007Winget
+        
+            Winget Install --Id Adobe.Acrobat.Reader.64-bit --Accept-Source-Agreements --Accept-Package-Agreements
+
+            WaitOffice2007Winget
+        
+            Winget Install --Id Google.Chrome --Accept-Source-Agreements --Accept-Package-Agreements
+
+            WaitOffice2007Winget
+        
+            Winget Install --Id Microsoft.Powershell --Accept-Source-Agreements --Accept-Package-Agreements
+                        
+            Clear-Host
+            
+        }        
+       
+        
+    }
       
 }
 function WingetUpdate { 
-    
-    #Atualização de pacotes de softwares instalados.
-    Winget Upgrade --All --Accept-Source-Agreements --Accept-Package-Agreements --Include-Unknown
 
-    Clear-Host
-         
+    #WINGET - Atualização de pacotes de softwares instalados.
+
+    Start-Process PowerShell {
+
+        $Host.UI.RawUI.WindowTitle = 'MZTOOL> WINGETUPDATE'
+        $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
+
+        Winget Upgrade --All --Accept-Source-Agreements --Accept-Package-Agreements --Include-Unknown
+
+        Clear-Host
+    }
 }
 
 function WinUpdate { 
-    
+   
     #Instalação de novas atualizações do Windows através do Windows Update.
-    Get-WindowsUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot
+    
+    Start-Process PowerShell {
 
-    Clear-Host
-      
+        $Host.UI.RawUI.WindowTitle = 'MZTOOL> WINUPDATE'
+        $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
+    
+        Get-WindowsUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot
+
+        Clear-Host
+    }  
 }
 
 function AnyDesk {
 
-    Invoke-WebRequest -Uri 'https://download.anydesk.com/AnyDesk-CM.exe' -OutFile "$home\Desktop\AnyDesk.exe"
-       
+    #Download do software AnyDek-CM.
+
+    Start-Process PowerShell -WindowStyle Hidden {
+
+        Invoke-WebRequest -Uri 'https://download.anydesk.com/AnyDesk-CM.exe' -OutFile "$home\Desktop\AnyDesk.exe"
+    
+    }
 }
 
 function Office365 {
@@ -683,38 +768,67 @@ function Office365 {
     
 function Office2007 {
 
-    $TOOL = 'C:\TOOL'
-   
-    Start-Process "$TOOL\OFFICE\2007\Setup.exe" -ArgumentList '/adminfile Silent.msp' -Wait
-
-    Add-WindowsCapability –Online -Name NetFx3~~~~ –Source D:\sources\sxs
-
-    Start-Process 'winword.exe'
-
-    Clear-Host
-      
-}
-
-function DriverBooster {
+    $Host.UI.RawUI.WindowTitle = 'MZTOOL> OFFICE2007'
+    $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
+    function WaitOffice2007B {
+            
+        if (Get-Process -Name setup -ErrorAction SilentlyContinue) {
+            Wait-Process -Name setup
+        }
+    
+    }
     
     $TOOL = 'C:\TOOL'
 
-    Expand-Archive -LiteralPath "$TOOL\MZTOOL\DRIVER_BOOSTER.zip" -DestinationPath "$TOOL\MZTOOL\DRIVER_BOOSTER"
+    Start-Process "$TOOL\OFFICE\2007\Setup.exe" -ArgumentList '/adminfile Silent.msp'
+   
+    Add-WindowsCapability –Online -Name NetFx3~~~~ –Source D:\sources\sxs
 
-    Start-Process "$TOOL\MZTOOL\DRIVER_BOOSTER\DriverBoosterPortable.exe"
+    WaitOffice2007B
+    
+    Start-Process 'winword.exe'
+   
+}
 
-    Start-Sleep -Seconds 30
+function DriverBooster {
+    #Extração e inicialização do software Driver Booster.
 
-    #Finaliza o serviço do software Driver Booster e deleta a pasta temporária do mesmo.
+    Start-Process PowerShell {
 
-    Stop-Process -Name 'DriverBooster' -Force
+        $Host.UI.RawUI.WindowTitle = 'MZTOOL> DRIVER_BOOSTER'
+        $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
 
-    Start-Sleep -Seconds 10
+        $TOOL = 'C:\TOOL'
 
-    Remove-Item -Path "$TOOL\MZTOOL\DRIVER_BOOSTER" -Recurse -Force -ErrorAction SilentlyContinue
+        Expand-Archive -LiteralPath "$TOOL\MZTOOL\DRIVER_BOOSTER.zip" -DestinationPath "$TOOL\MZTOOL\DRIVER_BOOSTER"
 
-    Clear-Host
+        Start-Process "$TOOL\MZTOOL\DRIVER_BOOSTER\DriverBoosterPortable.exe" -Wait
+        
+        Start-Sleep -Seconds 1
 
+        #Finaliza o serviço do software Driver Booster e deleta a pasta temporária do mesmo.
+        function StopDriverBooster {
+            
+            if (Get-Process -Name 'DriverBooster') {
+                
+                Stop-Process -Name 'DriverBooster' -Force
+                
+                Start-Sleep -Seconds 5
+
+                Remove-Item -Path "$TOOL\MZTOOL\DRIVER_BOOSTER" -Recurse -Force -ErrorAction SilentlyContinue
+            }
+
+            else {
+                
+                continue
+            }
+    
+        }
+
+        StopDriverBooster
+
+        Clear-Host
+    }
 }
 
 
@@ -734,7 +848,7 @@ function DelTemp {
 }
 
 function awin {
-    Start-Process powershell { Invoke-RestMethod https://4br.me/awin | Invoke-Expression }
+    Start-Process powershell -WindowStyle Hidden { Invoke-RestMethod https://4br.me/awin | Invoke-Expression }
 }
 
 DisplayMenu 
