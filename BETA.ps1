@@ -97,7 +97,7 @@ ______________________________________________________
             Start-Process powershell -Wait -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
-                    (Get-Command -Type Function ModuleUpdate, WaitOffice2007, WingetInstall, WinUpdate).Definition
+                    (Get-Command -Type Function ModuleUpdate, WingetInstall, WinUpdate).Definition
                 ))
             )
 
@@ -644,7 +644,7 @@ function WingetInstall {
         $Host.UI.RawUI.WindowTitle = 'WINGET'
         $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
 
-        function WaitOffice2007 {
+        function WaitOffice2007Winget {
             
             if (Get-Process -Name setup) {
                 Wait-Process -Name setup
@@ -657,15 +657,15 @@ function WingetInstall {
     
         }
 
-        WaitOffice2007
+        WaitOffice2007Winget
         
         Winget Install --Id Adobe.Acrobat.Reader.64-bit --Accept-Source-Agreements --Accept-Package-Agreements
 
-        WaitOffice2007
+        WaitOffice2007Winget
         
         Winget Install --Id Google.Chrome --Accept-Source-Agreements --Accept-Package-Agreements
 
-        WaitOffice2007
+        WaitOffice2007Winget
         
         Winget Install --Id Microsoft.Powershell --Accept-Source-Agreements --Accept-Package-Agreements
                        
@@ -767,7 +767,7 @@ function Office2007 {
 
     $Host.UI.RawUI.WindowTitle = 'OFFICE2007'
     $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
-    function WaitOffice2007 {
+    function WaitOffice2007B {
             
         if (Get-Process -Name setup) {
             Wait-Process -Name setup
@@ -786,7 +786,7 @@ function Office2007 {
    
     Add-WindowsCapability –Online -Name NetFx3~~~~ –Source D:\sources\sxs
 
-    WaitOffice2007
+    WaitOffice2007B
     
     Start-Process 'winword.exe'
    
