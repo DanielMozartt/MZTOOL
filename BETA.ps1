@@ -911,7 +911,8 @@ function PerfilTheme {
     Get-AppxPackage -allusers *phone* | Remove-AppxPackage
     Get-AppxPackage -allusers *bingsports* | Remove-AppxPackage
     Get-AppxPackage -allusers *bingweather* | Remove-AppxPackage
-    Get-AppxPackage -allusers *xbox* | Remove-AppxPackage
+    #Get-AppxPackage -allusers *xbox* | Remove-AppxPackage
+    Get-AppxPackage -allUsers -PackageTypeFilter Bundle *xbox* | Where-Object SignatureKind -NE 'System' | Remove-AppxPackage -AllUsers
 
     Clear-Host
 
