@@ -884,7 +884,27 @@ function PerfilTheme {
         Write-Host 'Windows não identificado, tema não aplicado.'
     }    
     
-    Start-Sleep 3
+    #Adiciona ícones de sistema a àrea de trabalho.
+
+    $DESKINCONSREG = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel'
+
+    New-ItemProperty -Path "$DESKINCONSREG" -Name '{018D5C66-4533-4307-9B53-224DE2ED1FE6}' -PropertyType dword -Value 00000000
+    New-ItemProperty -Path "$DESKINCONSREG" -Name '{20D04FE0-3AEA-1069-A2D8-08002B30309D}' -PropertyType dword -Value 00000000
+    New-ItemProperty -Path "$DESKINCONSREG" -Name '{59031a47-3f72-44a7-89c5-5595fe6b30ee}' -PropertyType dword -Value 00000000
+    New-ItemProperty -Path "$DESKINCONSREG" -Name '{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}' -PropertyType dword -Value 00000000
+    New-ItemProperty -Path "$DESKINCONSREG" -Name '{5399E694-6CE5-4D6C-8FCE-1D8870FDCBA0}' -PropertyType dword -Value 00000000
+
+    $shell = New-Object -ComObject Shell.Application
+    $shell.minimizeall()
+    Start-Sleep 1
+    $wsh = New-Object -ComObject Wscript.Shell
+    $wsh.sendkeys('{F5}')
+    Start-Sleep 1
+    $shell.undominimizeall()
+
+    #Finaliza janela de personalização do Windows.
+
+    Start-Sleep 5
 
     if (Get-Process -Name 'systemsettings') {
                 
@@ -897,15 +917,6 @@ function PerfilTheme {
         continue
     }
     
-    #Adiciona ícones de sistema a àrea de trabalho.
-
-    $DESKINCONSREG = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel'
-
-    New-ItemProperty -Path "$DESKINCONSREG" -Name '{018D5C66-4533-4307-9B53-224DE2ED1FE6}' -PropertyType dword -Value 00000000
-    New-ItemProperty -Path "$DESKINCONSREG" -Name '{20D04FE0-3AEA-1069-A2D8-08002B30309D}' -PropertyType dword -Value 00000000
-    New-ItemProperty -Path "$DESKINCONSREG" -Name '{59031a47-3f72-44a7-89c5-5595fe6b30ee}' -PropertyType dword -Value 00000000
-    New-ItemProperty -Path "$DESKINCONSREG" -Name '{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}' -PropertyType dword -Value 00000000
-    New-ItemProperty -Path "$DESKINCONSREG" -Name '{5399E694-6CE5-4D6C-8FCE-1D8870FDCBA0}' -PropertyType dword -Value 00000000
 
     #Remove aplicativos específicados do Windows Store.
 
