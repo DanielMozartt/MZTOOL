@@ -86,6 +86,7 @@ ______________________________________________________
             Hora
             AnyDesk
             ToolDir
+            PerfilTheme
 
             Start-Process powershell -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
