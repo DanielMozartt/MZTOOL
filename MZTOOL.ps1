@@ -509,7 +509,7 @@ function DownloadMztool {
     $TOOL = 'C:\TOOL'
     
     $webClient = New-Object -TypeName System.Net.WebClient
-    $task = $webClient.DownloadFileTaskAsync('https://bit.ly/MZTTOOL', "$TOOL\MZTOOL.zip")
+    $task = $webClient.DownloadFileTaskAsync('https://seulink.net/TOOLZIP', "$TOOL\MZTOOL.zip")
     
     Register-ObjectEvent -InputObject $webClient -EventName DownloadProgressChanged -SourceIdentifier WebClient.DownloadProgressChanged | Out-Null
     
