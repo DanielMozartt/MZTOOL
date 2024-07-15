@@ -718,6 +718,9 @@ function AnyDesk {
 
 function Office365 {
 
+    $Host.UI.RawUI.WindowTitle = 'MZTOOL> OFFICE365'
+    $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
+
     $TOOL = 'C:\TOOL'
 
     [xml]$XML = @'
