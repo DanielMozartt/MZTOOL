@@ -723,7 +723,7 @@ function Office365 {
     [xml]$XML = @'
 <Configuration ID="646616bb-84c9-4354-9908-8abd74c04f4c">
   <Add OfficeClientEdition="64" Channel="Current" MigrateArch="TRUE">
-    <Product ID="O365BusinessEEANoTeamsRetail">
+    <Product ID="O365ProPlusEEANoTeamsRetail">
       <Language ID="pt-br" />
       <Language ID="MatchPreviousMSI" />
       <ExcludeApp ID="Groove" />
@@ -756,11 +756,11 @@ function Office365 {
     
     $XML.save("$TOOL\OFFICE\365\OFFICE365.xml") 
 
-    #$365XML = "$TOOL\OFFICE\365\OFFICE365.xml"
+    $365XML = "$TOOL\OFFICE\365\OFFICE365.xml"
 
-    #Winget Install --Id Microsoft.Office --Override "/configure $365XML" --Accept-Source-Agreements --Accept-Package-Agreements
-    Winget Install --Id 9WZDNCRD29V9 --Source msstore --Accept-Source-Agreements --Accept-Package-Agreements
-    Winget Install --Id 9WZDNCRD29V9 --Accept-Source-Agreements --Accept-Package-Agreements
+    Winget Install --Id Microsoft.Office --Override "/configure $365XML" --Accept-Source-Agreements --Accept-Package-Agreements
+    #Winget Install --Id 9WZDNCRD29V9 --Source msstore --Accept-Source-Agreements --Accept-Package-Agreements
+    #Winget Install --Id 9WZDNCRD29V9 --Accept-Source-Agreements --Accept-Package-Agreements
 
 
  
