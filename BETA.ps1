@@ -919,7 +919,7 @@ function PerfilTheme {
     
 
     #Remove aplicativos específicados do Windows Store.
-
+    Get-AppxPackage -allusers *WebExperience* | Remove-AppxPackage
     Get-AppxPackage -allusers *3dbuilder* | Remove-AppxPackage
     Get-AppxPackage -allusers *feedback* | Remove-AppxPackage
     Get-AppxPackage -allusers *officehub* | Remove-AppxPackage
@@ -943,7 +943,7 @@ function PerfilTheme {
     Get-AppxPackage -allusers *bingweather* | Remove-AppxPackage
     #Get-AppxPackage -allusers *xbox* | Remove-AppxPackage
     Get-AppxPackage -allUsers -PackageTypeFilter Bundle *xbox* | Where-Object SignatureKind -NE 'System' | Remove-AppxPackage -AllUsers
-
+    
     Clear-Host
 
 }
