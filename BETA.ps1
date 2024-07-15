@@ -860,6 +860,23 @@ function DriverBooster {
 
 function PerfilTheme {
 
+    $WinVer = (Get-WmiObject Win32_OperatingSystem).Caption
+
+    if ( $WinVer -Match 'Windows 11') {
+        Write-Host "$WinVer"
+        pause
+    }
+    elseif ($WinVer -Match 'Windows 10') {
+        Write-Host "$WinVer"
+        pause
+    }
+    else {
+        Write-Host 'Windows não identificado.'
+        pause
+    }
+
+    Clear-Host
+
     Start-Process -FilePath 'C:\Windows\Resources\Themes\aero.theme'
     Start-Sleep 3
     Stop-Process -Name 'systemsettings.exe' -Force
