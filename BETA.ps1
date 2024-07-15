@@ -884,7 +884,7 @@ function PerfilTheme {
         Write-Host 'Windows não identificado, tema não aplicado.'
     }    
     
-    #Adiciona ícones de sistema a àrea de trabalho.
+    #Adiciona ícones de sistema a Área de Trabalho.
 
     $DESKINCONSREG = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel'
 
@@ -893,6 +893,8 @@ function PerfilTheme {
     New-ItemProperty -Path "$DESKINCONSREG" -Name '{59031a47-3f72-44a7-89c5-5595fe6b30ee}' -PropertyType dword -Value 00000000
     New-ItemProperty -Path "$DESKINCONSREG" -Name '{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}' -PropertyType dword -Value 00000000
     New-ItemProperty -Path "$DESKINCONSREG" -Name '{5399E694-6CE5-4D6C-8FCE-1D8870FDCBA0}' -PropertyType dword -Value 00000000
+
+    #Mostra e atualiza a Área de Trabalho.
 
     (New-Object -ComObject shell.application).toggleDesktop()
     Start-Sleep 1
