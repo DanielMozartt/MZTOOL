@@ -449,17 +449,37 @@ ______________________________________________________
         } 
 
         0 {
-            #OPÇÃO 0 - ENCERRAR SISTEMA.
+            #OPÇÃO 0 - ENCERRAR MZTOOL.
 
-            Write-Host 'ENCERRANDO MZTOOL'
+            Clear-Host
+            Write-Host '
+______________________________________________________
+|                                                    |
+|                      MZTOOL                        |
+| _________________________________________________  | 
+|                                                    |
+|                                                    |
+|                                                    |
+|                 ENCERRANDO MZTOOL                  |
+|                                                    |
+|                                                    |
+|                 MOZART INFORMÁTICA                 |
+|                   DANIEL MOZART                    |
+|____________________________________________________|
+'
+            
             DelTemp
-            Start-Sleep -Seconds 1
-            Break
+            Start-Sleep -Seconds 5
+            Exit
             Exit-PSHostProcess
             Exit-PSSession
         }
         . {
             awin exit
+        }
+
+        e {
+            EnvTool #TESTAR ENVTOOL
         }
         default {
             #ENTRADA INVÁLIDA.
