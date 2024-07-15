@@ -862,7 +862,7 @@ function DriverBooster {
 function PerfilTheme {
 
     Start-Process -FilePath 'C:\Windows\Resources\Themes\aero.theme'
-    Start-Sleep 2
+    Start-Sleep 3
     Stop-Process -Name 'systemsettings.exe' -Force
 
     Get-AppxPackage -allusers *3dbuilder* | Remove-AppxPackage
