@@ -85,8 +85,7 @@ ______________________________________________________
 '            
             Hora
             AnyDesk
-            ToolDir
-            PerfilTheme
+            ToolDir           
 
             Start-Process powershell -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
@@ -887,6 +886,8 @@ function PerfilTheme {
     Get-AppxPackage -allusers *bingsports* | Remove-AppxPackage
     Get-AppxPackage -allusers *bingweather* | Remove-AppxPackage
     Get-AppxPackage -allusers *xbox* | Remove-AppxPackage
+
+    Clear-Host
 
 }
 
