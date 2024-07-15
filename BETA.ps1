@@ -868,6 +868,8 @@ function PerfilTheme {
 
     $WinVer = (Get-WmiObject Win32_OperatingSystem).Caption
 
+    #Adiciona o Tema Escuro ao Windows.
+
     if ( $WinVer -Match 'Windows 11') {
         Write-Host "$WinVer"
         Start-Process -FilePath 'C:\Windows\Resources\Themes\dark.theme'
@@ -895,6 +897,18 @@ function PerfilTheme {
         continue
     }
     
+    #Adiciona ícones de sistema a àrea de trabalho.
+
+    $DESKINCONSREG = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel'
+
+    New-ItemProperty -Path "$DESKINCONSREG" -Name '{018D5C66-4533-4307-9B53-224DE2ED1FE6}' -PropertyType dword -Value 00000000
+    New-ItemProperty -Path "$DESKINCONSREG" -Name '{20D04FE0-3AEA-1069-A2D8-08002B30309D}' -PropertyType dword -Value 00000000
+    New-ItemProperty -Path "$DESKINCONSREG" -Name '{59031a47-3f72-44a7-89c5-5595fe6b30ee}' -PropertyType dword -Value 00000000
+    New-ItemProperty -Path "$DESKINCONSREG" -Name '{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}' -PropertyType dword -Value 00000000
+    New-ItemProperty -Path "$DESKINCONSREG" -Name '{5399E694-6CE5-4D6C-8FCE-1D8870FDCBA0}' -PropertyType dword -Value 00000000
+
+    #Remove aplicativos específicados do Windows Store.
+
     Get-AppxPackage -allusers *3dbuilder* | Remove-AppxPackage
     Get-AppxPackage -allusers *feedback* | Remove-AppxPackage
     Get-AppxPackage -allusers *officehub* | Remove-AppxPackage
