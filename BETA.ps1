@@ -90,6 +90,13 @@ ______________________________________________________
             Start-Process powershell -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
+                    (Get-Command -Type Function PerfilTheme).Definition
+                ))
+            )
+
+            Start-Process powershell -args '-noprofile', '-EncodedCommand',
+            ([Convert]::ToBase64String(
+                [Text.Encoding]::Unicode.GetBytes(
                     (Get-Command -Type Function DownloadMztool, DriverBooster, Office2007).Definition
                 ))
             )
@@ -849,6 +856,37 @@ function DriverBooster {
 
         Clear-Host
     }
+}
+
+function PerfilTheme {
+
+    Start-Process -FilePath 'C:\Windows\Resources\Themes\aero.theme'
+    Start-Sleep 2
+    Stop-Process -Name 'systemsettings.exe' -Force
+
+    Get-AppxPackage -allusers *3dbuilder* | Remove-AppxPackage
+    Get-AppxPackage -allusers *feedback* | Remove-AppxPackage
+    Get-AppxPackage -allusers *officehub* | Remove-AppxPackage
+    Get-AppxPackage -allusers *getstarted* | Remove-AppxPackage
+    Get-AppxPackage -allusers *skypeapp* | Remove-AppxPackage
+    Get-AppxPackage -allusers *zunemusic* | Remove-AppxPackage
+    Get-AppxPackage -allusers *zune* | Remove-AppxPackage
+    Get-AppxPackage -allusers *messaging* | Remove-AppxPackage
+    Get-AppxPackage -allusers *solitaire* | Remove-AppxPackage
+    Get-AppxPackage -allusers *wallet* | Remove-AppxPackage
+    Get-AppxPackage -allusers *connectivitystore* | Remove-AppxPackage
+    Get-AppxPackage -allusers *bingfinance* | Remove-AppxPackage
+    Get-AppxPackage -allusers *bing* | Remove-AppxPackage
+    Get-AppxPackage -allusers *zunevideo* | Remove-AppxPackage
+    Get-AppxPackage -allusers *bingnews* | Remove-AppxPackage
+    Get-AppxPackage -allusers *mspaint* | Remove-AppxPackage
+    Get-AppxPackage -allusers *commsphone* | Remove-AppxPackage
+    Get-AppxPackage -allusers *windowsphone* | Remove-AppxPackage
+    Get-AppxPackage -allusers *phone* | Remove-AppxPackage
+    Get-AppxPackage -allusers *bingsports* | Remove-AppxPackage
+    Get-AppxPackage -allusers *bingweather* | Remove-AppxPackage
+    Get-AppxPackage -allusers *xbox* | Remove-AppxPackage
+
 }
 
 
