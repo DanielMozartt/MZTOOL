@@ -758,7 +758,7 @@ function Office365 {
     $TOOLFOLDER.Attributes = 'Hidden'  
     
     $XML.save("$TOOL\OFFICE\365\OFFICE365.xml") 
-    $TOOL = 'C:\TOOL'
+   
     $365XML = "$TOOL\OFFICE\365\OFFICE365.xml"
 
     Winget Install --Id Microsoft.Office --Override "/configure $365XML" --Accept-Source-Agreements --Accept-Package-Agreements
