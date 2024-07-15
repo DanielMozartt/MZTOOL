@@ -864,23 +864,24 @@ function PerfilTheme {
 
     if ( $WinVer -Match 'Windows 11') {
         Write-Host "$WinVer"
-        pause
+        Start-Process -FilePath 'C:\Windows\Resources\Themes\dark.theme'
+        Start-Sleep 1
+        Stop-Process -Name 'systemsettings' -Force
+
     }
+
     elseif ($WinVer -Match 'Windows 10') {
         Write-Host "$WinVer"
-        pause
+        Start-Process -FilePath 'C:\Windows\Resources\Themes\aero.theme'
+        Start-Sleep 1
+        Stop-Process -Name 'systemsettings' -Force
+
     }
+
     else {
-        Write-Host 'Windows não identificado.'
-        pause
-    }
-
-    Clear-Host
-
-    Start-Process -FilePath 'C:\Windows\Resources\Themes\aero.theme'
-    Start-Sleep 3
-    Stop-Process -Name 'systemsettings.exe' -Force
-
+        Write-Host 'Windows não identificado, tema não aplicado.'
+    }    
+    
     Get-AppxPackage -allusers *3dbuilder* | Remove-AppxPackage
     Get-AppxPackage -allusers *feedback* | Remove-AppxPackage
     Get-AppxPackage -allusers *officehub* | Remove-AppxPackage
