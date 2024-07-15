@@ -553,15 +553,7 @@ function DownloadMztool {
 
     #Deletar o arquivo MZTOOL.zip.
 
-    Remove-Item $TOOL\MZTOOL.zip 
-
-    #Extração do arquivo MZTOOL.zip para a pasta $TOOL.
-    
-    Expand-Archive -LiteralPath $TOOL\MZ.TOOL.zip -DestinationPath $TOOL\MZTOOL
-
-    #Deletar o arquivo MZTOOL.zip.
-
-    Remove-Item $TOOL\MZ.TOOL.zip 
+    Remove-Item $TOOL\MZTOOL.zip    
      
 }
 
