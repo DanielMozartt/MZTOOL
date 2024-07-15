@@ -894,17 +894,15 @@ function PerfilTheme {
     New-ItemProperty -Path "$DESKINCONSREG" -Name '{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}' -PropertyType dword -Value 00000000
     New-ItemProperty -Path "$DESKINCONSREG" -Name '{5399E694-6CE5-4D6C-8FCE-1D8870FDCBA0}' -PropertyType dword -Value 00000000
 
-    $shell = New-Object -ComObject Shell.Application
-    $shell.minimizeall()
+    (New-Object -ComObject shell.application).toggleDesktop()
     Start-Sleep 1
-    $wsh = New-Object -ComObject Wscript.Shell
-    $wsh.sendkeys('{F5}')
+    (New-Object -ComObject Wscript.Shell).sendkeys('{F5}')
     Start-Sleep 1
-    $shell.undominimizeall()
+    (New-Object -ComObject shell.application).undominimizeall()
 
     #Finaliza janela de personalização do Windows.
 
-    Start-Sleep 5
+    Start-Sleep 3
 
     if (Get-Process -Name 'systemsettings') {
                 
