@@ -532,6 +532,9 @@ function ToolDir {
 function DownloadMztool {
      
     #Download do arquivo MZTOOL.zip
+
+    $Host.UI.RawUI.WindowTitle = 'MZTOOL> DOWNLOADMZTOOL'
+    $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
    
     $TOOL = 'C:\TOOL'
     
@@ -878,10 +881,12 @@ function PerfilTheme {
     else {
         Write-Host 'Windows não identificado, tema não aplicado.'
     }    
+    
+    Start-Sleep 3
 
     if (Get-Process -Name 'systemsettings') {
                 
-        Start-Sleep 3
+        
         Stop-Process -Name 'systemsettings' -Force
 
     }
