@@ -860,27 +860,35 @@ function DriverBooster {
 
 function PerfilTheme {
 
+    $Host.UI.RawUI.WindowTitle = 'MZTOOL> PERFILTHEME'
+    $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
+
     $WinVer = (Get-WmiObject Win32_OperatingSystem).Caption
 
     if ( $WinVer -Match 'Windows 11') {
         Write-Host "$WinVer"
         Start-Process -FilePath 'C:\Windows\Resources\Themes\dark.theme'
-        Start-Sleep 1
-        Stop-Process -Name 'systemsettings' -Force
-
     }
 
     elseif ($WinVer -Match 'Windows 10') {
         Write-Host "$WinVer"
         Start-Process -FilePath 'C:\Windows\Resources\Themes\aero.theme'
-        Start-Sleep 1
-        Stop-Process -Name 'systemsettings' -Force
-
     }
 
     else {
         Write-Host 'Windows não identificado, tema não aplicado.'
     }    
+
+    if (Get-Process -Name 'systemsettings') {
+                
+        Start-Sleep 3
+        Stop-Process -Name 'systemsettings' -Force
+
+    }
+
+    else {
+        continue
+    }
     
     Get-AppxPackage -allusers *3dbuilder* | Remove-AppxPackage
     Get-AppxPackage -allusers *feedback* | Remove-AppxPackage
