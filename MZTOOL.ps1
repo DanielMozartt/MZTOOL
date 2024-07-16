@@ -672,7 +672,7 @@ function WingetInstall {
     
     #WINGET - Instalação dos softwares Acrobat Reader, Google Chrome, Microsoft Powershell 7+.
 
-    Start-Process PowerShell {
+    Start-Process PowerShell -WindowStyle Hidden {
 
         $Host.UI.RawUI.WindowTitle = 'MZTOOL> WINGET'
         $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
