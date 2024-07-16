@@ -85,30 +85,34 @@ ______________________________________________________
 '            
             Hora
             AnyDesk
+            EnvTool
             ToolDir           
 
-            Start-Process powershell -args '-noprofile', '-EncodedCommand',
+            Start-Process powershell -WindowStyle Hidden -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
                     (Get-Command -Type Function PerfilTheme ).Definition
                 ))
             )
 
-            Start-Process powershell -args '-noprofile', '-EncodedCommand',
+            Start-Process powershell -WindowStyle Hidden -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
                     (Get-Command -Type Function DownloadMztool, DriverBooster, Office2007).Definition
                 ))
             )
 
-            Start-Process powershell -Wait -args '-noprofile', '-EncodedCommand',
+            Start-Process powershell -WindowStyle Hidden -Wait -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
-                    (Get-Command -Type Function ModuleUpdate, WingetInstall, WinUpdate, WingetUpdate).Definition
+                    (Get-Command -Type Function ModuleUpdate, WingetInstall, WingetUpdate).Definition
                 ))
             )
 
-            
+            PinIncons
+
+            WinUpdate
+
             Clear-Host
             Write-Host '
 ______________________________________________________
@@ -125,7 +129,6 @@ ______________________________________________________
 |                   DANIEL MOZART                    |
 |____________________________________________________|
 '
-            EnvTool
             DelTemp
             Start-Sleep -Seconds 5
             Exit
@@ -824,7 +827,7 @@ function DriverBooster {
     #Extração e inicialização do software Driver Booster.
 
     Start-Process PowerShell {
-
+    
         $Host.UI.RawUI.WindowTitle = 'MZTOOL> DRIVER_BOOSTER'
         $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
 
@@ -835,13 +838,21 @@ function DriverBooster {
         Start-Process "$TOOL\MZTOOL\DRIVER_BOOSTER\DriverBoosterPortable.exe" -Wait
         
         Start-Sleep -Seconds 1
-
-        #Finaliza o serviço do software Driver Booster e deleta a pasta temporária do mesmo.
+        #Finaliza os serviços do software Driver Booster e deleta a pasta temporária do mesmo.
         function StopDriverBooster {
             
-            if (Get-Process -Name 'DriverBooster') {
+            if (Get-Process -Name 'DriverBooster'-ErrorAction SilentlyContinue ) {
                 
                 Stop-Process -Name 'DriverBooster' -Force
+                
+                Start-Sleep -Seconds 5
+
+                Remove-Item -Path "$TOOL\MZTOOL\DRIVER_BOOSTER" -Recurse -Force -ErrorAction SilentlyContinue
+            }
+
+            if (Get-Process -Name 'ScanWinUpd'-ErrorAction SilentlyContinue) {
+                
+                Stop-Process -Name 'ScanWinUpd' -Force
                 
                 Start-Sleep -Seconds 5
 
@@ -888,7 +899,7 @@ function PerfilTheme {
 
     $DESKINCONSREG = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel'
 
-    New-ItemProperty -Path "$DESKINCONSREG" -Name '{018D5C66-4533-4307-9B53-224DE2ED1FE6}' -PropertyType dword -Value 00000000
+    #New-ItemProperty -Path "$DESKINCONSREG" -Name '{018D5C66-4533-4307-9B53-224DE2ED1FE6}' -PropertyType dword -Value 00000000
     New-ItemProperty -Path "$DESKINCONSREG" -Name '{20D04FE0-3AEA-1069-A2D8-08002B30309D}' -PropertyType dword -Value 00000000
     New-ItemProperty -Path "$DESKINCONSREG" -Name '{59031a47-3f72-44a7-89c5-5595fe6b30ee}' -PropertyType dword -Value 00000000
     New-ItemProperty -Path "$DESKINCONSREG" -Name '{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}' -PropertyType dword -Value 00000000
@@ -916,8 +927,7 @@ function PerfilTheme {
     else {
         continue
     }
-    
-    
+
     #Remove aplicativos específicados do Windows Store.
     Get-AppxPackage -AllUsers *WebExperience* | Remove-AppxPackage
     Get-AppxPackage -AllUsers *3dbuilder* | Remove-AppxPackage
@@ -948,6 +958,116 @@ function PerfilTheme {
 
 }
 
+function PinIncons {
+
+    #Fixa ícones de softwares na barra de tarefas.
+
+    $taskbar_layout =
+    @'
+<?xml version="1.0" encoding="utf-8"?>
+<LayoutModificationTemplate
+    xmlns="http://schemas.microsoft.com/Start/2014/LayoutModification"
+    xmlns:defaultlayout="http://schemas.microsoft.com/Start/2014/FullDefaultLayout"
+    xmlns:start="http://schemas.microsoft.com/Start/2014/StartLayout"
+    xmlns:taskbar="http://schemas.microsoft.com/Start/2014/TaskbarLayout"
+    Version="1">
+  <CustomTaskbarLayoutCollection PinListPlacement="Replace">
+    <defaultlayout:TaskbarLayout>
+      <taskbar:TaskbarPinList>
+        <taskbar:DesktopApp DesktopApplicationID="Microsoft.Windows.Explorer" />
+        <taskbar:DesktopApp DesktopApplicationID="Chrome" />
+        <taskbar:DesktopApp DesktopApplicationID="{6D809377-6AF0-444B-8957-A3773F02200E}\Adobe\Acrobat DC\Acrobat\Acrobat.exe" />
+        <taskbar:DesktopApp DesktopApplicationID="{7C5A40EF-A0FB-4BFC-874A-C0F2E0B9FA8E}\Microsoft Office\Office12\WINWORD.EXE" />
+      </taskbar:TaskbarPinList>
+    </defaultlayout:TaskbarLayout>
+ </CustomTaskbarLayoutCollection>
+</LayoutModificationTemplate>
+'@
+
+    # prepare provisioning folder
+    [System.IO.FileInfo]$provisioning = "$($env:TOOL)\taskbar_layout.xml"
+    if (!$provisioning.Directory.Exists) {
+        $provisioning.Directory.Create()
+    }
+
+    $taskbar_layout | Out-File $provisioning.FullName -Encoding utf8
+
+    $settings = [PSCustomObject]@{
+        Path  = 'SOFTWARE\Policies\Microsoft\Windows\Explorer'
+        Value = $provisioning.FullName
+        Name  = 'StartLayoutFile'
+        Type  = [Microsoft.Win32.RegistryValueKind]::ExpandString
+    },
+    [PSCustomObject]@{
+        Path  = 'SOFTWARE\Policies\Microsoft\Windows\Explorer'
+        Value = 1
+        Name  = 'LockedStartLayout'
+    } | Group-Object Path
+
+    foreach ($setting in $settings) {
+        $registry = [Microsoft.Win32.Registry]::LocalMachine.OpenSubKey($setting.Name, $true)
+        if ($null -eq $registry) {
+            $registry = [Microsoft.Win32.Registry]::LocalMachine.CreateSubKey($setting.Name, $true)
+        }
+        $setting.Group | ForEach-Object {
+            if (!$_.Type) {
+                $registry.SetValue($_.name, $_.value)
+            }
+            else {
+                $registry.SetValue($_.name, $_.value, $_.type)
+            }
+        }
+        $registry.Dispose()
+    }
+    
+    $settings = [PSCustomObject]@{
+        Path  = 'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
+        Value = 0
+        Name  = 'ShowCopilotButton'
+    } | Group-Object Path
+
+    foreach ($setting in $settings) {
+        $registry = [Microsoft.Win32.Registry]::CurrentUser.OpenSubKey($setting.Name, $true)
+        if ($null -eq $registry) {
+            $registry = [Microsoft.Win32.Registry]::CurrentUser.CreateSubKey($setting.Name, $true)
+        }
+        $setting.Group | ForEach-Object {
+            if (!$_.Type) {
+                $registry.SetValue($_.name, $_.value)
+            }
+            else {
+                $registry.SetValue($_.name, $_.value, $_.type)
+            }
+        }
+        $registry.Dispose()
+    }
+    
+    Stop-Process -Name 'explorer'
+
+    Start-Process explorer.exe
+
+    Start-Process 'C:\TOOL\MZTOOL\REG\TRAYICONS.REG'
+    
+    #Get-Item $provisioning | Remove-Item 
+}
+function DefaultSoftwares {
+    $associations_xml = @'
+<?xml version="1.0" encoding="UTF-8"?>
+<DefaultAssociations>
+  <Association Identifier=".htm" ProgId="ChromeHTML" ApplicationName="Google Chrome" />
+  <Association Identifier=".html" ProgId="ChromeHTML" ApplicationName="Google Chrome" />
+  <Association Identifier=".pdf" ProgId="AcroExch.Document.DC" ApplicationName="Adobe Acrobat Reader" />
+  <Association Identifier="http" ProgId="ChromeHTML" ApplicationName="Google Chrome" />
+  <Association Identifier="https" ProgId="ChromeHTML" ApplicationName="Google Chrome" />
+</DefaultAssociations>
+'@
+
+    $prov = New-Item "$($env:ProgramData)\provisioning" -ItemType Directory -Force
+
+    $associations_xml | Out-File "$($prov.FullName)\associations.xml" -Encoding utf8
+
+    dism /online /Import-DefaultAppAssociations:"$($prov.FullName)\associations.xml"
+}
 
 function DelTemp {
 
