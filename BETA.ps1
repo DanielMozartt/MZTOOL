@@ -1021,7 +1021,29 @@ function PinIncons {
         $registry.Dispose()
     }
     
-    Start-Process 'C:\TOOL\MZTOOL\REG\TRAYINCONS.REG'
+    Start-Process 'C:\TOOL\MZTOOL\REG\TRAYICONS.REG'
+
+    $settings = [PSCustomObject]@{
+        Path  = 'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
+        Value = 0
+        Name  = 'ShowCopilotButton'
+    } | Group-Object Path
+
+    foreach ($setting in $settings) {
+        $registry = [Microsoft.Win32.Registry]::CurrentUser.OpenSubKey($setting.Name, $true)
+        if ($null -eq $registry) {
+            $registry = [Microsoft.Win32.Registry]::CurrentUser.CreateSubKey($setting.Name, $true)
+        }
+        $setting.Group | ForEach-Object {
+            if (!$_.Type) {
+                $registry.SetValue($_.name, $_.value)
+            }
+            else {
+                $registry.SetValue($_.name, $_.value, $_.type)
+            }
+        }
+        $registry.Dispose()
+    }
     
     Stop-Process -Name 'explorer'
 
@@ -1031,7 +1053,24 @@ function PinIncons {
     
     #Get-Item $provisioning | Remove-Item 
 }
-    
+function DefaultSoftwares {
+    $associations_xml = @'
+<?xml version="1.0" encoding="UTF-8"?>
+<DefaultAssociations>
+  <Association Identifier=".htm" ProgId="ChromeHTML" ApplicationName="Google Chrome" />
+  <Association Identifier=".html" ProgId="ChromeHTML" ApplicationName="Google Chrome" />
+  <Association Identifier=".pdf" ProgId="AcroExch.Document.DC" ApplicationName="Adobe Acrobat Reader" />
+  <Association Identifier="http" ProgId="ChromeHTML" ApplicationName="Google Chrome" />
+  <Association Identifier="https" ProgId="ChromeHTML" ApplicationName="Google Chrome" />
+</DefaultAssociations>
+'@
+
+    $provisioning = New-Item "$($env:ProgramData)\provisioning" -ItemType Directory -Force
+
+    $associations_xml | Out-File "$($provisioning.FullName)\associations.xml" -Encoding utf8
+
+    dism /online /Import-DefaultAppAssociations:"$($provisioning.FullName)\associations.xml"
+}
 
 function DelTemp {
 
