@@ -105,11 +105,12 @@ ______________________________________________________
             Start-Process powershell -Wait -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
-                    (Get-Command -Type Function ModuleUpdate, WingetInstall, PinIncons, WinUpdate, WingetUpdate).Definition
+                    (Get-Command -Type Function ModuleUpdate, WingetInstall, WinUpdate, WingetUpdate).Definition
                 ))
             )
 
-            
+            PinIncons
+
             Clear-Host
             Write-Host '
 ______________________________________________________
@@ -126,7 +127,6 @@ ______________________________________________________
 |                   DANIEL MOZART                    |
 |____________________________________________________|
 '
-            EnvTool
             DelTemp
             Start-Sleep -Seconds 5
             Exit
