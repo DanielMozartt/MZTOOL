@@ -926,9 +926,6 @@ function PerfilTheme {
         continue
     }
 
-    #Fixa ícones de softwares na barra de tarefas.
-    
-
     #Remove aplicativos específicados do Windows Store.
     Get-AppxPackage -AllUsers *WebExperience* | Remove-AppxPackage
     Get-AppxPackage -AllUsers *3dbuilder* | Remove-AppxPackage
@@ -960,6 +957,9 @@ function PerfilTheme {
 }
 
 function PinIncons {
+
+    #Fixa ícones de softwares na barra de tarefas.
+
     $taskbar_layout =
     @'
 <?xml version="1.0" encoding="utf-8"?>
@@ -1018,8 +1018,6 @@ function PinIncons {
         $registry.Dispose()
     }
     
-    Start-Process 'C:\TOOL\MZTOOL\REG\TRAYICONS.REG'
-
     $settings = [PSCustomObject]@{
         Path  = 'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
         Value = 0
@@ -1062,11 +1060,11 @@ function DefaultSoftwares {
 </DefaultAssociations>
 '@
 
-    $provisioning = New-Item "$($env:ProgramData)\provisioning" -ItemType Directory -Force
+    $prov = New-Item "$($env:ProgramData)\provisioning" -ItemType Directory -Force
 
-    $associations_xml | Out-File "$($provisioning.FullName)\associations.xml" -Encoding utf8
+    $associations_xml | Out-File "$($prov.FullName)\associations.xml" -Encoding utf8
 
-    dism /online /Import-DefaultAppAssociations:"$($provisioning.FullName)\associations.xml"
+    dism /online /Import-DefaultAppAssociations:"$($prov.FullName)\associations.xml"
 }
 
 function DelTemp {
