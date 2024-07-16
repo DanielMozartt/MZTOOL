@@ -1042,11 +1042,11 @@ function PinIncons {
         $registry.Dispose()
     }
     
-    Stop-Process -Name 'explorer'
+    $TRAYICONS = 'C:\TOOL\MZTOOL\REG\TRAYICONS.REG'
 
-    Start-Process explorer.exe
+    Start-Process Reg.exe -ArgumentList "Import $TRAYICONS" -Wait
 
-    Start-Process 'C:\TOOL\MZTOOL\REG\TRAYICONS.REG'
+    Stop-Process -Name 'explorer'      
     
     #Get-Item $provisioning | Remove-Item 
 }

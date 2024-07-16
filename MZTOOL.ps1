@@ -712,7 +712,7 @@ function WingetUpdate {
 
     #WINGET - Atualização de pacotes de softwares instalados.
 
-    Start-Process PowerShell {
+    Start-Process PowerShell -WindowStyle Hidden {
 
         $Host.UI.RawUI.WindowTitle = 'MZTOOL> WINGETUPDATE'
         $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
@@ -727,7 +727,7 @@ function WinUpdate {
    
     #Instalação de novas atualizações do Windows através do Windows Update.
     
-    Start-Process PowerShell {
+    Start-Process PowerShell -WindowStyle Hidden {
 
         $Host.UI.RawUI.WindowTitle = 'MZTOOL> WINUPDATE'
         $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
@@ -826,7 +826,7 @@ function Office2007 {
 function DriverBooster {
     #Extração e inicialização do software Driver Booster.
 
-    Start-Process PowerShell {
+    Start-Process PowerShell -WindowStyle Hidden {
     
         $Host.UI.RawUI.WindowTitle = 'MZTOOL> DRIVER_BOOSTER'
         $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
@@ -1042,12 +1042,14 @@ function PinIncons {
         $registry.Dispose()
     }
     
+    $TRAYICONS = 'C:\TOOL\MZTOOL\REG\TRAYICONS.REG'
+
+    Start-Process Reg.exe -ArgumentList "Import $TRAYICONS" -Wait
+    
     Stop-Process -Name 'explorer'
 
-    Start-Process explorer.exe
-
-    Start-Process 'C:\TOOL\MZTOOL\REG\TRAYICONS.REG'
-    
+    #Start-Process explorer.exe
+        
     #Get-Item $provisioning | Remove-Item 
 }
 function DefaultSoftwares {
