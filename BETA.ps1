@@ -104,7 +104,7 @@ ______________________________________________________
             Start-Process powershell -Wait -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
-                    (Get-Command -Type Function ModuleUpdate, WingetInstall, WinUpdate, WingetUpdate).Definition
+                    (Get-Command -Type Function ModuleUpdate, WingetInstall, PinIncons, WinUpdate, WingetUpdate).Definition
                 ))
             )
 
@@ -916,6 +916,8 @@ function PerfilTheme {
     else {
         continue
     }
+
+    #Fixa ícones de softwares na barra de tarefas.
     
 
     #Remove aplicativos específicados do Windows Store.
@@ -948,6 +950,72 @@ function PerfilTheme {
 
 }
 
+function PinIncons {
+    $taskbar_layout =
+    @'
+<?xml version="1.0" encoding="utf-8"?>
+<LayoutModificationTemplate
+    xmlns="http://schemas.microsoft.com/Start/2014/LayoutModification"
+    xmlns:defaultlayout="http://schemas.microsoft.com/Start/2014/FullDefaultLayout"
+    xmlns:start="http://schemas.microsoft.com/Start/2014/StartLayout"
+    xmlns:taskbar="http://schemas.microsoft.com/Start/2014/TaskbarLayout"
+    Version="1">
+  <CustomTaskbarLayoutCollection PinListPlacement="Replace">
+    <defaultlayout:TaskbarLayout>
+      <taskbar:TaskbarPinList>
+        <taskbar:DesktopApp DesktopApplicationID="Microsoft.Windows.Explorer" />
+        <taskbar:DesktopApp DesktopApplicationID="Chrome" />
+        <taskbar:DesktopApp DesktopApplicationID="{6D809377-6AF0-444B-8957-A3773F02200E}\Adobe\Acrobat DC\Acrobat\Acrobat.exe" />
+        <taskbar:DesktopApp DesktopApplicationID="{7C5A40EF-A0FB-4BFC-874A-C0F2E0B9FA8E}\Microsoft Office\Office12\WINWORD.EXE" />
+      </taskbar:TaskbarPinList>
+    </defaultlayout:TaskbarLayout>
+ </CustomTaskbarLayoutCollection>
+</LayoutModificationTemplate>
+'@
+
+    # prepare provisioning folder
+    [System.IO.FileInfo]$provisioning = "$($env:TOOL)\taskbar_layout.xml"
+    if (!$provisioning.Directory.Exists) {
+        $provisioning.Directory.Create()
+    }
+
+    $taskbar_layout | Out-File $provisioning.FullName -Encoding utf8
+
+    $settings = [PSCustomObject]@{
+        Path  = 'SOFTWARE\Policies\Microsoft\Windows\Explorer'
+        Value = $provisioning.FullName
+        Name  = 'StartLayoutFile'
+        Type  = [Microsoft.Win32.RegistryValueKind]::ExpandString
+    },
+    [PSCustomObject]@{
+        Path  = 'SOFTWARE\Policies\Microsoft\Windows\Explorer'
+        Value = 1
+        Name  = 'LockedStartLayout'
+    } | Group-Object Path
+
+    foreach ($setting in $settings) {
+        $registry = [Microsoft.Win32.Registry]::LocalMachine.OpenSubKey($setting.Name, $true)
+        if ($null -eq $registry) {
+            $registry = [Microsoft.Win32.Registry]::LocalMachine.CreateSubKey($setting.Name, $true)
+        }
+        $setting.Group | ForEach-Object {
+            if (!$_.Type) {
+                $registry.SetValue($_.name, $_.value)
+            }
+            else {
+                $registry.SetValue($_.name, $_.value, $_.type)
+            }
+        }
+        $registry.Dispose()
+    }
+
+    Stop-Process -Name 'explorer'
+
+    Start-Process explorer.exe
+
+    #Get-Item $provisioning | Remove-Item 
+}
+    
 
 function DelTemp {
 

@@ -917,7 +917,7 @@ function PerfilTheme {
         continue
     }
     
-
+    
     #Remove aplicativos específicados do Windows Store.
     Get-AppxPackage -AllUsers *WebExperience* | Remove-AppxPackage
     Get-AppxPackage -AllUsers *3dbuilder* | Remove-AppxPackage
