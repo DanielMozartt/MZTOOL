@@ -85,6 +85,7 @@ ______________________________________________________
 '            
             Hora
             AnyDesk
+            EnvTool
             ToolDir           
 
             Start-Process powershell -args '-noprofile', '-EncodedCommand',
@@ -839,9 +840,18 @@ function DriverBooster {
         #Finaliza o serviço do software Driver Booster e deleta a pasta temporária do mesmo.
         function StopDriverBooster {
             
-            if (Get-Process -Name 'DriverBooster') {
+            if (Get-Process -Name 'DriverBooster'-ErrorAction SilentlyContinue ) {
                 
                 Stop-Process -Name 'DriverBooster' -Force
+                
+                Start-Sleep -Seconds 5
+
+                Remove-Item -Path "$TOOL\MZTOOL\DRIVER_BOOSTER" -Recurse -Force -ErrorAction SilentlyContinue
+            }
+
+            elseif (Get-Process -Name 'ScanWinUpd'-ErrorAction SilentlyContinue) {
+                
+                Stop-Process -Name 'ScanWinUpd' -Force
                 
                 Start-Sleep -Seconds 5
 
