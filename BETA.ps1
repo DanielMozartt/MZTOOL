@@ -825,20 +825,17 @@ function Office2007 {
 
 function DriverBooster {
     #Extração e inicialização do software Driver Booster.
-
     
-
     $Host.UI.RawUI.WindowTitle = 'MZTOOL> DRIVER_BOOSTER'
     $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
 
-    #$TOOL = 'C:\TOOL'
+    $TOOL = 'C:\TOOL'
 
-    Expand-Archive -LiteralPath "$($env:TOOL)\MZTOOL\DRIVER_BOOSTER.zip" -DestinationPath "$($env:TOOL)\MZTOOL\DRIVER_BOOSTER"
+    Expand-Archive -LiteralPath "$TOOL\MZTOOL\DRIVER_BOOSTER.zip" -DestinationPath "$TOOL\MZTOOL\DRIVER_BOOSTER"
 
-    Start-Process "$($env:TOOL)\MZTOOL\DRIVER_BOOSTER\DriverBoosterPortable.exe" -Wait
+    Start-Process "$TOOL\MZTOOL\DRIVER_BOOSTER\DriverBoosterPortable.exe" -Wait
         
     Start-Sleep -Seconds 1
-
     #Finaliza os serviços do software Driver Booster e deleta a pasta temporária do mesmo.
     function StopDriverBooster {
             
@@ -848,7 +845,7 @@ function DriverBooster {
                 
             Start-Sleep -Seconds 5
 
-            Remove-Item -Path "$($env:TOOL)\MZTOOL\DRIVER_BOOSTER" -Recurse -Force -ErrorAction SilentlyContinue
+            Remove-Item -Path "$TOOL\MZTOOL\DRIVER_BOOSTER" -Recurse -Force -ErrorAction SilentlyContinue
         }
 
         if (Get-Process -Name 'ScanWinUpd'-ErrorAction SilentlyContinue) {
@@ -857,7 +854,7 @@ function DriverBooster {
                 
             Start-Sleep -Seconds 5
 
-            Remove-Item -Path "$($env:TOOL)\MZTOOL\DRIVER_BOOSTER" -Recurse -Force -ErrorAction SilentlyContinue
+            Remove-Item -Path "$TOOL\MZTOOL\DRIVER_BOOSTER" -Recurse -Force -ErrorAction SilentlyContinue
         }
 
         else {
@@ -870,7 +867,7 @@ function DriverBooster {
     StopDriverBooster
 
     Clear-Host
-    
+
 }
 
 function PerfilTheme {
