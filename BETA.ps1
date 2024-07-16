@@ -105,11 +105,13 @@ ______________________________________________________
             Start-Process powershell -Wait -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
-                    (Get-Command -Type Function ModuleUpdate, WingetInstall, WinUpdate, WingetUpdate).Definition
+                    (Get-Command -Type Function ModuleUpdate, WingetInstall, WingetUpdate).Definition
                 ))
             )
 
             PinIncons
+
+            WinUpdate
 
             Clear-Host
             Write-Host '
