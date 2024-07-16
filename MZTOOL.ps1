@@ -953,6 +953,7 @@ function PerfilTheme {
     Get-AppxPackage -AllUsers *bingweather* | Remove-AppxPackage
     #Get-AppxPackage -allusers *xbox* | Remove-AppxPackage
     Get-AppxPackage -AllUsers -PackageTypeFilter Bundle *xbox* | Where-Object SignatureKind -NE 'System' | Remove-AppxPackage -AllUsers
+    Get-AppxPackage -AllUsers *WebExperience* | Remove-AppxPackage
     
     Clear-Host
 
