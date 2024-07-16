@@ -1008,11 +1008,15 @@ function PinIncons {
         }
         $registry.Dispose()
     }
-
+    
+    Start-Process 'C:\TOOL\MZTOOL\REG\TRAYINCONS.REG'
+    
     Stop-Process -Name 'explorer'
 
     Start-Process explorer.exe
 
+    Start-Process 'C:\TOOL\MZTOOL\REG\TRAYICONS.REG'
+    
     #Get-Item $provisioning | Remove-Item 
 }
     
