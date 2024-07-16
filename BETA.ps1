@@ -592,7 +592,7 @@ function EnvTool {
     #Adicionar variáveis de ambiente.
     Start-Process PowerShell -WindowStyle Hidden {
         [Environment]::SetEnvironmentVariable('TOOL', 'C:\TOOL', 'Machine') 
-        [Environment]::SetEnvironmentVariable('MZTOOL', 'PowerShell irm https://seulink.net/MZTBETA | iex', 'MACHINE')
+        [Environment]::SetEnvironmentVariable('MZTOOL', 'PowerShell irm https://bit.ly/MZTT | iex', 'MACHINE')
     }
 }
 
@@ -919,30 +919,30 @@ function PerfilTheme {
     
 
     #Remove aplicativos específicados do Windows Store.
-    Get-AppxPackage -allusers *WebExperience* | Remove-AppxPackage
-    Get-AppxPackage -allusers *3dbuilder* | Remove-AppxPackage
-    Get-AppxPackage -allusers *feedback* | Remove-AppxPackage
-    Get-AppxPackage -allusers *officehub* | Remove-AppxPackage
-    Get-AppxPackage -allusers *getstarted* | Remove-AppxPackage
-    Get-AppxPackage -allusers *skypeapp* | Remove-AppxPackage
-    Get-AppxPackage -allusers *zunemusic* | Remove-AppxPackage
-    Get-AppxPackage -allusers *zune* | Remove-AppxPackage
-    Get-AppxPackage -allusers *messaging* | Remove-AppxPackage
-    Get-AppxPackage -allusers *solitaire* | Remove-AppxPackage
-    Get-AppxPackage -allusers *wallet* | Remove-AppxPackage
-    Get-AppxPackage -allusers *connectivitystore* | Remove-AppxPackage
-    Get-AppxPackage -allusers *bingfinance* | Remove-AppxPackage
-    Get-AppxPackage -allusers *bing* | Remove-AppxPackage
-    Get-AppxPackage -allusers *zunevideo* | Remove-AppxPackage
-    Get-AppxPackage -allusers *bingnews* | Remove-AppxPackage
-    Get-AppxPackage -allusers *mspaint* | Remove-AppxPackage
-    Get-AppxPackage -allusers *commsphone* | Remove-AppxPackage
-    Get-AppxPackage -allusers *windowsphone* | Remove-AppxPackage
-    Get-AppxPackage -allusers *phone* | Remove-AppxPackage
-    Get-AppxPackage -allusers *bingsports* | Remove-AppxPackage
-    Get-AppxPackage -allusers *bingweather* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *WebExperience* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *3dbuilder* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *feedback* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *officehub* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *getstarted* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *skypeapp* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *zunemusic* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *zune* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *messaging* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *solitaire* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *wallet* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *connectivitystore* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *bingfinance* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *bing* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *zunevideo* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *bingnews* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *mspaint* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *commsphone* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *windowsphone* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *phone* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *bingsports* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *bingweather* | Remove-AppxPackage
     #Get-AppxPackage -allusers *xbox* | Remove-AppxPackage
-    Get-AppxPackage -allUsers -PackageTypeFilter Bundle *xbox* | Where-Object SignatureKind -NE 'System' | Remove-AppxPackage -AllUsers
+    Get-AppxPackage -AllUsers -PackageTypeFilter Bundle *xbox* | Where-Object SignatureKind -NE 'System' | Remove-AppxPackage -AllUsers
     
     Clear-Host
 

@@ -85,7 +85,14 @@ ______________________________________________________
 '            
             Hora
             AnyDesk
-            ToolDir
+            ToolDir           
+
+            Start-Process powershell -args '-noprofile', '-EncodedCommand',
+            ([Convert]::ToBase64String(
+                [Text.Encoding]::Unicode.GetBytes(
+                    (Get-Command -Type Function PerfilTheme ).Definition
+                ))
+            )
 
             Start-Process powershell -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
@@ -449,17 +456,37 @@ ______________________________________________________
         } 
 
         0 {
-            #OPÇÃO 0 - ENCERRAR SISTEMA.
+            #OPÇÃO 0 - ENCERRAR MZTOOL.
 
-            Write-Host 'ENCERRANDO MZTOOL'
+            Clear-Host
+            Write-Host '
+______________________________________________________
+|                                                    |
+|                      MZTOOL                        |
+| _________________________________________________  | 
+|                                                    |
+|                                                    |
+|                                                    |
+|                 ENCERRANDO MZTOOL                  |
+|                                                    |
+|                                                    |
+|                 MOZART INFORMÁTICA                 |
+|                   DANIEL MOZART                    |
+|____________________________________________________|
+'
+            
             DelTemp
-            Start-Sleep -Seconds 1
-            Break
+            Start-Sleep -Seconds 5
+            Exit
             Exit-PSHostProcess
             Exit-PSSession
         }
         . {
             awin exit
+        }
+
+        e {
+            EnvTool #TESTAR ENVTOOL
         }
         default {
             #ENTRADA INVÁLIDA.
@@ -505,6 +532,9 @@ function ToolDir {
 function DownloadMztool {
      
     #Download do arquivo MZTOOL.zip
+
+    $Host.UI.RawUI.WindowTitle = 'MZTOOL> DOWNLOADMZTOOL'
+    $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
    
     $TOOL = 'C:\TOOL'
     
@@ -562,7 +592,7 @@ function EnvTool {
     #Adicionar variáveis de ambiente.
     Start-Process PowerShell -WindowStyle Hidden {
         [Environment]::SetEnvironmentVariable('TOOL', 'C:\TOOL', 'Machine') 
-        [Environment]::SetEnvironmentVariable('MZTOOL', 'PowerShell irm https://seulink.net/MZTBETA | iex', 'MACHINE')
+        [Environment]::SetEnvironmentVariable('MZTOOL', 'PowerShell irm https://bit.ly/MZTT | iex', 'MACHINE')
     }
 }
 
@@ -829,6 +859,93 @@ function DriverBooster {
 
         Clear-Host
     }
+}
+
+function PerfilTheme {
+
+    $Host.UI.RawUI.WindowTitle = 'MZTOOL> PERFILTHEME'
+    $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
+
+    $WinVer = (Get-WmiObject Win32_OperatingSystem).Caption
+
+    #Adiciona o Tema Escuro ao Windows.
+
+    if ( $WinVer -Match 'Windows 11') {
+        Write-Host "$WinVer"
+        Start-Process -FilePath 'C:\Windows\Resources\Themes\dark.theme'
+    }
+
+    elseif ($WinVer -Match 'Windows 10') {
+        Write-Host "$WinVer"
+        Start-Process -FilePath 'C:\Windows\Resources\Themes\aero.theme'
+    }
+
+    else {
+        Write-Host 'Windows não identificado, tema não aplicado.'
+    }    
+    
+    #Adiciona ícones de sistema a Área de Trabalho.
+
+    $DESKINCONSREG = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel'
+
+    New-ItemProperty -Path "$DESKINCONSREG" -Name '{018D5C66-4533-4307-9B53-224DE2ED1FE6}' -PropertyType dword -Value 00000000
+    New-ItemProperty -Path "$DESKINCONSREG" -Name '{20D04FE0-3AEA-1069-A2D8-08002B30309D}' -PropertyType dword -Value 00000000
+    New-ItemProperty -Path "$DESKINCONSREG" -Name '{59031a47-3f72-44a7-89c5-5595fe6b30ee}' -PropertyType dword -Value 00000000
+    New-ItemProperty -Path "$DESKINCONSREG" -Name '{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}' -PropertyType dword -Value 00000000
+    New-ItemProperty -Path "$DESKINCONSREG" -Name '{5399E694-6CE5-4D6C-8FCE-1D8870FDCBA0}' -PropertyType dword -Value 00000000
+
+    #Mostra e atualiza a Área de Trabalho.
+
+    (New-Object -ComObject shell.application).toggleDesktop()
+    Start-Sleep 1
+    (New-Object -ComObject Wscript.Shell).sendkeys('{F5}')
+    Start-Sleep 1
+    (New-Object -ComObject shell.application).undominimizeall()
+
+    #Finaliza janela de personalização do Windows.
+
+    Start-Sleep 3
+
+    if (Get-Process -Name 'systemsettings') {
+                
+        
+        Stop-Process -Name 'systemsettings' -Force
+
+    }
+
+    else {
+        continue
+    }
+    
+
+    #Remove aplicativos específicados do Windows Store.
+    Get-AppxPackage -AllUsers *WebExperience* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *3dbuilder* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *feedback* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *officehub* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *getstarted* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *skypeapp* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *zunemusic* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *zune* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *messaging* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *solitaire* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *wallet* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *connectivitystore* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *bingfinance* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *bing* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *zunevideo* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *bingnews* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *mspaint* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *commsphone* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *windowsphone* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *phone* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *bingsports* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *bingweather* | Remove-AppxPackage
+    #Get-AppxPackage -allusers *xbox* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers -PackageTypeFilter Bundle *xbox* | Where-Object SignatureKind -NE 'System' | Remove-AppxPackage -AllUsers
+    
+    Clear-Host
+
 }
 
 
