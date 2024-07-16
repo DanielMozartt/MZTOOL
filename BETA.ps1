@@ -825,49 +825,51 @@ function Office2007 {
 
 function DriverBooster {
     #Extração e inicialização do software Driver Booster.
+
+    Start-Process PowerShell {
     
-    $Host.UI.RawUI.WindowTitle = 'MZTOOL> DRIVER_BOOSTER'
-    $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
+        $Host.UI.RawUI.WindowTitle = 'MZTOOL> DRIVER_BOOSTER'
+        $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
 
-    $TOOL = 'C:\TOOL'
+        $TOOL = 'C:\TOOL'
 
-    Expand-Archive -LiteralPath "$TOOL\MZTOOL\DRIVER_BOOSTER.zip" -DestinationPath "$TOOL\MZTOOL\DRIVER_BOOSTER"
+        Expand-Archive -LiteralPath "$TOOL\MZTOOL\DRIVER_BOOSTER.zip" -DestinationPath "$TOOL\MZTOOL\DRIVER_BOOSTER"
 
-    Start-Process "$TOOL\MZTOOL\DRIVER_BOOSTER\DriverBoosterPortable.exe" -Wait
+        Start-Process "$TOOL\MZTOOL\DRIVER_BOOSTER\DriverBoosterPortable.exe" -Wait
         
-    Start-Sleep -Seconds 1
-    #Finaliza os serviços do software Driver Booster e deleta a pasta temporária do mesmo.
-    function StopDriverBooster {
+        Start-Sleep -Seconds 1
+        #Finaliza os serviços do software Driver Booster e deleta a pasta temporária do mesmo.
+        function StopDriverBooster {
             
-        if (Get-Process -Name 'DriverBooster'-ErrorAction SilentlyContinue ) {
+            if (Get-Process -Name 'DriverBooster'-ErrorAction SilentlyContinue ) {
                 
-            Stop-Process -Name 'DriverBooster' -Force
+                Stop-Process -Name 'DriverBooster' -Force
                 
-            Start-Sleep -Seconds 5
+                Start-Sleep -Seconds 5
 
-            Remove-Item -Path "$TOOL\MZTOOL\DRIVER_BOOSTER" -Recurse -Force -ErrorAction SilentlyContinue
-        }
+                Remove-Item -Path "$TOOL\MZTOOL\DRIVER_BOOSTER" -Recurse -Force -ErrorAction SilentlyContinue
+            }
 
-        if (Get-Process -Name 'ScanWinUpd'-ErrorAction SilentlyContinue) {
+            if (Get-Process -Name 'ScanWinUpd'-ErrorAction SilentlyContinue) {
                 
-            Stop-Process -Name 'ScanWinUpd' -Force
+                Stop-Process -Name 'ScanWinUpd' -Force
                 
-            Start-Sleep -Seconds 5
+                Start-Sleep -Seconds 5
 
-            Remove-Item -Path "$TOOL\MZTOOL\DRIVER_BOOSTER" -Recurse -Force -ErrorAction SilentlyContinue
-        }
+                Remove-Item -Path "$TOOL\MZTOOL\DRIVER_BOOSTER" -Recurse -Force -ErrorAction SilentlyContinue
+            }
 
-        else {
+            else {
                 
-            continue
-        }
+                continue
+            }
     
+        }
+
+        StopDriverBooster
+
+        Clear-Host
     }
-
-    StopDriverBooster
-
-    Clear-Host
-
 }
 
 function PerfilTheme {
