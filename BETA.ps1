@@ -710,9 +710,13 @@ function WingetInstall {
         for ($i = 0; $i -le 2; $i++) {
 
             WaitOffice2007Winget
+
             if ( $WinVer -Match 'Windows 11') {
                 Write-Host "$WinVer"
-                Start-Process -FilePath 'C:\Windows\Resources\Themes\dark.theme'
+                
+                Start-BitsTransfer -Source 'https://github.com/microsoft/winget-cli/releases/latest/download/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle'-Destination "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
+                Add-AppPackage -Path "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
+
             }
 
             elseif ($WinVer -Match 'Windows 10') {
@@ -739,13 +743,9 @@ function WingetInstall {
             }
 
             else {
-                
-                Start-BitsTransfer -Source 'https://github.com/microsoft/winget-cli/releases/latest/download/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle'-Destination "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
-                Add-AppPackage -Path "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
-            
+                Write-Host 'Windows não identificado, tema não aplicado.'
             }  
-            
-            
+                       
             WaitOffice2007Winget
         
             Winget Install --Id Adobe.Acrobat.Reader.64-bit --Source winget --Accept-Source-Agreements --Accept-Package-Agreements
