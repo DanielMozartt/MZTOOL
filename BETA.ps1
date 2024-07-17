@@ -28,12 +28,40 @@ else {
     # Não está executando como administrador.
     
     # Fecha o processo atual e inicia um novo com o script como administrador solicitando UAC.
+    $WinVer = (Get-WmiObject Win32_OperatingSystem).Caption
+            
+    FUNCTION STARTMZTOOL {
 
-    $newProcess = New-Object System.Diagnostics.ProcessStartInfo 'PowerShell'
-    $newProcess.Arguments = $myInvocation.MyCommand.Definition
-    $newProcess.Verb = 'runas'
-    [System.Diagnostics.Process]::Start($newProcess) | Out-Null     
-    exit
+        $newProcess = New-Object System.Diagnostics.ProcessStartInfo 'PowerShell'
+        $newProcess.Arguments = $myInvocation.MyCommand.Definition
+        $newProcess.Verb = 'runas'
+        [System.Diagnostics.Process]::Start($newProcess) | Out-Null     
+        exit 
+    }
+    if ( $WinVer -Match 'Windows 11') {
+        
+        Write-Host "$WinVer"
+
+        STARTMZTOOL
+                
+
+    }
+
+    elseif ($WinVer -Match 'Windows 10') {
+        
+        Write-Host "$WinVer"
+                
+        STARTMZTOOL
+    
+    }
+
+    else {
+
+        Write-Host 'SISTEMA OPERACIONAL NÃO SUPORTADO.'
+        EXIT
+                
+    }  
+   
 
 }
   
@@ -749,9 +777,7 @@ function WingetInstall {
             else {
                 Write-Host 'Windows não identificado, tema não aplicado.'
             }  
-                       
-           
-
+          
             WaitOffice2007Winget
         
             Winget Install --Id Google.Chrome.EXE --Accept-Source-Agreements --Accept-Package-Agreements
