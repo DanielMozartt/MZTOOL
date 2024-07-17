@@ -750,7 +750,7 @@ function WingetInstall {
                        
             WaitOffice2007Winget
         
-            Winget Install --Id Adobe.Acrobat.Reader.64-bit --Source winget --Accept-Source-Agreements --Accept-Package-Agreements
+            Winget Install --Id Adobe.Acrobat.Reader.64-bit --Accept-Source-Agreements --Accept-Package-Agreements
 
             WaitOffice2007Winget
         
