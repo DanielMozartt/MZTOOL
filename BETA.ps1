@@ -710,7 +710,9 @@ function WingetInstall {
         for ($i = 0; $i -le 2; $i++) {
 
             WaitOffice2007Winget
-
+            
+            $WinVer = (Get-WmiObject Win32_OperatingSystem).Caption
+            
             if ( $WinVer -Match 'Windows 11') {
                 Write-Host "$WinVer"
                 
