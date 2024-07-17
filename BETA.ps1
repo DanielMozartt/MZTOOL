@@ -852,15 +852,25 @@ function DriverBooster {
             if (Get-Process -Name 'DriverBooster'-ErrorAction SilentlyContinue ) {
                 
                 Stop-Process -Name 'DriverBooster' -Force
+
+                if (Get-Process -Name 'ScanWinUpd'-ErrorAction SilentlyContinue) {
+                
+                    Stop-Process -Name 'ScanWinUpd' -Force
+                }
                 
                 Start-Sleep -Seconds 5
 
                 Remove-Item -Path "$TOOL\MZTOOL\DRIVER_BOOSTER" -Recurse -Force -ErrorAction SilentlyContinue
             }
 
-            if (Get-Process -Name 'ScanWinUpd'-ErrorAction SilentlyContinue) {
+            elseif (Get-Process -Name 'ScanWinUpd'-ErrorAction SilentlyContinue) {
                 
                 Stop-Process -Name 'ScanWinUpd' -Force
+
+                if (Get-Process -Name 'DriverBooster'-ErrorAction SilentlyContinue ) {
+                
+                    Stop-Process -Name 'DriverBooster' -Force
+                }
                 
                 Start-Sleep -Seconds 5
 
@@ -975,7 +985,11 @@ function PerfilTheme {
     #Mostra e atualiza a Área de Trabalho.
     
     for ($i = 0; $i -le 2; $i++) {
-        WINDF5
+        (New-Object -ComObject shell.application).toggleDesktop()
+        Start-Sleep 2
+    (New-Object -ComObject Wscript.Shell).sendkeys('{F5}')
+        Start-Sleep 1
+    (New-Object -ComObject shell.application).undominimizeall()
     }
 
     #Finaliza janela de personalização do Windows.
@@ -987,15 +1001,7 @@ function PerfilTheme {
 
     else {
         continue
-    }
-    
-    function WINDF5 {
-    (New-Object -ComObject shell.application).toggleDesktop()
-        Start-Sleep 1
-    (New-Object -ComObject Wscript.Shell).sendkeys('{F5}')
-        Start-Sleep 1
-    (New-Object -ComObject shell.application).undominimizeall()
-    }
+    }      
     
     Clear-Host
 
@@ -1095,17 +1101,15 @@ function PinIcons {
     
     Stop-Process -Name 'explorer'
 
+    #Mostra e atualiza a Área de Trabalho.
+    
     for ($i = 0; $i -le 2; $i++) {
-        WINDF5
-    }
-
-    function WINDF5 {
-    (New-Object -ComObject shell.application).toggleDesktop()
-        Start-Sleep 1
+        (New-Object -ComObject shell.application).toggleDesktop()
+        Start-Sleep 2
     (New-Object -ComObject Wscript.Shell).sendkeys('{F5}')
         Start-Sleep 1
     (New-Object -ComObject shell.application).undominimizeall()
-    }
+    }   
 
 }
 function DefaultSoftwares {
@@ -1206,10 +1210,11 @@ function DefaultSoftwares {
         $registry.Dispose()
     }
 
-    WINDF5
-    function WINDF5 {
-    (New-Object -ComObject shell.application).toggleDesktop()
-        Start-Sleep 1
+    #Mostra e atualiza a Área de Trabalho.
+    
+    for ($i = 0; $i -le 2; $i++) {
+        (New-Object -ComObject shell.application).toggleDesktop()
+        Start-Sleep 2
     (New-Object -ComObject Wscript.Shell).sendkeys('{F5}')
         Start-Sleep 1
     (New-Object -ComObject shell.application).undominimizeall()
