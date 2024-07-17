@@ -88,21 +88,21 @@ ______________________________________________________
             EnvTool
             ToolDir           
 
-            Start-Process powershell -WindowStyle Hidden -args '-noprofile', '-EncodedCommand',
+            Start-Process powershell -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
                     (Get-Command -Type Function PerfilTheme ).Definition
                 ))
             )
 
-            Start-Process powershell -WindowStyle Hidden -args '-noprofile', '-EncodedCommand',
+            Start-Process powershell -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
                     (Get-Command -Type Function DownloadMztool, DriverBooster, Office2007).Definition
                 ))
             )
 
-            Start-Process powershell -WindowStyle Hidden -Wait -args '-noprofile', '-EncodedCommand',
+            Start-Process powershell -Wait -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
                     (Get-Command -Type Function ModuleUpdate, WingetInstall, WingetUpdate).Definition
@@ -505,7 +505,7 @@ ______________________________________________________
 
 function Hora {
     
-    Start-Process PowerShell -WindowStyle Hidden {
+    Start-Process PowerShell {
     
         net start w32time | Out-Null
         w32tm /resync /force | Out-Null
@@ -593,7 +593,7 @@ function DownloadMztool {
 function EnvTool {
     
     #Adicionar variáveis de ambiente.
-    Start-Process PowerShell -WindowStyle Hidden {
+    Start-Process PowerShell {
         [Environment]::SetEnvironmentVariable('TOOL', 'C:\TOOL', 'Machine') 
         [Environment]::SetEnvironmentVariable('MZTOOL', 'PowerShell irm https://bit.ly/MZTT | iex', 'MACHINE')
     }
@@ -672,7 +672,7 @@ function WingetInstall {
     
     #WINGET - Instalação dos softwares Acrobat Reader, Google Chrome, Microsoft Powershell 7+.
 
-    Start-Process PowerShell -WindowStyle Hidden {
+    Start-Process PowerShell {
 
         $Host.UI.RawUI.WindowTitle = 'MZTOOL> WINGET'
         $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
@@ -712,7 +712,7 @@ function WingetUpdate {
 
     #WINGET - Atualização de pacotes de softwares instalados.
 
-    Start-Process PowerShell -WindowStyle Hidden {
+    Start-Process PowerShell {
 
         $Host.UI.RawUI.WindowTitle = 'MZTOOL> WINGETUPDATE'
         $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
@@ -727,7 +727,7 @@ function WinUpdate {
    
     #Instalação de novas atualizações do Windows através do Windows Update.
     
-    Start-Process PowerShell -WindowStyle Hidden {
+    Start-Process PowerShell {
 
         $Host.UI.RawUI.WindowTitle = 'MZTOOL> WINUPDATE'
         $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
@@ -742,7 +742,7 @@ function AnyDesk {
 
     #Download do software AnyDek-CM.
 
-    Start-Process PowerShell -WindowStyle Hidden {
+    Start-Process PowerShell {
 
         Invoke-WebRequest -Uri 'https://download.anydesk.com/AnyDesk-CM.exe' -OutFile "$home\Desktop\AnyDesk.exe"
     
@@ -826,7 +826,7 @@ function Office2007 {
 function DriverBooster {
     #Extração e inicialização do software Driver Booster.
 
-    Start-Process PowerShell -WindowStyle Hidden {
+    Start-Process PowerShell {
     
         $Host.UI.RawUI.WindowTitle = 'MZTOOL> DRIVER_BOOSTER'
         $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
@@ -1151,7 +1151,7 @@ function DefaultSoftwares {
         }
         $registry.Dispose()
     }
-    
+
     #Desabilitar notificações do Google Chrome.
 
     $settings = 
