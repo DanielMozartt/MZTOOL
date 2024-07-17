@@ -730,7 +730,7 @@ function WingetInstall {
                 Install-PackageProvider -Name NuGet -Force
         
                 #Módulo WINGET.
-                <Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
+                Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
                 Repair-WinGetPackageManager
                 Winget Source Remove --Name winget
                 Winget Source Remove --Name msstore
