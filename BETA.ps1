@@ -91,7 +91,7 @@ ______________________________________________________
             Start-Process powershell -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
-                    (Get-Command -Type Function RemoveMStorepps, PerfilTheme ).Definition
+                    (Get-Command -Type Function RemoveMStorepps, PerfilTheme).Definition
                 ))
             )
 
@@ -481,7 +481,8 @@ ______________________________________________________
 '
             
             DelTemp
-            Start-Sleep -Seconds 5
+            WINDF5
+            Start-Sleep -Seconds 3
             Exit
             Exit-PSHostProcess
             Exit-PSSession
@@ -876,7 +877,11 @@ function DriverBooster {
 
 function RemoveMStorepps {
 
-    Start-New Process 'PowerShell' {
+    Start-Process PowerShell {
+
+        $Host.UI.RawUI.WindowTitle = 'MZTOOL> REMOVEMSTOREAPPS'
+        $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
+
         #Remove aplicativos específicados do Windows Store.
         Get-AppxPackage -AllUsers *WebExperience* | Remove-AppxPackage #Remover Widgets.
         Get-AppxPackage -AllUsers *3dbuilder* | Remove-AppxPackage
@@ -956,7 +961,7 @@ function PerfilTheme {
 
     $DESKINCONSREG = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel'
 
-    #New-ItemProperty -Path "$DESKINCONSREG" -Name '{018D5C66-4533-4307-9B53-224DE2ED1FE6}' -PropertyType dword -Value 00000000
+    #New-ItemProperty -Path "$DESKINCONSREG" -Name '{018D5C66-4533-4307-9B53-224DE2ED1FE6}' -PropertyType dword -Value 00000000 LIXEIRAICON
     New-ItemProperty -Path "$DESKINCONSREG" -Name '{20D04FE0-3AEA-1069-A2D8-08002B30309D}' -PropertyType dword -Value 00000000
     New-ItemProperty -Path "$DESKINCONSREG" -Name '{59031a47-3f72-44a7-89c5-5595fe6b30ee}' -PropertyType dword -Value 00000000
     New-ItemProperty -Path "$DESKINCONSREG" -Name '{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}' -PropertyType dword -Value 00000000
@@ -1133,6 +1138,9 @@ function PinIcons {
 
 }
 function DefaultSoftwares {
+
+    $Host.UI.RawUI.WindowTitle = 'MZTOOL> PERFILTHEME > DEFAULTSOFTWARES'
+    $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
     
     #Definir Google Chrome como navegador padrão, e Acrobat Reader como leitor de PDF padrão.
 
@@ -1226,6 +1234,8 @@ function DefaultSoftwares {
         }
         $registry.Dispose()
     }
+
+    WINDF5
 }
 
 function WINDF5 {
