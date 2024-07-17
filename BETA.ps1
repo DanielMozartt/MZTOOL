@@ -983,56 +983,14 @@ function PerfilTheme {
     else {
         continue
     }
-
-    #Remove aplicativos específicados do Windows Store.
-    Get-AppxPackage -AllUsers *WebExperience* | Remove-AppxPackage #Remover Widgets.
-    Get-AppxPackage -AllUsers *3dbuilder* | Remove-AppxPackage
-    Get-AppxPackage -AllUsers *feedback* | Remove-AppxPackage
-    Get-AppxPackage -AllUsers *officehub* | Remove-AppxPackage
-    Get-AppxPackage -AllUsers *getstarted* | Remove-AppxPackage
-    Get-AppxPackage -AllUsers *skypeapp* | Remove-AppxPackage
-    Get-AppxPackage -AllUsers *zunemusic* | Remove-AppxPackage
-    Get-AppxPackage -AllUsers *zune* | Remove-AppxPackage
-    Get-AppxPackage -AllUsers *messaging* | Remove-AppxPackage
-    Get-AppxPackage -AllUsers *solitaire* | Remove-AppxPackage
-    Get-AppxPackage -AllUsers *wallet* | Remove-AppxPackage
-    Get-AppxPackage -AllUsers *connectivitystore* | Remove-AppxPackage
-    Get-AppxPackage -AllUsers *bingfinance* | Remove-AppxPackage
-    Get-AppxPackage -AllUsers *bing* | Remove-AppxPackage
-    Get-AppxPackage -AllUsers *zunevideo* | Remove-AppxPackage
-    Get-AppxPackage -AllUsers *bingnews* | Remove-AppxPackage
-    Get-AppxPackage -AllUsers *mspaint* | Remove-AppxPackage
-    Get-AppxPackage -AllUsers *commsphone* | Remove-AppxPackage
-    Get-AppxPackage -AllUsers *windowsphone* | Remove-AppxPackage
-    Get-AppxPackage -AllUsers *phone* | Remove-AppxPackage
-    Get-AppxPackage -AllUsers *bingsports* | Remove-AppxPackage
-    Get-AppxPackage -AllUsers *bingweather* | Remove-AppxPackage
-    Get-AppxPackage -AllUsers *xbox* | Remove-AppxPackage
-    Get-AppxPackage -AllUsers -PackageTypeFilter Bundle *xbox* | Where-Object SignatureKind -NE 'System' | Remove-AppxPackage -AllUsers
-    Get-AppxPackage -AllUsers *WebExperience* | Remove-AppxPackage
-
-    $app_packages = 
-    'Clipchamp.Clipchamp',
-    'Microsoft.549981C3F5F10', #Cortana
-    'Microsoft.WindowsFeedbackHub',
-    'microsoft.windowscommunicationsapps',
-    'Microsoft.WindowsMaps',
-    'Microsoft.ZuneMusic',
-    'Microsoft.BingNews',
-    'Microsoft.Todos',
-    'Microsoft.ZuneVideo',
-    'Microsoft.MicrosoftOfficeHub',
-    'Microsoft.OutlookForWindows',
-    'Microsoft.People',
-    'Microsoft.PowerAutomateDesktop',
-    'MicrosoftCorporationII.QuickAssist',
-    'Microsoft.ScreenSketch',
-    'Microsoft.MicrosoftSolitaireCollection',
-    'Microsoft.BingWeather',
-    'Microsoft.Xbox.TCUI',
-    'Microsoft.GamingApp'
-
-    Get-AppxPackage -AllUsers | Where-Object { $_.name -in $app_packages } | Remove-AppxPackage -AllUsers
+    
+    function WINDF5 {
+    (New-Object -ComObject shell.application).toggleDesktop()
+        Start-Sleep 1
+    (New-Object -ComObject Wscript.Shell).sendkeys('{F5}')
+        Start-Sleep 1
+    (New-Object -ComObject shell.application).undominimizeall()
+    }
     
     Clear-Host
 
@@ -1136,6 +1094,14 @@ function PinIcons {
         WINDF5
     }
 
+    function WINDF5 {
+    (New-Object -ComObject shell.application).toggleDesktop()
+        Start-Sleep 1
+    (New-Object -ComObject Wscript.Shell).sendkeys('{F5}')
+        Start-Sleep 1
+    (New-Object -ComObject shell.application).undominimizeall()
+    }
+
 }
 function DefaultSoftwares {
 
@@ -1236,6 +1202,13 @@ function DefaultSoftwares {
     }
 
     WINDF5
+    function WINDF5 {
+    (New-Object -ComObject shell.application).toggleDesktop()
+        Start-Sleep 1
+    (New-Object -ComObject Wscript.Shell).sendkeys('{F5}')
+        Start-Sleep 1
+    (New-Object -ComObject shell.application).undominimizeall()
+    }
 }
 
 function WINDF5 {
