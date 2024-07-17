@@ -88,21 +88,21 @@ ______________________________________________________
             EnvTool
             ToolDir           
 
-            Start-Process powershell -args '-noprofile', '-EncodedCommand',
+            Start-Process powershell -WindowStyle Hidden -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
                     (Get-Command -Type Function PerfilTheme ).Definition
                 ))
             )
 
-            Start-Process powershell -args '-noprofile', '-EncodedCommand',
+            Start-Process powershell -WindowStyle Hidden -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
                     (Get-Command -Type Function DownloadMztool, DriverBooster, Office2007).Definition
                 ))
             )
 
-            Start-Process powershell -Wait -args '-noprofile', '-EncodedCommand',
+            Start-Process powershell -WindowStyle Hidden -Wait -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
                     (Get-Command -Type Function ModuleUpdate, WingetInstall, WingetUpdate).Definition
@@ -672,7 +672,7 @@ function WingetInstall {
     
     #WINGET - Instalação dos softwares Acrobat Reader, Google Chrome, Microsoft Powershell 7+.
 
-    Start-Process PowerShell {
+    Start-Process PowerShell -WindowStyle Hidden {
 
         $Host.UI.RawUI.WindowTitle = 'MZTOOL> WINGET'
         $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
@@ -712,7 +712,7 @@ function WingetUpdate {
 
     #WINGET - Atualização de pacotes de softwares instalados.
 
-    Start-Process PowerShell {
+    Start-Process PowerShell -WindowStyle Hidden {
 
         $Host.UI.RawUI.WindowTitle = 'MZTOOL> WINGETUPDATE'
         $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
@@ -727,7 +727,7 @@ function WinUpdate {
    
     #Instalação de novas atualizações do Windows através do Windows Update.
     
-    Start-Process PowerShell {
+    Start-Process PowerShell -WindowStyle Hidden {
 
         $Host.UI.RawUI.WindowTitle = 'MZTOOL> WINUPDATE'
         $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
@@ -826,7 +826,7 @@ function Office2007 {
 function DriverBooster {
     #Extração e inicialização do software Driver Booster.
 
-    Start-Process PowerShell {
+    Start-Process PowerShell -WindowStyle Hidden {
     
         $Host.UI.RawUI.WindowTitle = 'MZTOOL> DRIVER_BOOSTER'
         $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
@@ -929,7 +929,7 @@ function PerfilTheme {
     }
 
     #Remove aplicativos específicados do Windows Store.
-    Get-AppxPackage -AllUsers *WebExperience* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *WebExperience* | Remove-AppxPackage #Remover Widgets.
     Get-AppxPackage -AllUsers *3dbuilder* | Remove-AppxPackage
     Get-AppxPackage -AllUsers *feedback* | Remove-AppxPackage
     Get-AppxPackage -AllUsers *officehub* | Remove-AppxPackage
@@ -951,8 +951,32 @@ function PerfilTheme {
     Get-AppxPackage -AllUsers *phone* | Remove-AppxPackage
     Get-AppxPackage -AllUsers *bingsports* | Remove-AppxPackage
     Get-AppxPackage -AllUsers *bingweather* | Remove-AppxPackage
-    #Get-AppxPackage -allusers *xbox* | Remove-AppxPackage
+    Get-AppxPackage -AllUsers *xbox* | Remove-AppxPackage
     Get-AppxPackage -AllUsers -PackageTypeFilter Bundle *xbox* | Where-Object SignatureKind -NE 'System' | Remove-AppxPackage -AllUsers
+    Get-AppxPackage -AllUsers *WebExperience* | Remove-AppxPackage
+
+    $app_packages = 
+    'Clipchamp.Clipchamp',
+    'Microsoft.549981C3F5F10', #Cortana
+    'Microsoft.WindowsFeedbackHub',
+    'microsoft.windowscommunicationsapps',
+    'Microsoft.WindowsMaps',
+    'Microsoft.ZuneMusic',
+    'Microsoft.BingNews',
+    'Microsoft.Todos',
+    'Microsoft.ZuneVideo',
+    'Microsoft.MicrosoftOfficeHub',
+    'Microsoft.OutlookForWindows',
+    'Microsoft.People',
+    'Microsoft.PowerAutomateDesktop',
+    'MicrosoftCorporationII.QuickAssist',
+    'Microsoft.ScreenSketch',
+    'Microsoft.MicrosoftSolitaireCollection',
+    'Microsoft.BingWeather',
+    'Microsoft.Xbox.TCUI',
+    'Microsoft.GamingApp'
+
+    Get-AppxPackage -AllUsers | Where-Object { $_.name -in $app_packages } | Remove-AppxPackage -AllUsers
     
     Clear-Host
 
@@ -960,7 +984,7 @@ function PerfilTheme {
 
 function PinIncons {
 
-    #Fixa ícones de softwares na barra de tarefas.
+    #Fixar ícones de softwares Google Chrome, Acrobat Reader, Microsoft Word na barra de tarefas.
 
     $taskbar_layout =
     @'
@@ -984,8 +1008,8 @@ function PinIncons {
 </LayoutModificationTemplate>
 '@
 
-    # prepare provisioning folder
-    [System.IO.FileInfo]$provisioning = "$($env:TOOL)\taskbar_layout.xml"
+    
+    [System.IO.FileInfo]$provisioning = "$($env:TOOL)\TASKLAYOUT.xml"
     if (!$provisioning.Directory.Exists) {
         $provisioning.Directory.Create()
     }
@@ -1020,6 +1044,7 @@ function PinIncons {
         $registry.Dispose()
     }
     
+    #Remover ícone do Microsoft CoPilot da barra de tarefas.
     $settings = [PSCustomObject]@{
         Path  = 'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
         Value = 0
@@ -1045,12 +1070,17 @@ function PinIncons {
     $TRAYICONS = 'C:\TOOL\MZTOOL\REG\TRAYICONS.REG'
 
     Start-Process Reg.exe -ArgumentList "Import $TRAYICONS" -Wait
-
-    Stop-Process -Name 'explorer'      
     
+    Stop-Process -Name 'explorer'
+
+    #Start-Process explorer.exe
+        
     #Get-Item $provisioning | Remove-Item 
 }
 function DefaultSoftwares {
+    
+    #Definir Google Chrome como navegador padrão, e Acrobat Reader como leitor de PDF padrão.
+
     $associations_xml = @'
 <?xml version="1.0" encoding="UTF-8"?>
 <DefaultAssociations>
@@ -1067,6 +1097,80 @@ function DefaultSoftwares {
     $associations_xml | Out-File "$($prov.FullName)\associations.xml" -Encoding utf8
 
     dism /online /Import-DefaultAppAssociations:"$($prov.FullName)\associations.xml"
+
+    #Desabilitar primeira inicialização do Microsoft Edge.
+    
+    $settings = 
+    [PSCustomObject]@{
+        Path  = 'SOFTWARE\Policies\Microsoft\Edge'
+        Value = 1
+        Name  = 'HideFirstRunExperience'
+    } | Group-Object Path
+
+    foreach ($setting in $settings) {
+        $registry = [Microsoft.Win32.Registry]::LocalMachine.OpenSubKey($setting.Name, $true)
+        if ($null -eq $registry) {
+            $registry = [Microsoft.Win32.Registry]::LocalMachine.CreateSubKey($setting.Name, $true)
+        }
+        $setting.Group | ForEach-Object {
+            $registry.SetValue($_.name, $_.value)
+        }
+        $registry.Dispose()
+    }
+
+    #Definir Google Chrome como navegador padrão.
+
+    [System.IO.FileInfo]$DefaultAssociationsConfiguration = "$($env:ProgramData)\provisioning\DefaultAssociationsConfiguration.xml"
+
+    if (!$DefaultAssociationsConfiguration.Directory.Exists) {
+        $DefaultAssociationsConfiguration.Directory.Create()
+    }
+
+    '<?xml version="1.0" encoding="UTF-8"?>
+<DefaultAssociations>
+  <Association Identifier=".htm" ProgId="ChromeHTML" ApplicationName="Google Chrome" />
+  <Association Identifier=".html" ProgId="ChromeHTML" ApplicationName="Google Chrome" />
+  <Association Identifier="http" ProgId="ChromeHTML" ApplicationName="Google Chrome" />
+  <Association Identifier="https" ProgId="ChromeHTML" ApplicationName="Google Chrome" />
+</DefaultAssociations>' | Out-File $DefaultAssociationsConfiguration.FullName -Encoding utf8 -Force
+
+    $settings = 
+    [PSCustomObject]@{
+        Path  = 'SOFTWARE\Policies\Microsoft\Windows\System'
+        Value = $DefaultAssociationsConfiguration.FullName
+        Name  = 'DefaultAssociationsConfiguration'
+    } | Group-Object Path
+
+    foreach ($setting in $settings) {
+        $registry = [Microsoft.Win32.Registry]::LocalMachine.OpenSubKey($setting.Name, $true)
+        if ($null -eq $registry) {
+            $registry = [Microsoft.Win32.Registry]::LocalMachine.CreateSubKey($setting.Name, $true)
+        }
+        $setting.Group | ForEach-Object {
+            $registry.SetValue($_.name, $_.value)
+        }
+        $registry.Dispose()
+    }
+    
+    #Desabilitar notificações do Google Chrome.
+
+    $settings = 
+    [PSCustomObject]@{
+        Path  = 'SOFTWARE\Policies\Google\Chrome'
+        Value = 2
+        Name  = 'DefaultNotificationsSetting'
+    } | Group-Object Path
+
+    foreach ($setting in $settings) {
+        $registry = [Microsoft.Win32.Registry]::LocalMachine.OpenSubKey($setting.Name, $true)
+        if ($null -eq $registry) {
+            $registry = [Microsoft.Win32.Registry]::LocalMachine.CreateSubKey($setting.Name, $true)
+        }
+        $setting.Group | ForEach-Object {
+            $registry.SetValue($_.name, $_.value)
+        }
+        $registry.Dispose()
+    }
 }
 
 function DelTemp {
