@@ -985,9 +985,9 @@ function PerfilTheme {
     for ($i = 0; $i -le 2; $i++) {
         (New-Object -ComObject shell.application).toggleDesktop()
         Start-Sleep 2
-    (New-Object -ComObject Wscript.Shell).sendkeys('{F5}')
+        (New-Object -ComObject Wscript.Shell).sendkeys('{F5}')
         Start-Sleep 1
-    (New-Object -ComObject shell.application).undominimizeall()
+        (New-Object -ComObject shell.application).undominimizeall()
     }
 
     #Finaliza janela de personalização do Windows.
@@ -1104,9 +1104,9 @@ function PinIcons {
     for ($i = 0; $i -le 2; $i++) {
         (New-Object -ComObject shell.application).toggleDesktop()
         Start-Sleep 2
-    (New-Object -ComObject Wscript.Shell).sendkeys('{F5}')
+        (New-Object -ComObject Wscript.Shell).sendkeys('{F5}')
         Start-Sleep 1
-    (New-Object -ComObject shell.application).undominimizeall()
+        (New-Object -ComObject shell.application).undominimizeall()
     }   
 
 }
@@ -1213,9 +1213,9 @@ function DefaultSoftwares {
     for ($i = 0; $i -le 2; $i++) {
         (New-Object -ComObject shell.application).toggleDesktop()
         Start-Sleep 2
-    (New-Object -ComObject Wscript.Shell).sendkeys('{F5}')
+        (New-Object -ComObject Wscript.Shell).sendkeys('{F5}')
         Start-Sleep 1
-    (New-Object -ComObject shell.application).undominimizeall()
+        (New-Object -ComObject shell.application).undominimizeall()
     }
 }
 
