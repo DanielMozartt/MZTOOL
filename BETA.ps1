@@ -105,18 +105,16 @@ ______________________________________________________
             Start-Process powershell -Wait -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
-                    (Get-Command -Type Function WingetInstall, ModuleUpdate, WingetInstall).Definition
+                    (Get-Command -Type Function WingetInstall, ModuleUpdate, WinUpdate, WingetInstall).Definition
                 ))
             )
 
             PinIcons
 
-            DefaultSoftwares
+            #DefaultSoftwares
 
             WingetUpdate
-
-            WinUpdate
-
+            
             Clear-Host
             Write-Host '
 ______________________________________________________
