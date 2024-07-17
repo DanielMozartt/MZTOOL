@@ -648,6 +648,15 @@ function ModuleUpdate {
     
     $Host.UI.RawUI.WindowTitle = 'MZTOOL> MODULESUPDATE'
     $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
+
+    function WaitOffice2007Winget {
+            
+        if (Get-Process -Name setup -ErrorAction SilentlyContinue) {
+            Wait-Process -Name setup
+        }
+
+           
+    }
     
     #Pacote NuGet.
     Install-PackageProvider -Name NuGet -Force 
@@ -661,14 +670,17 @@ function ModuleUpdate {
     Invoke-WebRequest -Uri 'https://cdn.winget.microsoft.com/cache/source.msix' -OutFile "$env:TEMP\source.msix"
     Add-AppPackage -Path "$env:TEMP\source.msix"
     Start-Sleep 1
-    Winget Source Reset --Force  
-    Winget Upgrade --All --Accept-Source-Agreements --Accept-Package-Agreements
+    Winget Source Reset --Force     
        
     Start-Sleep 1
 
     #Módulo WINDOWS UPDATE.
     Install-Module PSWindowsUpdate -AllowClobber -Force
-    Import-Module PSWindowsUpdate -Force         
+    Import-Module PSWindowsUpdate -Force       
+    
+    #WINGET UPGRADE ALL
+    WaitOffice2007Winget
+    Winget Upgrade --All --Accept-Source-Agreements --Accept-Package-Agreements
 
     Clear-Host
              
