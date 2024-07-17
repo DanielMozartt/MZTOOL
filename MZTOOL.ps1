@@ -1093,4 +1093,4 @@ function awin {
 
 DisplayMenu 
 
-Exit
+EXIT
