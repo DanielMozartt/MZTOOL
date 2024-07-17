@@ -105,7 +105,7 @@ ______________________________________________________
             Start-Process powershell -Wait -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
-                    (Get-Command -Type Function WingetInstall, ModuleUpdate, WinUpdate, WingetInstall).Definition
+                    (Get-Command -Type Function ModuleUpdate, WinUpdate, WingetInstall).Definition
                 ))
             )
 
@@ -659,7 +659,7 @@ function ModuleUpdate {
     }
     
     #Pacote NuGet.
-    Install-PackageProvider -Name NuGet -Force 
+    Install-PackageProvider -Name NuGet -Force
         
     #Módulo WINGET.
     Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
@@ -667,11 +667,14 @@ function ModuleUpdate {
     Winget Source Remove --Name winget
     Winget Source Remove --Name msstore
     Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
-    Invoke-WebRequest -Uri 'https://cdn.winget.microsoft.com/cache/source.msix' -OutFile "$env:TEMP\source.msix"
+    Start-BitsTransfer -Source 'https://cdn.winget.microsoft.com/cache/source.msix' -Destination "$env:TEMP\source.msix"
     Add-AppPackage -Path "$env:TEMP\source.msix"
+    Start-BitsTransfer -Source 'https://github.com/microsoft/winget-cli/releases/latest/download/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle'-Destination "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
+    Add-AppPackage -Path "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"  
     Start-Sleep 1
     Winget Source Reset --Force     
-       
+    Winget Source Update   
+    Winget Upgrade Microsoft.AppInstaller --Accept-Source-Agreements --Accept-Package-Agreements
     Start-Sleep 1
 
     #Módulo WINDOWS UPDATE.
@@ -708,11 +711,16 @@ function WingetInstall {
 
             WaitOffice2007Winget
         
-            Winget Install --Id Adobe.Acrobat.Reader.64-bit --Accept-Source-Agreements --Accept-Package-Agreements
+            Start-BitsTransfer -Source 'https://github.com/microsoft/winget-cli/releases/latest/download/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle'-Destination "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
+            Add-AppPackage -Path "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
+            
+            WaitOffice2007Winget
+        
+            Winget Install --Id Adobe.Acrobat.Reader.64-bit --Source winget --Accept-Source-Agreements --Accept-Package-Agreements
 
             WaitOffice2007Winget
         
-            Winget Install --Id Google.Chrome --Accept-Source-Agreements --Accept-Package-Agreements
+            Winget Install --Id Google.Chrome.EXE --Accept-Source-Agreements --Accept-Package-Agreements
 
             WaitOffice2007Winget
         
@@ -761,8 +769,8 @@ function AnyDesk {
     #Download do software AnyDek-CM.
 
     Start-Process PowerShell {
-
-        Invoke-WebRequest -Uri 'https://download.anydesk.com/AnyDesk-CM.exe' -OutFile "$home\Desktop\AnyDesk.exe"
+        Start-BitsTransfer -Source 'https://download.anydesk.com/AnyDesk-CM.exe' -Destination "$home\Desktop\AnyDesk.exe"
+        #Invoke-WebRequest -Uri 'https://download.anydesk.com/AnyDesk-CM.exe' -OutFile "$home\Desktop\AnyDesk.exe"
     
     }
 }
