@@ -649,7 +649,7 @@ function ModuleUpdate {
     $Host.UI.RawUI.WindowTitle = 'MZTOOL> MODULESUPDATE'
     $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
 
-    function WaitOffice2007Winget {
+    function WaitOffice2007Modules {
             
         if (Get-Process -Name setup -ErrorAction SilentlyContinue) {
             Wait-Process -Name setup
@@ -679,7 +679,7 @@ function ModuleUpdate {
     Import-Module PSWindowsUpdate -Force       
     
     #WINGET UPGRADE ALL
-    WaitOffice2007Winget
+    WaitOffice2007Modules
     Winget Upgrade --All --Accept-Source-Agreements --Accept-Package-Agreements
 
     Clear-Host
