@@ -662,7 +662,7 @@ function ModuleUpdate {
     Install-PackageProvider -Name NuGet -Force
         
     #Módulo WINGET.
-    Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
+    <# Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
     Repair-WinGetPackageManager
     Winget Source Remove --Name winget
     Winget Source Remove --Name msstore
@@ -676,14 +676,14 @@ function ModuleUpdate {
     Winget Source Update   
     Winget Upgrade Microsoft.AppInstaller --Accept-Source-Agreements --Accept-Package-Agreements
     Start-Sleep 1
-
+#>
     #Módulo WINDOWS UPDATE.
     Install-Module PSWindowsUpdate -AllowClobber -Force
     Import-Module PSWindowsUpdate -Force       
     
     #WINGET UPGRADE ALL
-    WaitOffice2007Modules
-    Winget Upgrade --All --Accept-Source-Agreements --Accept-Package-Agreements
+    # WaitOffice2007Modules
+    # Winget Upgrade --All --Accept-Source-Agreements --Accept-Package-Agreements
 
     Clear-Host
              
