@@ -18,7 +18,7 @@ if ($myWindowsPrincipal.IsInRole($adminRole)) {
     $Host.UI.RawUI.ForegroundColor = 'DarkBlue'
     $host.UI.RawUI.WindowPosition = New-Object System.Management.Automation.Host.Coordinates(0, 160)
     $host.UI.RawUI.BufferSize
-    $host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.Size(120, 999)
+    $host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.Size(20, 58)
     <#$H = Get-Host
     $Win = $H.UI.RawUI.WindowSize
     $Win.Height = 20
