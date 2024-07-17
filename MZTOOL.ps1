@@ -915,7 +915,7 @@ function PerfilTheme {
     }
 
     WINDF5
-    
+
     #Finaliza janela de personalização do Windows.
 
     Start-Sleep 3
@@ -1052,9 +1052,6 @@ function PinIncons {
     
     Stop-Process -Name 'explorer'
 
-    #Start-Process explorer.exe
-        
-    #Get-Item $provisioning | Remove-Item 
 }
 function DefaultSoftwares {
     $associations_xml = @'
