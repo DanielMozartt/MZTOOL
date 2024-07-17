@@ -15,23 +15,11 @@ if ($myWindowsPrincipal.IsInRole($adminRole)) {
 
     $Host.UI.RawUI.WindowTitle = 'MZTOOL ⭡'
     $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
-    $wndSize = $Host.UI.RawUI.WindowSize
-    $wndSize.Width = $wndWidth
-    $wndSize.Height = $wndHeight
-	
-    $wndBuffSize = $wndSize
-	
-    #Set Console
-    $Host.UI.RawUI.WindowTitle = $wndTitle
-    $Host.UI.RawUI.WindowSize = $wndSize
-    $Host.UI.RawUI.BufferSize = $wndBuffSize
-    $Host.UI.RawUI.CursorSize = 0
-    <#$host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.Size(120, 999)
     $H = Get-Host
     $Win = $H.UI.RawUI.WindowSize
     $Win.Height = 20
     $Win.Width = 58
-    $H.UI.RawUI.Set_WindowSize($Win)#>
+    $H.UI.RawUI.Set_WindowSize($Win)
     
     Clear-Host
 }
