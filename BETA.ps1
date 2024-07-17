@@ -975,13 +975,11 @@ function RemoveMStorepps {
         Get-AppxPackage -AllUsers *bing* | Remove-AppxPackage
         Get-AppxPackage -AllUsers *zunevideo* | Remove-AppxPackage
         Get-AppxPackage -AllUsers *bingnews* | Remove-AppxPackage
-        Get-AppxPackage -AllUsers *mspaint* | Remove-AppxPackage
         Get-AppxPackage -AllUsers *commsphone* | Remove-AppxPackage
         Get-AppxPackage -AllUsers *windowsphone* | Remove-AppxPackage
         Get-AppxPackage -AllUsers *phone* | Remove-AppxPackage
         Get-AppxPackage -AllUsers *bingsports* | Remove-AppxPackage
         Get-AppxPackage -AllUsers *bingweather* | Remove-AppxPackage
-        Get-AppxPackage -AllUsers *xbox* | Remove-AppxPackage
         Get-AppxPackage -AllUsers -PackageTypeFilter Bundle *xbox* | Where-Object SignatureKind -NE 'System' | Remove-AppxPackage -AllUsers
         Get-AppxPackage -AllUsers *WebExperience* | Remove-AppxPackage
 
@@ -1007,6 +1005,9 @@ function RemoveMStorepps {
         'Microsoft.GamingApp'
 
         Get-AppxPackage -AllUsers | Where-Object { $_.name -in $app_packages } | Remove-AppxPackage -AllUsers
+
+        #Resta o proceso Explorer.exe
+        Stop-Process -Name 'explorer'
 
     }
 }
@@ -1051,7 +1052,12 @@ function PerfilTheme {
         (New-Object -ComObject Wscript.Shell).sendkeys('{F5}')
         Start-Sleep 1
         (New-Object -ComObject shell.application).undominimizeall()
+        Start-Sleep 2
     }
+
+    #Reinicia o Explorer.exe
+
+    Stop-Process -Name 'explorer'
 
     #Finaliza janela de personalização do Windows.
 
@@ -1170,6 +1176,7 @@ function PinIcons {
         (New-Object -ComObject Wscript.Shell).sendkeys('{F5}')
         Start-Sleep 1
         (New-Object -ComObject shell.application).undominimizeall()
+        Start-Sleep 2
     }   
 
 }
@@ -1279,6 +1286,7 @@ function DefaultSoftwares {
         (New-Object -ComObject Wscript.Shell).sendkeys('{F5}')
         Start-Sleep 1
         (New-Object -ComObject shell.application).undominimizeall()
+        Start-Sleep 2
     }
 }
 
