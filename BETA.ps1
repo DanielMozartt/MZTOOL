@@ -788,7 +788,12 @@ function WingetUpdate {
 }
 
 function WinUpdate { 
-   
+
+    #Módulo WINDOWS UPDATE.
+    Install-PackageProvider -Name NuGet -Force
+    Install-Module PSWindowsUpdate -AllowClobber -Force
+    Import-Module PSWindowsUpdate -Force
+
     #Instalação de novas atualizações do Windows através do Windows Update.
     
     Start-Process PowerShell {
