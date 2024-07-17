@@ -710,9 +710,41 @@ function WingetInstall {
         for ($i = 0; $i -le 2; $i++) {
 
             WaitOffice2007Winget
+            if ( $WinVer -Match 'Windows 11') {
+                Write-Host "$WinVer"
+                Start-Process -FilePath 'C:\Windows\Resources\Themes\dark.theme'
+            }
+
+            elseif ($WinVer -Match 'Windows 10') {
+                Write-Host "$WinVer"
+                
+                #Pacote NuGet.
+                Install-PackageProvider -Name NuGet -Force
         
-            Start-BitsTransfer -Source 'https://github.com/microsoft/winget-cli/releases/latest/download/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle'-Destination "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
-            Add-AppPackage -Path "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
+                #Módulo WINGET.
+                <Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
+                Repair-WinGetPackageManager
+                Winget Source Remove --Name winget
+                Winget Source Remove --Name msstore
+                Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
+                Start-BitsTransfer -Source 'https://cdn.winget.microsoft.com/cache/source.msix' -Destination "$env:TEMP\source.msix"
+                Add-AppPackage -Path "$env:TEMP\source.msix"
+                Start-BitsTransfer -Source 'https://github.com/microsoft/winget-cli/releases/latest/download/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle'-Destination "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
+                Add-AppPackage -Path "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"  
+                Start-Sleep 1
+                Winget Source Reset --Force     
+                Winget Source Update   
+                Winget Upgrade Microsoft.AppInstaller --Accept-Source-Agreements --Accept-Package-Agreements
+    
+            }
+
+            else {
+                
+                Start-BitsTransfer -Source 'https://github.com/microsoft/winget-cli/releases/latest/download/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle'-Destination "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
+                Add-AppPackage -Path "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
+            
+            }  
+            
             
             WaitOffice2007Winget
         
