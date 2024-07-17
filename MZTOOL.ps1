@@ -906,13 +906,16 @@ function PerfilTheme {
     New-ItemProperty -Path "$DESKINCONSREG" -Name '{5399E694-6CE5-4D6C-8FCE-1D8870FDCBA0}' -PropertyType dword -Value 00000000
 
     #Mostra e atualiza a Área de Trabalho.
-
+    function WINDF5 {
     (New-Object -ComObject shell.application).toggleDesktop()
-    Start-Sleep 1
+        Start-Sleep 1
     (New-Object -ComObject Wscript.Shell).sendkeys('{F5}')
-    Start-Sleep 1
+        Start-Sleep 1
     (New-Object -ComObject shell.application).undominimizeall()
+    }
 
+    WINDF5
+    
     #Finaliza janela de personalização do Windows.
 
     Start-Sleep 3

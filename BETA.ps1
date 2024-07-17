@@ -91,7 +91,7 @@ ______________________________________________________
             Start-Process powershell -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
-                    (Get-Command -Type Function PerfilTheme ).Definition
+                    (Get-Command -Type Function RemoveMStorepps, PerfilTheme ).Definition
                 ))
             )
 
@@ -109,7 +109,9 @@ ______________________________________________________
                 ))
             )
 
-            PinIncons
+            PinIcons
+
+            DefaultSoftwares
 
             WinUpdate
 
@@ -686,7 +688,7 @@ function WingetInstall {
            
         }
         
-        for ($i = 1; $i -le 2; $i++) {
+        for ($i = 0; $i -le 2; $i++) {
 
             WaitOffice2007Winget
         
@@ -872,6 +874,61 @@ function DriverBooster {
     }
 }
 
+function RemoveMStorepps {
+
+    Start-New Process 'PowerShell' {
+        #Remove aplicativos específicados do Windows Store.
+        Get-AppxPackage -AllUsers *WebExperience* | Remove-AppxPackage #Remover Widgets.
+        Get-AppxPackage -AllUsers *3dbuilder* | Remove-AppxPackage
+        Get-AppxPackage -AllUsers *feedback* | Remove-AppxPackage
+        Get-AppxPackage -AllUsers *officehub* | Remove-AppxPackage
+        Get-AppxPackage -AllUsers *getstarted* | Remove-AppxPackage
+        Get-AppxPackage -AllUsers *skypeapp* | Remove-AppxPackage
+        Get-AppxPackage -AllUsers *zunemusic* | Remove-AppxPackage
+        Get-AppxPackage -AllUsers *zune* | Remove-AppxPackage
+        Get-AppxPackage -AllUsers *messaging* | Remove-AppxPackage
+        Get-AppxPackage -AllUsers *solitaire* | Remove-AppxPackage
+        Get-AppxPackage -AllUsers *wallet* | Remove-AppxPackage
+        Get-AppxPackage -AllUsers *connectivitystore* | Remove-AppxPackage
+        Get-AppxPackage -AllUsers *bingfinance* | Remove-AppxPackage
+        Get-AppxPackage -AllUsers *bing* | Remove-AppxPackage
+        Get-AppxPackage -AllUsers *zunevideo* | Remove-AppxPackage
+        Get-AppxPackage -AllUsers *bingnews* | Remove-AppxPackage
+        Get-AppxPackage -AllUsers *mspaint* | Remove-AppxPackage
+        Get-AppxPackage -AllUsers *commsphone* | Remove-AppxPackage
+        Get-AppxPackage -AllUsers *windowsphone* | Remove-AppxPackage
+        Get-AppxPackage -AllUsers *phone* | Remove-AppxPackage
+        Get-AppxPackage -AllUsers *bingsports* | Remove-AppxPackage
+        Get-AppxPackage -AllUsers *bingweather* | Remove-AppxPackage
+        Get-AppxPackage -AllUsers *xbox* | Remove-AppxPackage
+        Get-AppxPackage -AllUsers -PackageTypeFilter Bundle *xbox* | Where-Object SignatureKind -NE 'System' | Remove-AppxPackage -AllUsers
+        Get-AppxPackage -AllUsers *WebExperience* | Remove-AppxPackage
+
+        $app_packages = 
+        'Clipchamp.Clipchamp',
+        'Microsoft.549981C3F5F10', #Cortana
+        'Microsoft.WindowsFeedbackHub',
+        'microsoft.windowscommunicationsapps',
+        'Microsoft.WindowsMaps',
+        'Microsoft.ZuneMusic',
+        'Microsoft.BingNews',
+        'Microsoft.Todos',
+        'Microsoft.ZuneVideo',
+        'Microsoft.MicrosoftOfficeHub',
+        'Microsoft.OutlookForWindows',
+        'Microsoft.People',
+        'Microsoft.PowerAutomateDesktop',
+        'MicrosoftCorporationII.QuickAssist',
+        'Microsoft.ScreenSketch',
+        'Microsoft.MicrosoftSolitaireCollection',
+        'Microsoft.BingWeather',
+        'Microsoft.Xbox.TCUI',
+        'Microsoft.GamingApp'
+
+        Get-AppxPackage -AllUsers | Where-Object { $_.name -in $app_packages } | Remove-AppxPackage -AllUsers
+
+    }
+}
 function PerfilTheme {
 
     $Host.UI.RawUI.WindowTitle = 'MZTOOL> PERFILTHEME'
@@ -906,22 +963,16 @@ function PerfilTheme {
     New-ItemProperty -Path "$DESKINCONSREG" -Name '{5399E694-6CE5-4D6C-8FCE-1D8870FDCBA0}' -PropertyType dword -Value 00000000
 
     #Mostra e atualiza a Área de Trabalho.
-
-    (New-Object -ComObject shell.application).toggleDesktop()
-    Start-Sleep 1
-    (New-Object -ComObject Wscript.Shell).sendkeys('{F5}')
-    Start-Sleep 1
-    (New-Object -ComObject shell.application).undominimizeall()
+    
+    for ($i = 0; $i -le 2; $i++) {
+        WINDF5
+    }
 
     #Finaliza janela de personalização do Windows.
 
-    Start-Sleep 3
-
     if (Get-Process -Name 'systemsettings') {
-                
-        
+                        
         Stop-Process -Name 'systemsettings' -Force
-
     }
 
     else {
@@ -982,7 +1033,10 @@ function PerfilTheme {
 
 }
 
-function PinIncons {
+function PinIcons {
+
+    $Host.UI.RawUI.WindowTitle = 'MZTOOL> PERFILTHEME > PINICONS'
+    $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
 
     #Fixar ícones de softwares Google Chrome, Acrobat Reader, Microsoft Word na barra de tarefas.
 
@@ -1073,9 +1127,10 @@ function PinIncons {
     
     Stop-Process -Name 'explorer'
 
-    #Start-Process explorer.exe
-        
-    #Get-Item $provisioning | Remove-Item 
+    for ($i = 0; $i -le 2; $i++) {
+        WINDF5
+    }
+
 }
 function DefaultSoftwares {
     
@@ -1171,6 +1226,14 @@ function DefaultSoftwares {
         }
         $registry.Dispose()
     }
+}
+
+function WINDF5 {
+    (New-Object -ComObject shell.application).toggleDesktop()
+    Start-Sleep 1
+    (New-Object -ComObject Wscript.Shell).sendkeys('{F5}')
+    Start-Sleep 1
+    (New-Object -ComObject shell.application).undominimizeall()
 }
 
 function DelTemp {
