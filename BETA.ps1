@@ -481,7 +481,6 @@ ______________________________________________________
 '
             
             DelTemp
-            WINDF5
             Start-Sleep -Seconds 3
             Exit
             Exit-PSHostProcess
@@ -493,6 +492,10 @@ ______________________________________________________
 
         e {
             EnvTool #TESTAR ENVTOOL
+        }
+
+        w {
+            WingetInstall #TESTAR WINGET
         }
         default {
             #ENTRADA INVÁLIDA.
@@ -1209,14 +1212,6 @@ function DefaultSoftwares {
         Start-Sleep 1
     (New-Object -ComObject shell.application).undominimizeall()
     }
-}
-
-function WINDF5 {
-    (New-Object -ComObject shell.application).toggleDesktop()
-    Start-Sleep 1
-    (New-Object -ComObject Wscript.Shell).sendkeys('{F5}')
-    Start-Sleep 1
-    (New-Object -ComObject shell.application).undominimizeall()
 }
 
 function DelTemp {
