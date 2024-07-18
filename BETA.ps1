@@ -27,7 +27,7 @@ else {
     
     #Não está executando como administrador.
     
-    #Fecha o processo atual e inicia um novo com o script como administrador solicitando UAC se o sistema operacioanl for suportado..
+    #Fecha o processo atual e inicia um novo com o script como administrador solicitando UAC se o sistema operacioanl for suportado.
 
     $WinVer = (Get-WmiObject Win32_OperatingSystem).Caption
             
