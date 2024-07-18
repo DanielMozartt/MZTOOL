@@ -132,7 +132,7 @@ ______________________________________________________
             Start-Process powershell -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
-                    (Get-Command -Type Function DownloadMztool, DriverBooster, Office2007).Definition
+                    (Get-Command -Type Function NetFx3, DownloadMztool, DriverBooster, Office2007).Definition
                 ))
             )
 
@@ -803,6 +803,7 @@ function WingetInstall {
     }
       
 }
+
 function WingetUpdate { 
 
     #WINGET - Atualização de pacotes de softwares instalados.
@@ -903,24 +904,24 @@ function Office2007 {
 
     $Host.UI.RawUI.WindowTitle = 'MZTOOL> OFFICE2007'
     $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
-    function WaitOffice2007B {
-            
-        if (Get-Process -Name setup -ErrorAction SilentlyContinue) {
-            Wait-Process -Name setup
-        }
-    
-    }
-    
+       
     $TOOL = 'C:\TOOL'
 
-    Start-Process "$TOOL\OFFICE\2007\Setup.exe" -ArgumentList '/adminfile Silent.msp'
-   
-    Add-WindowsCapability -Online -Name NetFx3~~~~ -Source D:\sources\sxs
-
-    WaitOffice2007B
-    
+    Start-Process "$TOOL\OFFICE\2007\Setup.exe" -ArgumentList '/adminfile Silent.msp' -Wait     
+    Wait-Job -Name NetFx3  
     Start-Process 'winword.exe'
    
+}
+
+function NetFx3 {
+
+    Start-Job -Name NetFx3 -ScriptBlock { 
+    
+        Add-AppxPackage .\PathToNewVersion
+        Enable-WindowsOptionalFeature -Online -FeatureName 'NetFx3'
+        Add-WindowsCapability -Online -Name NetFx3
+
+    }
 }
 
 function DriverBooster {
@@ -1210,10 +1211,7 @@ function PinIcons {
         Start-Sleep 2
     }   
 
-    Start-Process WINWORD
-    Start-Process CHROME https://www.youtube.com/mozartinformatica, https://www.instagram.com/mozartinformatica/, https://raw.githubusercontent.com/DanielMozartt/MZTOOL/BETA/BETA.ps1
-    Start-Process ACROBAT
-   
+       
 }
 function DefaultSoftwares {
 
@@ -1931,7 +1929,6 @@ function ChromeAcrobatDefault {
 
 FUNCTION STARTSOFTWARES {
 
-    Start-Process WINWORD -ErrorAction SilentlyContinue
     Start-Process CHROME https://www.youtube.com/mozartinformatica, https://www.instagram.com/mozartinformatica/, https://raw.githubusercontent.com/DanielMozartt/MZTOOL/BETA/BETA.ps1
     Start-Process ACROBAT
 }
