@@ -8,8 +8,6 @@ $myWindowsPrincipal = New-Object System.Security.Principal.WindowsPrincipal($myW
 $adminRole = [System.Security.Principal.WindowsBuiltInRole]::Administrator
   
 #Verifica se o script está sendo executado como administrador.
-
-
 if ($myWindowsPrincipal.IsInRole($adminRole)) {
     
     #Executando como administrador. Formatação e estilo aplicadas.
@@ -763,6 +761,7 @@ function WingetInstall {
             if ( $WinVer -Match 'Windows 11') {
                 Write-Host "$WinVer"
                 
+                #Reinstala, redefine as fontes e atualiza o Módulo WINGET.
                 Start-BitsTransfer -Source 'https://github.com/microsoft/winget-cli/releases/latest/download/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle'-Destination "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
                 Add-AppPackage -Path "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
 
@@ -774,7 +773,7 @@ function WingetInstall {
                 #Pacote NuGet.
                 Install-PackageProvider -Name NuGet -Force
         
-                #Módulo WINGET.
+                #Reinstala, redefine as fontes e atualiza o Módulo WINGET.
                 Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
                 Repair-WinGetPackageManager
                 Winget Source Remove --Name winget
