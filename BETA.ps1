@@ -529,6 +529,15 @@ ______________________________________________________
         w {
             WingetInstall #TESTAR WINGET
         }
+
+        u {
+            WinUpdate #TESTAR WINUPDATE
+        }
+
+        u {
+            #TESTAR WINUPDATE
+        }
+
         default {
             #ENTRADA INVÁLIDA.
 
