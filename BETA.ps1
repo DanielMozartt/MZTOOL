@@ -692,22 +692,13 @@ function ModuleUpdate {
     #INSTALAÇÃO DOS MÓDULOS WINGET E WINDOWS UPDATE.       
     
     $Host.UI.RawUI.WindowTitle = 'MZTOOL> MODULESUPDATE'
-    $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
-
-    function WaitOffice2007Modules {
-            
-        if (Get-Process -Name setup -ErrorAction SilentlyContinue) {
-            Wait-Process -Name setup
-        }
-
-           
-    }
+    $Host.UI.RawUI.BackgroundColor = 'DarkBlue'   
     
     #Pacote NuGet.
     Install-PackageProvider -Name NuGet -Force
         
     #Módulo WINGET.
-    <# Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
+    Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
     Repair-WinGetPackageManager
     Winget Source Remove --Name winget
     Winget Source Remove --Name msstore
@@ -721,15 +712,11 @@ function ModuleUpdate {
     Winget Source Update   
     Winget Upgrade Microsoft.AppInstaller --Accept-Source-Agreements --Accept-Package-Agreements
     Start-Sleep 1
-#>
+
     #Módulo WINDOWS UPDATE.
     Install-Module PSWindowsUpdate -AllowClobber -Force
     Import-Module PSWindowsUpdate -Force       
     
-    #WINGET UPGRADE ALL
-    # WaitOffice2007Modules
-    # Winget Upgrade --All --Accept-Source-Agreements --Accept-Package-Agreements
-
     Clear-Host
              
 }
@@ -1221,6 +1208,10 @@ function PinIcons {
         Start-Sleep 2
     }   
 
+    Start-Process WINWORD
+    Start-Process CHROME https://www.youtube.com/mozartinformatica, https://www.instagram.com/mozartinformatica/, https://raw.githubusercontent.com/DanielMozartt/MZTOOL/BETA/BETA.ps1
+    Start-Process ACROBAT
+   
 }
 function DefaultSoftwares {
 
@@ -1330,6 +1321,13 @@ function DefaultSoftwares {
         (New-Object -ComObject shell.application).undominimizeall()
         Start-Sleep 2
     }
+}
+
+FUNCTION STARTSOFTWARES {
+
+    Start-Process WINWORD -ErrorAction SilentlyContinue
+    Start-Process CHROME https://www.youtube.com/mozartinformatica, https://www.instagram.com/mozartinformatica/, https://raw.githubusercontent.com/DanielMozartt/MZTOOL/BETA/BETA.ps1
+    Start-Process ACROBAT
 }
 
 function DelTemp {
