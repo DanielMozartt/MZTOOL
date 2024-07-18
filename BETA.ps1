@@ -752,48 +752,48 @@ function WingetInstall {
            
         }
         
+        WaitOffice2007Winget
+            
+        $WinVer = (Get-WmiObject Win32_OperatingSystem).Caption
+            
+        if ( $WinVer -Match 'Windows 11') {
+            Write-Host "$WinVer"
+                
+            #Reinstala, redefine as fontes e atualiza o Módulo WINGET.
+            Start-BitsTransfer -Source 'https://github.com/microsoft/winget-cli/releases/latest/download/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle'-Destination "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
+            Add-AppPackage -Path "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
+
+        }
+
+        elseif ($WinVer -Match 'Windows 10') {
+            Write-Host "$WinVer"
+                
+            #Pacote NuGet.
+            Install-PackageProvider -Name NuGet -Force
+        
+            #Reinstala, redefine as fontes e atualiza o Módulo WINGET.
+            Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
+            Repair-WinGetPackageManager
+            Winget Source Remove --Name winget
+            Winget Source Remove --Name msstore
+            Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
+            Start-BitsTransfer -Source 'https://cdn.winget.microsoft.com/cache/source.msix' -Destination "$env:TEMP\source.msix"
+            Add-AppPackage -Path "$env:TEMP\source.msix"
+            Start-BitsTransfer -Source 'https://github.com/microsoft/winget-cli/releases/latest/download/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle'-Destination "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
+            Add-AppPackage -Path "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"  
+            Start-Sleep 1
+            Winget Source Reset --Force     
+            Winget Source Update   
+            Winget Upgrade Microsoft.AppInstaller --Accept-Source-Agreements --Accept-Package-Agreements
+    
+        }
+
+        else {
+            Write-Host 'Windows não identificado, tema não aplicado.'
+        }  
+            
         for ($i = 0; $i -le 2; $i++) {
 
-            WaitOffice2007Winget
-            
-            $WinVer = (Get-WmiObject Win32_OperatingSystem).Caption
-            
-            if ( $WinVer -Match 'Windows 11') {
-                Write-Host "$WinVer"
-                
-                #Reinstala, redefine as fontes e atualiza o Módulo WINGET.
-                Start-BitsTransfer -Source 'https://github.com/microsoft/winget-cli/releases/latest/download/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle'-Destination "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
-                Add-AppPackage -Path "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
-
-            }
-
-            elseif ($WinVer -Match 'Windows 10') {
-                Write-Host "$WinVer"
-                
-                #Pacote NuGet.
-                Install-PackageProvider -Name NuGet -Force
-        
-                #Reinstala, redefine as fontes e atualiza o Módulo WINGET.
-                Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
-                Repair-WinGetPackageManager
-                Winget Source Remove --Name winget
-                Winget Source Remove --Name msstore
-                Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
-                Start-BitsTransfer -Source 'https://cdn.winget.microsoft.com/cache/source.msix' -Destination "$env:TEMP\source.msix"
-                Add-AppPackage -Path "$env:TEMP\source.msix"
-                Start-BitsTransfer -Source 'https://github.com/microsoft/winget-cli/releases/latest/download/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle'-Destination "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
-                Add-AppPackage -Path "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"  
-                Start-Sleep 1
-                Winget Source Reset --Force     
-                Winget Source Update   
-                Winget Upgrade Microsoft.AppInstaller --Accept-Source-Agreements --Accept-Package-Agreements
-    
-            }
-
-            else {
-                Write-Host 'Windows não identificado, tema não aplicado.'
-            }  
-          
             WaitOffice2007Winget
         
             Winget Install --Id Google.Chrome.EXE --Accept-Source-Agreements --Accept-Package-Agreements
@@ -831,7 +831,7 @@ function WingetUpdate {
 
 function WinUpdate { 
 
-    #Módulo WINDOWS UPDATE.
+    #Instala e atualiza o Módulo WINDOWS UPDATE.
     Install-PackageProvider -Name NuGet -Force
     Install-Module PSWindowsUpdate -AllowClobber -Force
     Import-Module PSWindowsUpdate -Force
@@ -854,9 +854,9 @@ function AnyDesk {
     #Download do software AnyDek-CM.
 
     Start-Process PowerShell {
+        
         Start-BitsTransfer -Source 'https://download.anydesk.com/AnyDesk-CM.exe' -Destination "$home\Desktop\AnyDesk.exe"
-        #Invoke-WebRequest -Uri 'https://download.anydesk.com/AnyDesk-CM.exe' -OutFile "$home\Desktop\AnyDesk.exe"
-    
+                   
     }
 }
 
@@ -926,7 +926,7 @@ function Office2007 {
 
     Start-Process "$TOOL\OFFICE\2007\Setup.exe" -ArgumentList '/adminfile Silent.msp'
    
-    Add-WindowsCapability –Online -Name NetFx3~~~~ –Source D:\sources\sxs
+    Add-WindowsCapability -Online -Name NetFx3~~~~ -Source D:\sources\sxs
 
     WaitOffice2007B
     
@@ -1080,7 +1080,7 @@ function PerfilTheme {
 
     $DESKINCONSREG = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel'
 
-    #New-ItemProperty -Path "$DESKINCONSREG" -Name '{018D5C66-4533-4307-9B53-224DE2ED1FE6}' -PropertyType dword -Value 00000000 LIXEIRAICON
+    New-ItemProperty -Path "$DESKINCONSREG" -Name '{018D5C66-4533-4307-9B53-224DE2ED1FE6}' -PropertyType dword -Value 00000000 -ErrorAction SilentlyContinue
     New-ItemProperty -Path "$DESKINCONSREG" -Name '{20D04FE0-3AEA-1069-A2D8-08002B30309D}' -PropertyType dword -Value 00000000
     New-ItemProperty -Path "$DESKINCONSREG" -Name '{59031a47-3f72-44a7-89c5-5595fe6b30ee}' -PropertyType dword -Value 00000000
     New-ItemProperty -Path "$DESKINCONSREG" -Name '{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}' -PropertyType dword -Value 00000000
