@@ -24,6 +24,7 @@ if ($myWindowsPrincipal.IsInRole($adminRole)) {
     Clear-Host
 
 }
+
 else {
     
     #Não está executando como administrador.
@@ -36,7 +37,6 @@ else {
     [System.Diagnostics.Process]::Start($newProcess) | Out-Null     
     exit 
 }
-
  
 function OpSys {
     #Verifica se o sistema operacional é suportado.
