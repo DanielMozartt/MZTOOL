@@ -1,17 +1,17 @@
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
 
-# Obtém o ID e o Objeto de Segurança do usuário atual.
+#Obtém o ID e o Objeto de Segurança do usuário atual.
 $myWindowsID = [System.Security.Principal.WindowsIdentity]::GetCurrent()
 $myWindowsPrincipal = New-Object System.Security.Principal.WindowsPrincipal($myWindowsID)
 
-# Obtém o Objeto de Segurança do usuário Administrador.
+#Obtém o Objeto de Segurança do usuário Administrador.
 $adminRole = [System.Security.Principal.WindowsBuiltInRole]::Administrator
   
-# Verifica se o script está sendo executado como administrador.
+#Verifica se o script está sendo executado como administrador.
 
 if ($myWindowsPrincipal.IsInRole($adminRole)) {
     
-    # Executando como administrador. Formatação e estilo aplicadas.
+    #Executando como administrador. Formatação e estilo aplicadas.
 
     $Host.UI.RawUI.WindowTitle = 'MZTOOL ⭡'
     $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
@@ -25,9 +25,9 @@ if ($myWindowsPrincipal.IsInRole($adminRole)) {
 }
 else {
     
-    # Não está executando como administrador.
+    #Não está executando como administrador.
     
-    # Fecha o processo atual e inicia um novo com o script como administrador solicitando UAC se o sistema operacioanl for suportado..
+    #Fecha o processo atual e inicia um novo com o script como administrador solicitando UAC se o sistema operacioanl for suportado..
 
     $WinVer = (Get-WmiObject Win32_OperatingSystem).Caption
             
@@ -39,7 +39,7 @@ else {
         [System.Diagnostics.Process]::Start($newProcess) | Out-Null     
         exit 
     }
-    
+
     if ( $WinVer -Match 'Windows 11') {
         
         Write-Host "$WinVer"
