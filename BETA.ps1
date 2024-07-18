@@ -215,6 +215,14 @@ ______________________________________________________
 |                   DANIEL MOZART                    |
 |____________________________________________________|
 '
+                        Hora
+                        
+                        AnyDesk
+                        
+                        EnvTool
+                        
+                        ToolDir 
+
                         DownloadMztool
            
                         Diagnostics64
@@ -243,7 +251,14 @@ ______________________________________________________
 |                 MOZART INFORMÁTICA                 |
 |                   DANIEL MOZART                    |
 |____________________________________________________|
-'
+' 
+                        Hora
+                        
+                        AnyDesk
+                        
+                        EnvTool
+                        
+                        ToolDir 
                         DownloadMztool 
                                      
                         Diagnostics32 
