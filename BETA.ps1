@@ -9,9 +9,11 @@ $adminRole = [System.Security.Principal.WindowsBuiltInRole]::Administrator
   
 #Verifica se o script está sendo executado como administrador.
 
+
 if ($myWindowsPrincipal.IsInRole($adminRole)) {
     
     #Executando como administrador. Formatação e estilo aplicadas.
+
 
     $Host.UI.RawUI.WindowTitle = 'MZTOOL ⭡'
     $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
@@ -20,55 +22,57 @@ if ($myWindowsPrincipal.IsInRole($adminRole)) {
     $Win.Height = 20
     $Win.Width = 58
     $H.UI.RawUI.Set_WindowSize($Win)
-    
+  
     Clear-Host
+
 }
 else {
     
     #Não está executando como administrador.
     
-    #Fecha o processo atual e inicia um novo com o script como administrador solicitando UAC se o sistema operacional for suportado.
+    #Fecha o processo atual e inicia um novo com o script como administrador solicitando UAC.
+  
+    $newProcess = New-Object System.Diagnostics.ProcessStartInfo 'PowerShell'
+    $newProcess.Arguments = $myInvocation.MyCommand.Definition
+    $newProcess.Verb = 'runas'
+    [System.Diagnostics.Process]::Start($newProcess) | Out-Null     
+    exit 
+}
 
-    
-            
-    FUNCTION STARTMZTOOL {
-
-        $newProcess = New-Object System.Diagnostics.ProcessStartInfo 'PowerShell'
-        $newProcess.Arguments = $myInvocation.MyCommand.Definition
-        $newProcess.Verb = 'runas'
-        [System.Diagnostics.Process]::Start($newProcess) | Out-Null     
-        exit 
-    }
-   
+ 
+function OpSys {
+    #Verifica se o sistema operacional é suportado.
     $WinVer = (Get-WmiObject Win32_OperatingSystem).Caption
-    
-    if ( $WinVer -Match 'Windows 11') {
+
+    if ( $WinVer -Match 'Microsoft Windows 11') {
         
         Write-Host "$WinVer"
 
-        STARTMZTOOL
+        DisplayMenu
                 
 
     }
 
-    elseif ($WinVer -Match 'Windows 10') {
+    elseif ($WinVer -Match 'Microsoft Windows 10') {
         
         Write-Host "$WinVer"
                 
-        STARTMZTOOL
+        DisplayMenu
     
     }
 
     else {
 
         Write-Host 'SISTEMA OPERACIONAL NÃO SUPORTADO.'
+
+        Start-Sleep 5
+
         EXIT
                 
-    }  
-   
-
+    }
 }
-  
+
+OpSys
 
 #MENU MZTOOL -----------------------------------------------------
 
