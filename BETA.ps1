@@ -145,7 +145,9 @@ ______________________________________________________
 
             PinIcons
 
-            #DefaultSoftwares
+            DefaultSoftwares
+
+            STARTSOFTWARES
 
             WingetUpdate
 
