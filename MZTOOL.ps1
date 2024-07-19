@@ -608,62 +608,62 @@ function DownloadMztool {
     
     #$error.clear()
            
-    try {
+    #try {
        
 
-        $ONEDRIVELINK = 'https://seulink.net/TOOLZIP'
-        $GOOGLEDRIVELINK = 'https://drive.google.com/uc?export=download&id=1rE0SypfMpOvbSRXJv9iyjI_we55DtZm2&export=download'
+    $ONEDRIVELINK = 'https://seulink.net/TOOLZIP'
+    # $GOOGLEDRIVELINK = 'https://drive.google.com/uc?export=download&id=1rE0SypfMpOvbSRXJv9iyjI_we55DtZm2&export=download'
     
-        $webClient = New-Object -TypeName System.Net.WebClient
-        $task = $webClient.DownloadFileTaskAsync($ONEDRIVELINK, "$TOOL\MZTOOL.zip")
+    $webClient = New-Object -TypeName System.Net.WebClient
+    $task = $webClient.DownloadFileTaskAsync($ONEDRIVELINK, "$TOOL\MZTOOL.zip")
     
-        Register-ObjectEvent -InputObject $webClient -EventName DownloadProgressChanged -SourceIdentifier WebClient.DownloadProgressChanged | Out-Null
+    Register-ObjectEvent -InputObject $webClient -EventName DownloadProgressChanged -SourceIdentifier WebClient.DownloadProgressChanged | Out-Null
     
-        Start-Sleep -Seconds 3
+    Start-Sleep -Seconds 3
     
-        while (!($task.IsCompleted)) {
-            $EventData = Get-Event -SourceIdentifier WebClient.DownloadProgressChanged | Select-Object -ExpandProperty 'SourceEventArgs' -Last 1
+    while (!($task.IsCompleted)) {
+        $EventData = Get-Event -SourceIdentifier WebClient.DownloadProgressChanged | Select-Object -ExpandProperty 'SourceEventArgs' -Last 1
     
-            $ReceivedData = ($EventData | Select-Object -ExpandProperty 'BytesReceived')
-            $TotalToReceive = ($EventData | Select-Object -ExpandProperty 'TotalBytesToReceive')
-            $TotalPercent = $EventData | Select-Object -ExpandProperty 'ProgressPercentage'
+        $ReceivedData = ($EventData | Select-Object -ExpandProperty 'BytesReceived')
+        $TotalToReceive = ($EventData | Select-Object -ExpandProperty 'TotalBytesToReceive')
+        $TotalPercent = $EventData | Select-Object -ExpandProperty 'ProgressPercentage'
     
-            Start-Sleep -Seconds 2
+        Start-Sleep -Seconds 2
     
-            function convertFileSize {
-                param(
-                    $bytes
-                )
+        function convertFileSize {
+            param(
+                $bytes
+            )
     
-                if ($bytes -lt 1MB) {
-                    return "$([Math]::Round($bytes / 1KB, 2)) KB"
-                }
-                elseif ($bytes -lt 1GB) {
-                    return "$([Math]::Round($bytes / 1MB, 2)) MB"
-                }
-                elseif ($bytes -lt 1TB) {
-                    return "$([Math]::Round($bytes / 1GB, 2)) GB"
-                }
+            if ($bytes -lt 1MB) {
+                return "$([Math]::Round($bytes / 1KB, 2)) KB"
             }
-
-            Write-Progress -Activity 'Downloading File' -Status "Percent Complete: $($TotalPercent)%" -CurrentOperation "Downloaded $(convertFileSize -bytes $ReceivedData) / $(convertFileSize -bytes $TotalToReceive)" -PercentComplete $TotalPercent
-    
+            elseif ($bytes -lt 1GB) {
+                return "$([Math]::Round($bytes / 1MB, 2)) MB"
+            }
+            elseif ($bytes -lt 1TB) {
+                return "$([Math]::Round($bytes / 1GB, 2)) GB"
+            }
         }
+
+        Write-Progress -Activity 'Downloading File' -Status "Percent Complete: $($TotalPercent)%" -CurrentOperation "Downloaded $(convertFileSize -bytes $ReceivedData) / $(convertFileSize -bytes $TotalToReceive)" -PercentComplete $TotalPercent
     
-        Unregister-Event -SourceIdentifier WebClient.DownloadProgressChanged
-        $webClient.Dispose()
+    }
+    
+    Unregister-Event -SourceIdentifier WebClient.DownloadProgressChanged
+    $webClient.Dispose()
 
          
-        #Extração do arquivo MZTOOL.zip para a pasta $TOOL.
+    #Extração do arquivo MZTOOL.zip para a pasta $TOOL.
     
-        Expand-Archive -LiteralPath $TOOL\MZTOOL.zip -DestinationPath $TOOL
+    Expand-Archive -LiteralPath $TOOL\MZTOOL.zip -DestinationPath $TOOL
 
-        #Deletar o arquivo MZTOOL.zip.
+    #Deletar o arquivo MZTOOL.zip.
 
-        Remove-Item $TOOL\MZTOOL.zip
+    Remove-Item $TOOL\MZTOOL.zip
 
-    }
-    catch [System.Net.WebException], [System.IO.IOException] {
+}
+<#catch [System.Net.WebException], [System.IO.IOException] {
 
         Clear-Host
 
@@ -704,7 +704,7 @@ function DownloadMztool {
         #Deletar o arquivo MZTOOL.zip.    
         Remove-Item $MZTOOLZIP       
 
-    }
+    }#>
 
 }
 
