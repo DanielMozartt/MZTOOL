@@ -569,10 +569,10 @@ ______________________________________________________
 
 function Hora {
     
-    Start-Process PowerShell {
+    Start-Process PowerShell -WindowStyle Hidden {
     
-        net start w32time | Out-Null
-        w32tm /resync /force | Out-Null
+        net start w32time 
+        w32tm /resync /force
    
     }
 }
@@ -613,8 +613,6 @@ function DownloadMztool {
 
         $ONEDRIVELINK = 'https://seulink.net/TOOLZIP'
         $GOOGLEDRIVELINK = 'https://drive.google.com/uc?export=download&id=1rE0SypfMpOvbSRXJv9iyjI_we55DtZm2&export=download'
-    
-       
     
         $webClient = New-Object -TypeName System.Net.WebClient
         $task = $webClient.DownloadFileTaskAsync($ONEDRIVELINK, "$TOOL\MZTOOL.zip")
@@ -667,25 +665,44 @@ function DownloadMztool {
     }
     catch [System.Net.WebException], [System.IO.IOException] {
 
-        'LINK DO ONE DRIVE NÃO ESTÁ ONLINE, TENTANDO O LINK DO GOOGLE DRIVE
+        Clear-Host
 
-        !!FAÇA O DOWNLOAD MANUALMENTE NO LINK ABERTO E SOMENTE APÓS FINALIZAR O DOWNLOAD VOLTE AQUI E DÊ ENTER!!' 
+        'ONEDRIVE LINKDOWN' 
     }
     if ($error) { 
+    
+        Clear-Host
+
+        Write-Host 'LINK DO ONE DRIVE NÃO ESTÁ ONLINE, TENTANDO O LINK DO GOOGLE DRIVE
+
+        !!FAÇA O DOWNLOAD MANUALMENTE NO LINK ABERTO!!
+        
+
+        AGUARDANDO DOWNLOAD'
     
         #Inicia o Microsoft Edge com o link de download manual do arquivo MZTOOL.ZIP.
         Start-Process MSEDGE $GOOGLEDRIVELINK 
         
-        $MZTOOLZIP = "$home\Downloads\MZTOOL.zip"
+        do {
+            
+            #Testando se o arquivo MZTOOLZIP já foi baixado manualmente na pasta $home\Downloads e se existe. 
+
+            $MZTOOLZIP = Get-Item "$home\Downloads\MZTOOL.zip" -ErrorAction SilentlyContinue
+            
+            Start-Sleep 3
+            
+        } while ($MZTOOLZIP.Target -ne "$MZTOOLZIP")
+
+        Clear-Host
+
+        Write-Host 'ARQUIVO BAIXADO'
+
+        Clear-Host
               
         #Extração do arquivo MZTOOL.zip para a pasta $TOOL.
         Expand-Archive -LiteralPath $MZTOOLZIP -DestinationPath $TOOL
         #Deletar o arquivo MZTOOL.zip.    
-        Remove-Item "$home\Downloads\MZTOOL.zip"
-
-        Pause
-                
-        Clear-Host
+        Remove-Item $MZTOOLZIP       
 
     }
 
@@ -699,7 +716,6 @@ function EnvTool {
         [Environment]::SetEnvironmentVariable('MZTOOL', 'PowerShell irm https://bit.ly/MZTT | iex', 'MACHINE')
     }
 }
-
 
 function Diagnostics64 {
    
@@ -734,7 +750,6 @@ function Diagnostics32 {
     Clear-Host
         
 }
-
 
 function ModuleUpdate {
 
@@ -964,6 +979,9 @@ function Office2007 {
 function NetFx3 {
 
     Start-Job -Name NetFx3 -ScriptBlock { 
+
+        $Host.UI.RawUI.WindowTitle = 'MZTOOL> .NETFRAMEWORK3.5'
+        $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
     
         Add-AppxPackage .\PathToNewVersion
         Enable-WindowsOptionalFeature -Online -FeatureName 'NetFx3'
@@ -1091,6 +1109,7 @@ function RemoveMStorepps {
 
     }
 }
+
 function PerfilTheme {
 
     $Host.UI.RawUI.WindowTitle = 'MZTOOL> PERFILTHEME'
@@ -1261,6 +1280,7 @@ function PinIcons {
 
        
 }
+
 function DefaultSoftwares {
 
     $Host.UI.RawUI.WindowTitle = 'MZTOOL> PERFILTHEME > DEFAULTSOFTWARES'

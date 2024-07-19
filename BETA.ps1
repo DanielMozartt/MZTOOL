@@ -667,7 +667,7 @@ function DownloadMztool {
 
         Clear-Host
 
-        'ONDRIVE LINKDOWN' 
+        'ONEDRIVE LINKDOWN' 
     }
     if ($error) { 
     
@@ -684,9 +684,11 @@ function DownloadMztool {
         Start-Process MSEDGE $GOOGLEDRIVELINK 
         
         do {
-                   
+            
+            #Testando se o arquivo MZTOOLZIP já foi baixado manualmente na pasta $home\Downloads e se existe. 
+
             $MZTOOLZIP = Get-Item "$home\Downloads\MZTOOL.zip" -ErrorAction SilentlyContinue
-            #Aguardando confirmação após o download.
+            
             Start-Sleep 3
             
         } while ($MZTOOLZIP.Target -ne "$MZTOOLZIP")
