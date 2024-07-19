@@ -215,17 +215,16 @@ ______________________________________________________
 |                   DANIEL MOZART                    |
 |____________________________________________________|
 '
-                                               
+                        Hora
                         
+                        AnyDesk
+                        
+                        EnvTool
+                        
+                        ToolDir 
 
-                        Start-Process powershell -Wait -args '-noprofile', '-EncodedCommand',
-            ([Convert]::ToBase64String(
-                            [Text.Encoding]::Unicode.GetBytes(
-                    (Get-Command -Type Function ToolDir, DownloadMztool, Diagnostics64).Definition
-                            ))
-            )
-           
-                        
+                        DownloadMztool             
+                                                
                         Start-Sleep -Seconds 1
 
                         DelTemp
@@ -555,10 +554,7 @@ ______________________________________________________
             WinUpdate #TESTAR WINUPDATE
         }
 
-        u {
-            #TESTAR WINUPDATE
-        }
-
+        
         default {
             #ENTRADA INVÁLIDA.
 
@@ -675,7 +671,7 @@ function DownloadMztool {
     if ($error) { 
     
         Start-Process MSEDGE $GOOGLEDRIVELINK 
-        Clear-Host
+        
         Clear-Host
         Write-Host 'FAÇA O DOWNLOAD MANUALMENTE NO LINK ABERTO E APÓS FINALIZAR O DOWNLOAD VOLTE AQUI E DÊ ENTER.'
 
@@ -871,18 +867,18 @@ function WingetUpdate {
 
 function WinUpdate { 
 
-    #Instala e atualiza o Módulo WINDOWS UPDATE.
-    Install-PackageProvider -Name NuGet -Force
-    Install-Module PSWindowsUpdate -AllowClobber -Force
-    Import-Module PSWindowsUpdate -Force
-
     #Instalação de novas atualizações do Windows através do Windows Update.
     
     Start-Process PowerShell {
 
         $Host.UI.RawUI.WindowTitle = 'MZTOOL> WINUPDATE'
         $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
-    
+
+        #Instala e atualiza o Módulo WINDOWS UPDATE.
+        Install-PackageProvider -Name NuGet -Force
+        Install-Module PSWindowsUpdate -AllowClobber -Force
+        Import-Module PSWindowsUpdate -Force
+
         Get-WindowsUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot
 
         Clear-Host
