@@ -977,6 +977,9 @@ function Office2007 {
 function NetFx3 {
 
     Start-Job -Name NetFx3 -ScriptBlock { 
+
+        $Host.UI.RawUI.WindowTitle = 'MZTOOL> .NETFRAMEWORK3.5'
+        $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
     
         Add-AppxPackage .\PathToNewVersion
         Enable-WindowsOptionalFeature -Online -FeatureName 'NetFx3'
