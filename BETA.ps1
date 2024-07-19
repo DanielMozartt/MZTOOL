@@ -614,8 +614,6 @@ function DownloadMztool {
         $ONEDRIVELINK = 'https://seulink.net/TOOLZIP'
         $GOOGLEDRIVELINK = 'https://drive.google.com/uc?export=download&id=1rE0SypfMpOvbSRXJv9iyjI_we55DtZm2&export=download'
     
-       
-    
         $webClient = New-Object -TypeName System.Net.WebClient
         $task = $webClient.DownloadFileTaskAsync($ONEDRIVELINK, "$TOOL\MZTOOL.zip")
     
@@ -666,28 +664,48 @@ function DownloadMztool {
 
     }
     catch [System.Net.WebException], [System.IO.IOException] {
-        'LINK DO ONE DRIVE NÃO ESTÁ ONLINE, TENTANDO O LINK DO GOOGLE DRIVE' 
+
+        Clear-Host
+
+        'ONDRIVE LINKDOWN' 
     }
     if ($error) { 
     
+        Clear-Host
+
+        Write-Host 'LINK DO ONE DRIVE NÃO ESTÁ ONLINE, TENTANDO O LINK DO GOOGLE DRIVE
+
+        !!FAÇA O DOWNLOAD MANUALMENTE NO LINK ABERTO!!
+        
+
+        AGUARDANDO DOWNLOAD'
+    
+        #Inicia o Microsoft Edge com o link de download manual do arquivo MZTOOL.ZIP.
         Start-Process MSEDGE $GOOGLEDRIVELINK 
         
+        do {
+                   
+            $MZTOOLZIP = Get-Item "$home\Downloads\MZTOOL.zip" -ErrorAction SilentlyContinue
+            #Aguardando confirmação após o download.
+            Start-Sleep 3
+            
+        } while ($MZTOOLZIP.Target -ne "$MZTOOLZIP")
+
         Clear-Host
-        Write-Host 'FAÇA O DOWNLOAD MANUALMENTE NO LINK ABERTO E APÓS FINALIZAR O DOWNLOAD VOLTE AQUI E DÊ ENTER.'
 
-        Pause
+        Write-Host 'ARQUIVO BAIXADO'
 
+        Clear-Host
+              
         #Extração do arquivo MZTOOL.zip para a pasta $TOOL.
-        Expand-Archive -LiteralPath $home\Downloads\MZTOOL.zip -DestinationPath $TOOL
+        Expand-Archive -LiteralPath $MZTOOLZIP -DestinationPath $TOOL
         #Deletar o arquivo MZTOOL.zip.    
-        Remove-Item "$home\Downloads\MZTOOL.zip"
-
-        
+        Remove-Item $MZTOOLZIP       
 
     }
-  
-  
+
 }
+
 
 function EnvTool {
     
