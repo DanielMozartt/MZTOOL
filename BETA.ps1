@@ -569,10 +569,10 @@ ______________________________________________________
 
 function Hora {
     
-    Start-Process PowerShell {
+    Start-Process PowerShell -WindowStyle Hidden {
     
-        net start w32time | Out-Null
-        w32tm /resync /force | Out-Null
+        net start w32time 
+        w32tm /resync /force
    
     }
 }
@@ -706,7 +706,6 @@ function DownloadMztool {
 
 }
 
-
 function EnvTool {
     
     #Adicionar variáveis de ambiente.
@@ -715,7 +714,6 @@ function EnvTool {
         [Environment]::SetEnvironmentVariable('MZTOOL', 'PowerShell irm https://bit.ly/MZTT | iex', 'MACHINE')
     }
 }
-
 
 function Diagnostics64 {
    
@@ -750,7 +748,6 @@ function Diagnostics32 {
     Clear-Host
         
 }
-
 
 function ModuleUpdate {
 
