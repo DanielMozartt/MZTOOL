@@ -1107,6 +1107,7 @@ function RemoveMStorepps {
 
     }
 }
+
 function PerfilTheme {
 
     $Host.UI.RawUI.WindowTitle = 'MZTOOL> PERFILTHEME'
@@ -1277,6 +1278,7 @@ function PinIcons {
 
        
 }
+
 function DefaultSoftwares {
 
     $Host.UI.RawUI.WindowTitle = 'MZTOOL> PERFILTHEME > DEFAULTSOFTWARES'
