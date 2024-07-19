@@ -704,9 +704,9 @@ function DownloadMztool {
         #Deletar o arquivo MZTOOL.zip.    
         Remove-Item $MZTOOLZIP       
 
-    }#>
+    }
 
-}
+}#>
 
 function EnvTool {
     
