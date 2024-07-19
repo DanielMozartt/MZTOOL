@@ -183,9 +183,11 @@ ______________________________________________________
                         
                         ToolDir 
 
+                        Start-Sleep -Seconds 1
+
                         DownloadMztool
            
-                        Diagnostics64
+                        Diagnostics64 -Wait
 
                         Start-Sleep -Seconds 1
 

@@ -215,18 +215,17 @@ ______________________________________________________
 |                   DANIEL MOZART                    |
 |____________________________________________________|
 '
-                        Hora
+                                               
                         
-                        AnyDesk
-                        
-                        EnvTool
-                        
-                        ToolDir 
 
-                        DownloadMztool
+                        Start-Process powershell -Wait -args '-noprofile', '-EncodedCommand',
+            ([Convert]::ToBase64String(
+                            [Text.Encoding]::Unicode.GetBytes(
+                    (Get-Command -Type Function ToolDir, DownloadMztool, Diagnostics64).Definition
+                            ))
+            )
            
-                        Diagnostics64
-
+                        
                         Start-Sleep -Seconds 1
 
                         DelTemp
@@ -259,7 +258,7 @@ ______________________________________________________
                         EnvTool
                         
                         ToolDir 
-                        
+
                         DownloadMztool 
                                      
                         Diagnostics32 
@@ -609,54 +608,89 @@ function DownloadMztool {
     $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
    
     $TOOL = 'C:\TOOL'
+
     
-    $webClient = New-Object -TypeName System.Net.WebClient
-    $task = $webClient.DownloadFileTaskAsync('https://seulink.net/TOOLZIP', "$TOOL\MZTOOL.zip")
+    #$error.clear()
+           
+    try {
+       
+
+        $ONEDRIVELINK = 'https://seulink.net/TOOLZIP'
+        $GOOGLEDRIVELINK = 'https://drive.google.com/uc?export=download&id=1rE0SypfMpOvbSRXJv9iyjI_we55DtZm2&export=download'
     
-    Register-ObjectEvent -InputObject $webClient -EventName DownloadProgressChanged -SourceIdentifier WebClient.DownloadProgressChanged | Out-Null
+       
     
-    Start-Sleep -Seconds 3
+        $webClient = New-Object -TypeName System.Net.WebClient
+        $task = $webClient.DownloadFileTaskAsync($ONEDRIVELINK, "$TOOL\MZTOOL.zip")
     
-    while (!($task.IsCompleted)) {
-        $EventData = Get-Event -SourceIdentifier WebClient.DownloadProgressChanged | Select-Object -ExpandProperty 'SourceEventArgs' -Last 1
+        Register-ObjectEvent -InputObject $webClient -EventName DownloadProgressChanged -SourceIdentifier WebClient.DownloadProgressChanged | Out-Null
     
-        $ReceivedData = ($EventData | Select-Object -ExpandProperty 'BytesReceived')
-        $TotalToReceive = ($EventData | Select-Object -ExpandProperty 'TotalBytesToReceive')
-        $TotalPercent = $EventData | Select-Object -ExpandProperty 'ProgressPercentage'
+        Start-Sleep -Seconds 3
     
-        Start-Sleep -Seconds 2
+        while (!($task.IsCompleted)) {
+            $EventData = Get-Event -SourceIdentifier WebClient.DownloadProgressChanged | Select-Object -ExpandProperty 'SourceEventArgs' -Last 1
     
-        function convertFileSize {
-            param(
-                $bytes
-            )
+            $ReceivedData = ($EventData | Select-Object -ExpandProperty 'BytesReceived')
+            $TotalToReceive = ($EventData | Select-Object -ExpandProperty 'TotalBytesToReceive')
+            $TotalPercent = $EventData | Select-Object -ExpandProperty 'ProgressPercentage'
     
-            if ($bytes -lt 1MB) {
-                return "$([Math]::Round($bytes / 1KB, 2)) KB"
+            Start-Sleep -Seconds 2
+    
+            function convertFileSize {
+                param(
+                    $bytes
+                )
+    
+                if ($bytes -lt 1MB) {
+                    return "$([Math]::Round($bytes / 1KB, 2)) KB"
+                }
+                elseif ($bytes -lt 1GB) {
+                    return "$([Math]::Round($bytes / 1MB, 2)) MB"
+                }
+                elseif ($bytes -lt 1TB) {
+                    return "$([Math]::Round($bytes / 1GB, 2)) GB"
+                }
             }
-            elseif ($bytes -lt 1GB) {
-                return "$([Math]::Round($bytes / 1MB, 2)) MB"
-            }
-            elseif ($bytes -lt 1TB) {
-                return "$([Math]::Round($bytes / 1GB, 2)) GB"
-            }
+
+            Write-Progress -Activity 'Downloading File' -Status "Percent Complete: $($TotalPercent)%" -CurrentOperation "Downloaded $(convertFileSize -bytes $ReceivedData) / $(convertFileSize -bytes $TotalToReceive)" -PercentComplete $TotalPercent
+    
         }
-
-        Write-Progress -Activity 'Downloading File' -Status "Percent Complete: $($TotalPercent)%" -CurrentOperation "Downloaded $(convertFileSize -bytes $ReceivedData) / $(convertFileSize -bytes $TotalToReceive)" -PercentComplete $TotalPercent
     
+        Unregister-Event -SourceIdentifier WebClient.DownloadProgressChanged
+        $webClient.Dispose()
+
+         
+        #Extração do arquivo MZTOOL.zip para a pasta $TOOL.
+    
+        Expand-Archive -LiteralPath $TOOL\MZTOOL.zip -DestinationPath $TOOL
+
+        #Deletar o arquivo MZTOOL.zip.
+
+        Remove-Item $TOOL\MZTOOL.zip
+
     }
+    catch [System.Net.WebException], [System.IO.IOException] {
+        'LINK DO ONE DRIVE NÃO ESTÁ ONLINE, TENTANDO O LINK DO GOOGLE DRIVE' 
+    }
+    if ($error) { 
     
-    Unregister-Event -SourceIdentifier WebClient.DownloadProgressChanged
-    $webClient.Dispose()
-    
-    #Extração do arquivo MZTOOL.zip para a pasta $TOOL.
-    
-    Expand-Archive -LiteralPath $TOOL\MZTOOL.zip -DestinationPath $TOOL
+        Start-Process MSEDGE $GOOGLEDRIVELINK 
+        Clear-Host
+        Clear-Host
+        Write-Host 'FAÇA O DOWNLOAD MANUALMENTE NO LINK ABERTO E APÓS FINALIZAR O DOWNLOAD VOLTE AQUI E DÊ ENTER.'
 
-    #Deletar o arquivo MZTOOL.zip.
+        Pause
 
-    Remove-Item $TOOL\MZTOOL.zip 
-     
+        #Extração do arquivo MZTOOL.zip para a pasta $TOOL.
+        Expand-Archive -LiteralPath $home\Downloads\MZTOOL.zip -DestinationPath $TOOL
+        #Deletar o arquivo MZTOOL.zip.    
+        Remove-Item "$home\Downloads\MZTOOL.zip"
+
+        
+
+    }
+  
+  
 }
 
 function EnvTool {
@@ -671,16 +705,16 @@ function EnvTool {
 
 function Diagnostics64 {
    
-    $TOOL = 'C:\TOOL\MZTOOL'
+    $MZTOOL = 'C:\TOOL\MZTOOL'
 
-    Start-Process $TOOL\AIDA_64\aida64.exe
-    Start-Process $TOOL\BLUE_SCREEN_VIEW\BlueScreenView.exe
-    Start-Process $TOOL\CORE_TEMP\Core_Temp_64.exe
-    Start-Process $TOOL\CPU_Z\cpuz_x64.exe
-    Start-Process $TOOL\CRYSTAL_DISK\DiskInfo64.exe
-    Start-Process $TOOL\HDSENTINEL\HDSentinel.exe
-    Start-Process $TOOL\HWINFO\HWiNFO64.exe
-    Start-Process $TOOL\GPU_Z.exe
+    Start-Process $MZTOOL\AIDA_64\aida64.exe
+    Start-Process $MZTOOL\BLUE_SCREEN_VIEW\BlueScreenView.exe
+    Start-Process $MZTOOL\CORE_TEMP\Core_Temp_64.exe
+    Start-Process $MZTOOL\CPU_Z\cpuz_x64.exe
+    Start-Process $MZTOOL\CRYSTAL_DISK\DiskInfo64.exe
+    Start-Process $MZTOOL\HDSENTINEL\HDSentinel.exe
+    Start-Process $MZTOOL\HWINFO\HWiNFO64.exe
+    Start-Process $MZTOOL\GPU_Z.exe
 
     Clear-Host
         
