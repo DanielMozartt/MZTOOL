@@ -223,7 +223,9 @@ ______________________________________________________
                         
                         ToolDir 
 
-                        DownloadMztool             
+                        DownloadMztool       
+                        
+                        Diagnostics64
                                                 
                         Start-Sleep -Seconds 1
 
