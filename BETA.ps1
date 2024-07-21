@@ -833,23 +833,21 @@ function WingetInstall {
     
     #WINGET - Instalação dos softwares Acrobat Reader, Google Chrome, Microsoft Powershell 7+.
 
-    Start-Process PowerShell {
+    $Host.UI.RawUI.WindowTitle = 'MZTOOL> WINGET'
+    $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
 
-        $Host.UI.RawUI.WindowTitle = 'MZTOOL> WINGET'
-        $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
-
-        function WaitOffice2007Winget {
+    function WaitOffice2007Winget {
             
-            if (Get-Process -Name setup -ErrorAction SilentlyContinue) {
-                Wait-Process -Name setup
-            }
+        if (Get-Process -Name setup -ErrorAction SilentlyContinue) {
+            Wait-Process -Name setup
+        }
 
            
-        }
+    }
         
-        WaitOffice2007Winget
+    WaitOffice2007Winget
 
-        <#
+    <#
         $WinVer = (Get-WmiObject Win32_OperatingSystem).Caption
             
         if ( $WinVer -Match 'Windows 11') {
@@ -889,27 +887,25 @@ function WingetInstall {
         }  
             #>
             
-        for ($i = 0; $i -le 2; $i++) {
+    for ($i = 0; $i -le 2; $i++) {
 
-            WaitOffice2007Winget
+        WaitOffice2007Winget
         
-            Winget Install --Id Adobe.Acrobat.Reader.64-bit --Accept-Source-Agreements --Accept-Package-Agreements -ErrorAction SilentlyContinue
+        Winget Install --Id Adobe.Acrobat.Reader.64-bit --Accept-Source-Agreements --Accept-Package-Agreements -ErrorAction SilentlyContinue
 
-            WaitOffice2007Winget
+        WaitOffice2007Winget
          
-            Winget Install --Id Google.Chrome --Accept-Source-Agreements --Accept-Package-Agreements -ErrorAction SilentlyContinue
+        Winget Install --Id Google.Chrome --Accept-Source-Agreements --Accept-Package-Agreements -ErrorAction SilentlyContinue
 
-            WaitOffice2007Winget
+        WaitOffice2007Winget
         
-            Winget Install --Id Microsoft.Powershell --Accept-Source-Agreements --Accept-Package-Agreements -ErrorAction SilentlyContinue
+        Winget Install --Id Microsoft.Powershell --Accept-Source-Agreements --Accept-Package-Agreements -ErrorAction SilentlyContinue
                                  
-            Clear-Host
+        Clear-Host
             
-        }        
-       
+    }            
         
-    }
-      
+          
 }
 
 function WingetUpdate { 
