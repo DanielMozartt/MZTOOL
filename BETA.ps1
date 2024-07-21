@@ -936,11 +936,6 @@ function WinUpdate {
         $Host.UI.RawUI.WindowTitle = 'MZTOOL> WINUPDATE'
         $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
 
-        #Instala e atualiza o Módulo WINDOWS UPDATE.
-        Install-PackageProvider -Name NuGet -Force
-        Install-Module PSWindowsUpdate -AllowClobber -Force
-        Import-Module PSWindowsUpdate -Force
-
         Get-WindowsUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot
 
         Clear-Host
