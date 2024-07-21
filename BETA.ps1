@@ -151,8 +151,13 @@ ______________________________________________________
 
             WingetUpdate
 
-            WinUpdate
-
+            Start-Process powershell -args '-noprofile', '-EncodedCommand',
+            ([Convert]::ToBase64String(
+                [Text.Encoding]::Unicode.GetBytes(
+                    (Get-Command -Type Function WinUpdateModule, WinUpdate).Definition
+                ))
+            )
+            
             Clear-Host
             Write-Host '
 ______________________________________________________
@@ -553,10 +558,12 @@ ______________________________________________________
         }
 
         w {
+            WingetModule
             WingetInstall #TESTAR WINGET
         }
 
         u {
+            WinUpdateModule
             WinUpdate #TESTAR WINUPDATE
         }
 
