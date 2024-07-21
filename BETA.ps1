@@ -330,7 +330,9 @@ ______________________________________________________
 |                   DANIEL MOZART                    |
 |____________________________________________________|
 '
-                        ModuleUpdate
+                        WingetModule
+                        
+                        WinUpdateModule
 
                         Start-Sleep -Seconds 1
 
@@ -483,7 +485,8 @@ ______________________________________________________
 |                   DANIEL MOZART                    |
 |____________________________________________________|
 '    
-                        ModuleUpdate
+                        
+                        WingetModule
 
                         Office365 
 
@@ -567,6 +570,7 @@ ______________________________________________________
     }
     
 }
+
 #FUNÇÕES---------------------------------------------------------------
 
 function Hora {
@@ -721,16 +725,16 @@ function EnvTool {
 
 function Diagnostics64 {
    
-    $MZTOOL = 'C:\TOOL\MZTOOL'
+    $MZTOOLFOLDER = 'C:\TOOL\MZTOOL'
 
-    Start-Process $MZTOOL\AIDA_64\aida64.exe
-    Start-Process $MZTOOL\BLUE_SCREEN_VIEW\BlueScreenView.exe
-    Start-Process $MZTOOL\CORE_TEMP\Core_Temp_64.exe
-    Start-Process $MZTOOL\CPU_Z\cpuz_x64.exe
-    Start-Process $MZTOOL\CRYSTAL_DISK\DiskInfo64.exe
-    Start-Process $MZTOOL\HDSENTINEL\HDSentinel.exe
-    Start-Process $MZTOOL\HWINFO\HWiNFO64.exe
-    Start-Process $MZTOOL\GPU_Z.exe
+    Start-Process $MZTOOLFOLDER\AIDA_64\aida64.exe
+    Start-Process $MZTOOLFOLDER\BLUE_SCREEN_VIEW\BlueScreenView.exe
+    Start-Process $MZTOOLFOLDER\CORE_TEMP\Core_Temp_64.exe
+    Start-Process $MZTOOLFOLDER\CPU_Z\cpuz_x64.exe
+    Start-Process $MZTOOLFOLDER\CRYSTAL_DISK\DiskInfo64.exe
+    Start-Process $MZTOOLFOLDER\HDSENTINEL\HDSentinel.exe
+    Start-Process $MZTOOLFOLDER\HWINFO\HWiNFO64.exe
+    Start-Process $MZTOOLFOLDER\GPU_Z.exe
 
     Clear-Host
         
@@ -738,48 +742,31 @@ function Diagnostics64 {
 
 function Diagnostics32 {
 
-    $TOOL = 'C:\TOOL\MZTOOL'
+    $MZTOOLFOLDER = 'C:\TOOL\MZTOOL'
               
-    Start-Process $TOOL\AIDA_64\aida64.exe
-    Start-Process $TOOL\BLUE_SCREEN_VIEW\BlueScreenView.exe
-    Start-Process $TOOL\CORE_TEMP\Core_Temp_32.exe
-    Start-Process $TOOL\CPU_Z\cpuz_x32.exe
-    Start-Process $TOOL\CRYSTAL_DISK\DiskInfo32.exe
-    Start-Process $TOOL\HDSENTINEL\HDSentinel.exe
-    Start-Process $TOOL\HWINFO\HWiNFO32.exe
-    Start-Process $TOOL\GPU_Z.exe
+    Start-Process $MZTOOLFOLDER\AIDA_64\aida64.exe
+    Start-Process $MZTOOLFOLDER\BLUE_SCREEN_VIEW\BlueScreenView.exe
+    Start-Process $MZTOOLFOLDER\CORE_TEMP\Core_Temp_32.exe
+    Start-Process $MZTOOLFOLDER\CPU_Z\cpuz_x32.exe
+    Start-Process $MZTOOLFOLDER\CRYSTAL_DISK\DiskInfo32.exe
+    Start-Process $MZTOOLFOLDER\HDSENTINEL\HDSentinel.exe
+    Start-Process $MZTOOLFOLDER\HWINFO\HWiNFO32.exe
+    Start-Process $MZTOOLFOLDER\GPU_Z.exe
 
     Clear-Host
         
 }
 
-function ModuleUpdate {
-
+function WinUpdateModule {
     
-    #INSTALAÇÃO DOS MÓDULOS WINGET E WINDOWS UPDATE.       
+    #INSTALAÇÃO DOS MÓDULO WINDOWS UPDATE.       
     
-    $Host.UI.RawUI.WindowTitle = 'MZTOOL> MODULESUPDATE'
+    $Host.UI.RawUI.WindowTitle = 'MZTOOL> WINUPDATEMODULE'
     $Host.UI.RawUI.BackgroundColor = 'DarkBlue'   
     
     #Pacote NuGet.
     Install-PackageProvider -Name NuGet -Force
         
-    #Módulo WINGET.
-    Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
-    Repair-WinGetPackageManager
-    Winget Source Remove --Name winget
-    Winget Source Remove --Name msstore
-    Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
-    Start-BitsTransfer -Source 'https://cdn.winget.microsoft.com/cache/source.msix' -Destination "$env:TEMP\source.msix"
-    Add-AppPackage -Path "$env:TEMP\source.msix"
-    Start-BitsTransfer -Source 'https://github.com/microsoft/winget-cli/releases/latest/download/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle'-Destination "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
-    Add-AppPackage -Path "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"  
-    Start-Sleep 1
-    Winget Source Reset --Force     
-    Winget Source Update   
-    Winget Upgrade Microsoft.AppInstaller --Accept-Source-Agreements --Accept-Package-Agreements
-    Start-Sleep 1
-
     #Módulo WINDOWS UPDATE.
     Install-Module PSWindowsUpdate -AllowClobber -Force
     Import-Module PSWindowsUpdate -Force       
@@ -788,11 +775,59 @@ function ModuleUpdate {
              
 }
 
+function WingetModule {
+    
+    $Host.UI.RawUI.WindowTitle = 'MZTOOL> WINGETMODULE'
+    $Host.UI.RawUI.BackgroundColor = 'DarkBlue'  
+   
+    #Módulo WINGET.
+    $WinVer = (Get-WmiObject Win32_OperatingSystem).Caption
+            
+    if ( $WinVer -Match 'Windows 11') {
+        Write-Host "$WinVer"
+                
+        #Reinstala, redefine as fontes e atualiza o Módulo WINGET.
+        Start-BitsTransfer -Source 'https://github.com/microsoft/winget-cli/releases/latest/download/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle'-Destination "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
+        Add-AppPackage -Path "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
+
+    }
+
+    elseif ($WinVer -Match 'Windows 10') {
+        Write-Host "$WinVer"
+                
+        #Pacote NuGet.
+        Install-PackageProvider -Name NuGet -Force
+        
+        #Reinstala, redefine as fontes e atualiza o Módulo WINGET.
+        Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
+        Repair-WinGetPackageManager
+        Winget Source Remove --Name winget
+        Winget Source Remove --Name msstore
+        Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
+        Start-BitsTransfer -Source 'https://cdn.winget.microsoft.com/cache/source.msix' -Destination "$env:TEMP\source.msix"
+        Add-AppPackage -Path "$env:TEMP\source.msix"
+        Start-BitsTransfer -Source 'https://github.com/microsoft/winget-cli/releases/latest/download/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle'-Destination "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
+        Add-AppPackage -Path "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"  
+        Start-Sleep 1
+        Winget Source Reset --Force     
+        Winget Source Update   
+        Winget Upgrade Microsoft.AppInstaller --Accept-Source-Agreements --Accept-Package-Agreements
+    
+    }
+
+    else {
+        Write-Host 'Windows não identificado, tema não aplicado.'
+    }  
+
+}
+
 function WingetInstall {
     
     #WINGET - Instalação dos softwares Acrobat Reader, Google Chrome, Microsoft Powershell 7+.
 
     Start-Process PowerShell {
+
+        
 
         $Host.UI.RawUI.WindowTitle = 'MZTOOL> WINGET'
         $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
@@ -807,7 +842,10 @@ function WingetInstall {
         }
         
         WaitOffice2007Winget
-            
+
+        WingetModule
+
+        <#
         $WinVer = (Get-WmiObject Win32_OperatingSystem).Caption
             
         if ( $WinVer -Match 'Windows 11') {
@@ -845,6 +883,7 @@ function WingetInstall {
         else {
             Write-Host 'Windows não identificado, tema não aplicado.'
         }  
+            #>
             
         for ($i = 0; $i -le 2; $i++) {
 
