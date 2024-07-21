@@ -824,7 +824,7 @@ function WingetModule {
     }
 
     else {
-        Write-Host 'Windows não identificado, tema não aplicado.'
+        Write-Host 'Versão do Windows não compatível com Winget.'
     }  
 
 }
@@ -842,50 +842,9 @@ function WingetInstall {
             Wait-Process -Name setup
         }
 
-           
     }
         
     WaitOffice2007Winget
-
-    <#
-        $WinVer = (Get-WmiObject Win32_OperatingSystem).Caption
-            
-        if ( $WinVer -Match 'Windows 11') {
-            Write-Host "$WinVer"
-                
-            #Reinstala, redefine as fontes e atualiza o Módulo WINGET.
-            Start-BitsTransfer -Source 'https://github.com/microsoft/winget-cli/releases/latest/download/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle'-Destination "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
-            Add-AppPackage -Path "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
-
-        }
-
-        elseif ($WinVer -Match 'Windows 10') {
-            Write-Host "$WinVer"
-                
-            #Pacote NuGet.
-            Install-PackageProvider -Name NuGet -Force
-        
-            #Reinstala, redefine as fontes e atualiza o Módulo WINGET.
-            Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
-            Repair-WinGetPackageManager
-            Winget Source Remove --Name winget
-            Winget Source Remove --Name msstore
-            Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
-            Start-BitsTransfer -Source 'https://cdn.winget.microsoft.com/cache/source.msix' -Destination "$env:TEMP\source.msix"
-            Add-AppPackage -Path "$env:TEMP\source.msix"
-            Start-BitsTransfer -Source 'https://github.com/microsoft/winget-cli/releases/latest/download/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle'-Destination "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
-            Add-AppPackage -Path "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"  
-            Start-Sleep 1
-            Winget Source Reset --Force     
-            Winget Source Update   
-            Winget Upgrade Microsoft.AppInstaller --Accept-Source-Agreements --Accept-Package-Agreements
-    
-        }
-
-        else {
-            Write-Host 'Windows não identificado, tema não aplicado.'
-        }  
-            #>
             
     for ($i = 0; $i -le 2; $i++) {
 
