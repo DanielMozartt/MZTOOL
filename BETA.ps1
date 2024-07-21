@@ -618,10 +618,7 @@ function DownloadMztool {
     $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
    
     $TOOL = 'C:\TOOL'
-
     
-    #$error.clear()
-           
     try {
        
 
@@ -913,8 +910,7 @@ function Office365 {
     $Host.UI.RawUI.WindowTitle = 'MZTOOL> OFFICE365'
     $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
 
-    $TOOL = 'C:\TOOL'
-
+    #Cria o arquivo XML de isntalação personalizada no diretório C:\TOOL\OFFICE\365.
     [xml]$XML = @'
 <Configuration ID="646616bb-84c9-4354-9908-8abd74c04f4c">
   <Add OfficeClientEdition="64" Channel="Current" MigrateArch="TRUE">
@@ -936,18 +932,21 @@ function Office365 {
   <Display Level="Full" AcceptEULA="TRUE" />
 </Configuration> 
 '@
+
+    $TOOL = 'C:\TOOL'
+    
     $365 = "$TOOL\OFFICE\365"
     
     #Se o diretório $Env:TOOL\OFFICE\365 já existir, é deletado.
 
-    if ($TOOL) {
+    if ($365) {
 
-        Remove-Item -Path "$TOOL"-Recurse -Force -ErrorAction SilentlyContinue
+        Remove-Item -Path "$365"-Recurse -Force -ErrorAction SilentlyContinue
     }
 
     [System.IO.Directory]::CreateDirectory($365) | Out-Null
-    $TOOLFOLDER = Get-Item $TOOL 
-    $TOOLFOLDER.Attributes = 'Hidden'  
+    $TOOLFOLDER = Get-Item $TOOL -ErrorAction SilentlyContinue
+    $TOOLFOLDER.Attributes = 'Hidden'
     
     $XML.save("$TOOL\OFFICE\365\OFFICE365.xml") 
    
@@ -1175,6 +1174,8 @@ function PinIcons {
 
     #Fixar ícones de softwares Google Chrome, Acrobat Reader, Microsoft Word na barra de tarefas.
 
+    $TOOL = 'C:\TOOL'
+
     $taskbar_layout =
     @'
 <?xml version="1.0" encoding="utf-8"?>
@@ -1198,7 +1199,7 @@ function PinIcons {
 '@
 
     
-    [System.IO.FileInfo]$provisioning = "$($env:TOOL)\TASKLAYOUT.xml"
+    [System.IO.FileInfo]$provisioning = "$TOOL\TASKLAYOUT.xml"
     if (!$provisioning.Directory.Exists) {
         $provisioning.Directory.Create()
     }
@@ -1256,7 +1257,7 @@ function PinIcons {
         $registry.Dispose()
     }
     
-    $TRAYICONS = 'C:\TOOL\MZTOOL\REG\TRAYICONS.REG'
+    $TRAYICONS = "$TOOL\MZTOOL\REG\TRAYICONS.REG"
 
     Start-Process Reg.exe -ArgumentList "Import $TRAYICONS" -Wait
     
