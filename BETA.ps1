@@ -139,7 +139,7 @@ ______________________________________________________
             Start-Process powershell -Wait -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
-                    (Get-Command -Type Function WingetInstall).Definition
+                    (Get-Command -Type Function WingetModule, WingetInstall).Definition
                 ))
             )
 
@@ -331,7 +331,7 @@ ______________________________________________________
 |____________________________________________________|
 '
                         WingetModule
-                        
+
                         WinUpdateModule
 
                         Start-Sleep -Seconds 1
@@ -543,6 +543,7 @@ ______________________________________________________
             Exit-PSHostProcess
             Exit-PSSession
         }
+
         . {
             awin exit
         }
@@ -827,8 +828,6 @@ function WingetInstall {
 
     Start-Process PowerShell {
 
-        
-
         $Host.UI.RawUI.WindowTitle = 'MZTOOL> WINGET'
         $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
 
@@ -842,8 +841,6 @@ function WingetInstall {
         }
         
         WaitOffice2007Winget
-
-        WingetModule
 
         <#
         $WinVer = (Get-WmiObject Win32_OperatingSystem).Caption
