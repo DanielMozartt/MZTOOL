@@ -122,24 +122,24 @@ ______________________________________________________
             EnvTool
             ToolDir           
 
-            Start-Process powershell -args '-noprofile', '-EncodedCommand',
+            Start-Process powershell -WindowStyle Hidden -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
                     (Get-Command -Type Function RemoveMStorepps, PerfilTheme).Definition
                 ))
             )
 
-            Start-Process powershell -args '-noprofile', '-EncodedCommand',
+            Start-Process powershell -WindowStyle Hidden -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
                     (Get-Command -Type Function NetFx3, DownloadMztool, DriverBooster, Office2007).Definition
                 ))
             )
 
-            Start-Process powershell -Wait -args '-noprofile', '-EncodedCommand',
+            Start-Process powershell -WindowStyle Hidden -Wait -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
-                    (Get-Command -Type Function WingetInstall).Definition
+                    (Get-Command -Type Function WingetModule, WingetInstall).Definition
                 ))
             )
 
@@ -151,8 +151,13 @@ ______________________________________________________
 
             WingetUpdate
 
-            WinUpdate
-
+            Start-Process powershell -WindowStyle Hidden -args '-noprofile', '-EncodedCommand',
+            ([Convert]::ToBase64String(
+                [Text.Encoding]::Unicode.GetBytes(
+                    (Get-Command -Type Function WinUpdateModule, WinUpdate).Definition
+                ))
+            )
+            
             Clear-Host
             Write-Host '
 ______________________________________________________
@@ -223,7 +228,7 @@ ______________________________________________________
                         
                         ToolDir 
 
-                        DownloadMztool       
+                        DownloadMztool      
                         
                         Diagnostics64
                                                 
@@ -330,7 +335,9 @@ ______________________________________________________
 |                   DANIEL MOZART                    |
 |____________________________________________________|
 '
-                        ModuleUpdate
+                        WingetModule
+
+                        WinUpdateModule
 
                         Start-Sleep -Seconds 1
 
@@ -483,7 +490,8 @@ ______________________________________________________
 |                   DANIEL MOZART                    |
 |____________________________________________________|
 '    
-                        ModuleUpdate
+                        
+                        WingetModule
 
                         Office365 
 
@@ -540,6 +548,7 @@ ______________________________________________________
             Exit-PSHostProcess
             Exit-PSSession
         }
+
         . {
             awin exit
         }
@@ -549,10 +558,12 @@ ______________________________________________________
         }
 
         w {
+            WingetModule
             WingetInstall #TESTAR WINGET
         }
 
         u {
+            WinUpdateModule
             WinUpdate #TESTAR WINUPDATE
         }
 
@@ -567,6 +578,7 @@ ______________________________________________________
     }
     
 }
+
 #FUNÇÕES---------------------------------------------------------------
 
 function Hora {
@@ -606,66 +618,63 @@ function DownloadMztool {
     $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
    
     $TOOL = 'C:\TOOL'
-
     
-    #$error.clear()
-           
-    #try {
+    try {
        
 
-    $ONEDRIVELINK = 'https://seulink.net/TOOLZIP'
-    # $GOOGLEDRIVELINK = 'https://drive.google.com/uc?export=download&id=1rE0SypfMpOvbSRXJv9iyjI_we55DtZm2&export=download'
+        $ONEDRIVELINK = 'https://seulink.net/TOOLZIP'
+        $GOOGLEDRIVELINK = 'https://drive.google.com/uc?export=download&id=1rE0SypfMpOvbSRXJv9iyjI_we55DtZm2&export=download'
     
-    $webClient = New-Object -TypeName System.Net.WebClient
-    $task = $webClient.DownloadFileTaskAsync($ONEDRIVELINK, "$TOOL\MZTOOL.zip")
+        $webClient = New-Object -TypeName System.Net.WebClient
+        $task = $webClient.DownloadFileTaskAsync($ONEDRIVELINK, "$TOOL\MZTOOL.zip")
     
-    Register-ObjectEvent -InputObject $webClient -EventName DownloadProgressChanged -SourceIdentifier WebClient.DownloadProgressChanged | Out-Null
+        Register-ObjectEvent -InputObject $webClient -EventName DownloadProgressChanged -SourceIdentifier WebClient.DownloadProgressChanged | Out-Null
     
-    Start-Sleep -Seconds 3
+        Start-Sleep -Seconds 3
     
-    while (!($task.IsCompleted)) {
-        $EventData = Get-Event -SourceIdentifier WebClient.DownloadProgressChanged | Select-Object -ExpandProperty 'SourceEventArgs' -Last 1
+        while (!($task.IsCompleted)) {
+            $EventData = Get-Event -SourceIdentifier WebClient.DownloadProgressChanged | Select-Object -ExpandProperty 'SourceEventArgs' -Last 1
     
-        $ReceivedData = ($EventData | Select-Object -ExpandProperty 'BytesReceived')
-        $TotalToReceive = ($EventData | Select-Object -ExpandProperty 'TotalBytesToReceive')
-        $TotalPercent = $EventData | Select-Object -ExpandProperty 'ProgressPercentage'
+            $ReceivedData = ($EventData | Select-Object -ExpandProperty 'BytesReceived')
+            $TotalToReceive = ($EventData | Select-Object -ExpandProperty 'TotalBytesToReceive')
+            $TotalPercent = $EventData | Select-Object -ExpandProperty 'ProgressPercentage'
     
-        Start-Sleep -Seconds 2
+            Start-Sleep -Seconds 2
     
-        function convertFileSize {
-            param(
-                $bytes
-            )
+            function convertFileSize {
+                param(
+                    $bytes
+                )
     
-            if ($bytes -lt 1MB) {
-                return "$([Math]::Round($bytes / 1KB, 2)) KB"
+                if ($bytes -lt 1MB) {
+                    return "$([Math]::Round($bytes / 1KB, 2)) KB"
+                }
+                elseif ($bytes -lt 1GB) {
+                    return "$([Math]::Round($bytes / 1MB, 2)) MB"
+                }
+                elseif ($bytes -lt 1TB) {
+                    return "$([Math]::Round($bytes / 1GB, 2)) GB"
+                }
             }
-            elseif ($bytes -lt 1GB) {
-                return "$([Math]::Round($bytes / 1MB, 2)) MB"
-            }
-            elseif ($bytes -lt 1TB) {
-                return "$([Math]::Round($bytes / 1GB, 2)) GB"
-            }
-        }
 
-        Write-Progress -Activity 'Downloading File' -Status "Percent Complete: $($TotalPercent)%" -CurrentOperation "Downloaded $(convertFileSize -bytes $ReceivedData) / $(convertFileSize -bytes $TotalToReceive)" -PercentComplete $TotalPercent
+            Write-Progress -Activity 'Downloading File' -Status "Percent Complete: $($TotalPercent)%" -CurrentOperation "Downloaded $(convertFileSize -bytes $ReceivedData) / $(convertFileSize -bytes $TotalToReceive)" -PercentComplete $TotalPercent
     
-    }
+        }
     
-    Unregister-Event -SourceIdentifier WebClient.DownloadProgressChanged
-    $webClient.Dispose()
+        Unregister-Event -SourceIdentifier WebClient.DownloadProgressChanged
+        $webClient.Dispose()
 
          
-    #Extração do arquivo MZTOOL.zip para a pasta $TOOL.
+        #Extração do arquivo MZTOOL.zip para a pasta $TOOL.
     
-    Expand-Archive -LiteralPath $TOOL\MZTOOL.zip -DestinationPath $TOOL
+        Expand-Archive -LiteralPath $TOOL\MZTOOL.zip -DestinationPath $TOOL
 
-    #Deletar o arquivo MZTOOL.zip.
+        #Deletar o arquivo MZTOOL.zip.
 
-    Remove-Item $TOOL\MZTOOL.zip
+        Remove-Item $TOOL\MZTOOL.zip
 
-}
-<#catch [System.Net.WebException], [System.IO.IOException] {
+    }
+    catch [System.Net.WebException], [System.IO.IOException] {
 
         Clear-Host
 
@@ -708,12 +717,12 @@ function DownloadMztool {
 
     }
 
-}#>
+}
 
 function EnvTool {
     
     #Adicionar variáveis de ambiente.
-    Start-Process PowerShell {
+    Start-Process PowerShell -WindowStyle Hidden {
         [Environment]::SetEnvironmentVariable('TOOL', 'C:\TOOL', 'Machine') 
         [Environment]::SetEnvironmentVariable('MZTOOL', 'PowerShell irm https://bit.ly/MZTT | iex', 'MACHINE')
     }
@@ -721,16 +730,16 @@ function EnvTool {
 
 function Diagnostics64 {
    
-    $MZTOOL = 'C:\TOOL\MZTOOL'
+    $MZTOOLFOLDER = 'C:\TOOL\MZTOOL'
 
-    Start-Process $MZTOOL\AIDA_64\aida64.exe
-    Start-Process $MZTOOL\BLUE_SCREEN_VIEW\BlueScreenView.exe
-    Start-Process $MZTOOL\CORE_TEMP\Core_Temp_64.exe
-    Start-Process $MZTOOL\CPU_Z\cpuz_x64.exe
-    Start-Process $MZTOOL\CRYSTAL_DISK\DiskInfo64.exe
-    Start-Process $MZTOOL\HDSENTINEL\HDSentinel.exe
-    Start-Process $MZTOOL\HWINFO\HWiNFO64.exe
-    Start-Process $MZTOOL\GPU_Z.exe
+    Start-Process $MZTOOLFOLDER\AIDA_64\aida64.exe
+    Start-Process $MZTOOLFOLDER\BLUE_SCREEN_VIEW\BlueScreenView.exe
+    Start-Process $MZTOOLFOLDER\CORE_TEMP\Core_Temp_64.exe
+    Start-Process $MZTOOLFOLDER\CPU_Z\cpuz_x64.exe
+    Start-Process $MZTOOLFOLDER\CRYSTAL_DISK\DiskInfo64.exe
+    Start-Process $MZTOOLFOLDER\HDSENTINEL\HDSentinel.exe
+    Start-Process $MZTOOLFOLDER\HWINFO\HWiNFO64.exe
+    Start-Process $MZTOOLFOLDER\GPU_Z.exe
 
     Clear-Host
         
@@ -738,48 +747,31 @@ function Diagnostics64 {
 
 function Diagnostics32 {
 
-    $TOOL = 'C:\TOOL\MZTOOL'
+    $MZTOOLFOLDER = 'C:\TOOL\MZTOOL'
               
-    Start-Process $TOOL\AIDA_64\aida64.exe
-    Start-Process $TOOL\BLUE_SCREEN_VIEW\BlueScreenView.exe
-    Start-Process $TOOL\CORE_TEMP\Core_Temp_32.exe
-    Start-Process $TOOL\CPU_Z\cpuz_x32.exe
-    Start-Process $TOOL\CRYSTAL_DISK\DiskInfo32.exe
-    Start-Process $TOOL\HDSENTINEL\HDSentinel.exe
-    Start-Process $TOOL\HWINFO\HWiNFO32.exe
-    Start-Process $TOOL\GPU_Z.exe
+    Start-Process $MZTOOLFOLDER\AIDA_64\aida64.exe
+    Start-Process $MZTOOLFOLDER\BLUE_SCREEN_VIEW\BlueScreenView.exe
+    Start-Process $MZTOOLFOLDER\CORE_TEMP\Core_Temp_32.exe
+    Start-Process $MZTOOLFOLDER\CPU_Z\cpuz_x32.exe
+    Start-Process $MZTOOLFOLDER\CRYSTAL_DISK\DiskInfo32.exe
+    Start-Process $MZTOOLFOLDER\HDSENTINEL\HDSentinel.exe
+    Start-Process $MZTOOLFOLDER\HWINFO\HWiNFO32.exe
+    Start-Process $MZTOOLFOLDER\GPU_Z.exe
 
     Clear-Host
         
 }
 
-function ModuleUpdate {
-
+function WinUpdateModule {
     
-    #INSTALAÇÃO DOS MÓDULOS WINGET E WINDOWS UPDATE.       
+    #INSTALAÇÃO DOS MÓDULO WINDOWS UPDATE.       
     
-    $Host.UI.RawUI.WindowTitle = 'MZTOOL> MODULESUPDATE'
+    $Host.UI.RawUI.WindowTitle = 'MZTOOL> WINUPDATEMODULE'
     $Host.UI.RawUI.BackgroundColor = 'DarkBlue'   
     
     #Pacote NuGet.
     Install-PackageProvider -Name NuGet -Force
         
-    #Módulo WINGET.
-    Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
-    Repair-WinGetPackageManager
-    Winget Source Remove --Name winget
-    Winget Source Remove --Name msstore
-    Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
-    Start-BitsTransfer -Source 'https://cdn.winget.microsoft.com/cache/source.msix' -Destination "$env:TEMP\source.msix"
-    Add-AppPackage -Path "$env:TEMP\source.msix"
-    Start-BitsTransfer -Source 'https://github.com/microsoft/winget-cli/releases/latest/download/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle'-Destination "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
-    Add-AppPackage -Path "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"  
-    Start-Sleep 1
-    Winget Source Reset --Force     
-    Winget Source Update   
-    Winget Upgrade Microsoft.AppInstaller --Accept-Source-Agreements --Accept-Package-Agreements
-    Start-Sleep 1
-
     #Módulo WINDOWS UPDATE.
     Install-Module PSWindowsUpdate -AllowClobber -Force
     Import-Module PSWindowsUpdate -Force       
@@ -788,92 +780,95 @@ function ModuleUpdate {
              
 }
 
+function WingetModule {
+    
+    $Host.UI.RawUI.WindowTitle = 'MZTOOL> WINGETMODULE'
+    $Host.UI.RawUI.BackgroundColor = 'DarkBlue'  
+   
+    #Módulo WINGET.
+    $WinVer = (Get-WmiObject Win32_OperatingSystem).Caption
+            
+    if ( $WinVer -Match 'Windows 11') {
+        Write-Host "$WinVer"
+                
+        #Reinstala, redefine as fontes e atualiza o Módulo WINGET.
+        Start-BitsTransfer -Source 'https://github.com/microsoft/winget-cli/releases/latest/download/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle'-Destination "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
+        Add-AppPackage -Path "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
+
+    }
+
+    elseif ($WinVer -Match 'Windows 10') {
+        Write-Host "$WinVer"
+                
+        #Pacote NuGet.
+        Install-PackageProvider -Name NuGet -Force
+        
+        #Reinstala, redefine as fontes e atualiza o Módulo WINGET.
+        Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
+        Repair-WinGetPackageManager
+        Winget Source Remove --Name winget
+        Winget Source Remove --Name msstore
+        Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
+        Start-BitsTransfer -Source 'https://cdn.winget.microsoft.com/cache/source.msix' -Destination "$env:TEMP\source.msix"
+        Add-AppPackage -Path "$env:TEMP\source.msix"
+        Start-BitsTransfer -Source 'https://github.com/microsoft/winget-cli/releases/latest/download/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle'-Destination "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
+        Add-AppPackage -Path "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"  
+        Start-Sleep 1
+        Winget Source Reset --Force     
+        Winget Source Update   
+        Winget Upgrade Microsoft.AppInstaller --Accept-Source-Agreements --Accept-Package-Agreements
+    
+    }
+
+    else {
+        Write-Host 'Versão do Windows não compatível com Winget.'
+    }  
+
+}
+
 function WingetInstall {
     
     #WINGET - Instalação dos softwares Acrobat Reader, Google Chrome, Microsoft Powershell 7+.
 
-    Start-Process PowerShell {
+    $Host.UI.RawUI.WindowTitle = 'MZTOOL> WINGET'
+    $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
 
-        $Host.UI.RawUI.WindowTitle = 'MZTOOL> WINGET'
-        $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
-
-        function WaitOffice2007Winget {
+    function WaitOffice2007Winget {
             
-            if (Get-Process -Name setup -ErrorAction SilentlyContinue) {
-                Wait-Process -Name setup
-            }
-
-           
-        }
-        
-        WaitOffice2007Winget
-            
-        $WinVer = (Get-WmiObject Win32_OperatingSystem).Caption
-            
-        if ( $WinVer -Match 'Windows 11') {
-            Write-Host "$WinVer"
-                
-            #Reinstala, redefine as fontes e atualiza o Módulo WINGET.
-            Start-BitsTransfer -Source 'https://github.com/microsoft/winget-cli/releases/latest/download/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle'-Destination "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
-            Add-AppPackage -Path "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
-
+        if (Get-Process -Name setup -ErrorAction SilentlyContinue) {
+            Wait-Process -Name setup
         }
 
-        elseif ($WinVer -Match 'Windows 10') {
-            Write-Host "$WinVer"
-                
-            #Pacote NuGet.
-            Install-PackageProvider -Name NuGet -Force
-        
-            #Reinstala, redefine as fontes e atualiza o Módulo WINGET.
-            Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
-            Repair-WinGetPackageManager
-            Winget Source Remove --Name winget
-            Winget Source Remove --Name msstore
-            Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
-            Start-BitsTransfer -Source 'https://cdn.winget.microsoft.com/cache/source.msix' -Destination "$env:TEMP\source.msix"
-            Add-AppPackage -Path "$env:TEMP\source.msix"
-            Start-BitsTransfer -Source 'https://github.com/microsoft/winget-cli/releases/latest/download/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle'-Destination "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
-            Add-AppPackage -Path "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"  
-            Start-Sleep 1
-            Winget Source Reset --Force     
-            Winget Source Update   
-            Winget Upgrade Microsoft.AppInstaller --Accept-Source-Agreements --Accept-Package-Agreements
-    
-        }
-
-        else {
-            Write-Host 'Windows não identificado, tema não aplicado.'
-        }  
-            
-        for ($i = 0; $i -le 2; $i++) {
-
-            WaitOffice2007Winget
-        
-            Winget Install --Id Adobe.Acrobat.Reader.64-bit --Accept-Source-Agreements --Accept-Package-Agreements
-
-            WaitOffice2007Winget
-        
-            Winget Install --Id Google.Chrome --Accept-Source-Agreements --Accept-Package-Agreements
-
-            WaitOffice2007Winget
-        
-            Winget Install --Id Microsoft.Powershell --Accept-Source-Agreements --Accept-Package-Agreements
-                                 
-            Clear-Host
-            
-        }        
-       
-        
     }
-      
+        
+    WaitOffice2007Winget
+            
+    for ($i = 0; $i -le 2; $i++) {
+
+        WaitOffice2007Winget
+        
+        Winget Install --Id Adobe.Acrobat.Reader.64-bit --Accept-Source-Agreements --Accept-Package-Agreements
+
+        WaitOffice2007Winget
+         
+        Winget Install --Id Google.Chrome --Accept-Source-Agreements --Accept-Package-Agreements 
+
+        WaitOffice2007Winget
+        
+        Winget Install --Id Microsoft.Powershell --Accept-Source-Agreements --Accept-Package-Agreements
+                                 
+        Clear-Host
+            
+    }            
+        
+          
 }
 
 function WingetUpdate { 
 
     #WINGET - Atualização de pacotes de softwares instalados.
 
-    Start-Process PowerShell {
+    Start-Process PowerShell -WindowStyle Hidden {
 
         $Host.UI.RawUI.WindowTitle = 'MZTOOL> WINGETUPDATE'
         $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
@@ -888,15 +883,10 @@ function WinUpdate {
 
     #Instalação de novas atualizações do Windows através do Windows Update.
     
-    Start-Process PowerShell {
+    Start-Process PowerShell -WindowStyle Hidden {
 
         $Host.UI.RawUI.WindowTitle = 'MZTOOL> WINUPDATE'
         $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
-
-        #Instala e atualiza o Módulo WINDOWS UPDATE.
-        Install-PackageProvider -Name NuGet -Force
-        Install-Module PSWindowsUpdate -AllowClobber -Force
-        Import-Module PSWindowsUpdate -Force
 
         Get-WindowsUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot
 
@@ -908,7 +898,7 @@ function AnyDesk {
 
     #Download do software AnyDek-CM.
 
-    Start-Process PowerShell {
+    Start-Process PowerShell -WindowStyle Hidden {
         
         Start-BitsTransfer -Source 'https://download.anydesk.com/AnyDesk-CM.exe' -Destination "$home\Desktop\AnyDesk.exe"
                    
@@ -920,8 +910,7 @@ function Office365 {
     $Host.UI.RawUI.WindowTitle = 'MZTOOL> OFFICE365'
     $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
 
-    $TOOL = 'C:\TOOL'
-
+    #Cria o arquivo XML de isntalação personalizada no diretório C:\TOOL\OFFICE\365.
     [xml]$XML = @'
 <Configuration ID="646616bb-84c9-4354-9908-8abd74c04f4c">
   <Add OfficeClientEdition="64" Channel="Current" MigrateArch="TRUE">
@@ -943,18 +932,21 @@ function Office365 {
   <Display Level="Full" AcceptEULA="TRUE" />
 </Configuration> 
 '@
+
+    $TOOL = 'C:\TOOL'
+    
     $365 = "$TOOL\OFFICE\365"
     
     #Se o diretório $Env:TOOL\OFFICE\365 já existir, é deletado.
 
-    if ($TOOL) {
+    if ($365) {
 
-        Remove-Item -Path "$TOOL"-Recurse -Force -ErrorAction SilentlyContinue
+        Remove-Item -Path "$365"-Recurse -Force -ErrorAction SilentlyContinue
     }
 
     [System.IO.Directory]::CreateDirectory($365) | Out-Null
-    $TOOLFOLDER = Get-Item $TOOL 
-    $TOOLFOLDER.Attributes = 'Hidden'  
+    $TOOLFOLDER = Get-Item $TOOL -ErrorAction SilentlyContinue
+    $TOOLFOLDER.Attributes = 'Hidden'
     
     $XML.save("$TOOL\OFFICE\365\OFFICE365.xml") 
    
@@ -995,7 +987,7 @@ function NetFx3 {
 function DriverBooster {
     #Extração e inicialização do software Driver Booster.
 
-    Start-Process PowerShell {
+    Start-Process PowerShell -WindowStyle Hidden {
     
         $Host.UI.RawUI.WindowTitle = 'MZTOOL> DRIVER_BOOSTER'
         $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
@@ -1053,7 +1045,7 @@ function DriverBooster {
 
 function RemoveMStorepps {
 
-    Start-Process PowerShell {
+    Start-Process PowerShell -WindowStyle Hidden {
 
         $Host.UI.RawUI.WindowTitle = 'MZTOOL> REMOVEMSTOREAPPS'
         $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
@@ -1182,6 +1174,8 @@ function PinIcons {
 
     #Fixar ícones de softwares Google Chrome, Acrobat Reader, Microsoft Word na barra de tarefas.
 
+    $TOOL = 'C:\TOOL'
+
     $taskbar_layout =
     @'
 <?xml version="1.0" encoding="utf-8"?>
@@ -1205,7 +1199,7 @@ function PinIcons {
 '@
 
     
-    [System.IO.FileInfo]$provisioning = "$($env:TOOL)\TASKLAYOUT.xml"
+    [System.IO.FileInfo]$provisioning = "$TOOL\TASKLAYOUT.xml"
     if (!$provisioning.Directory.Exists) {
         $provisioning.Directory.Create()
     }
@@ -1263,7 +1257,7 @@ function PinIcons {
         $registry.Dispose()
     }
     
-    $TRAYICONS = 'C:\TOOL\MZTOOL\REG\TRAYICONS.REG'
+    $TRAYICONS = "$TOOL\MZTOOL\REG\TRAYICONS.REG"
 
     Start-Process Reg.exe -ArgumentList "Import $TRAYICONS" -Wait
     
