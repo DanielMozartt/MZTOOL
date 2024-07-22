@@ -622,7 +622,7 @@ function DownloadMztool {
     try {
        
 
-        $ONEDRIVELINK = 'https://seulink.net/TOOLZIP'
+        $ONEDRIVELINK = 'https://seulink.net/TOOLZI'
         $GOOGLEDRIVELINK = 'https://drive.google.com/uc?export=download&id=1rE0SypfMpOvbSRXJv9iyjI_we55DtZm2&export=download'
     
         $webClient = New-Object -TypeName System.Net.WebClient
