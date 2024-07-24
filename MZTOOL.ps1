@@ -659,7 +659,6 @@ function DownloadMztool {
     
     Unregister-Event -SourceIdentifier WebClient.DownloadProgressChanged
     $webClient.Dispose()
-
          
     #Extração do arquivo MZTOOL.zip para a pasta $TOOL.
     
