@@ -736,7 +736,7 @@ function WingetModule {
     $Host.UI.RawUI.BackgroundColor = 'DarkBlue'  
    
     #Módulo WINGET.
-    $WinVer = (Get-WmiObject Win32_OperatingSystem).Caption
+    <#$WinVer = (Get-WmiObject Win32_OperatingSystem).Caption
             
     if ( $WinVer -Match 'Windows 11') {
         Write-Host "$WinVer"
@@ -748,27 +748,27 @@ function WingetModule {
     }
 
     elseif ($WinVer -Match 'Windows 10') {
-        Write-Host "$WinVer"
+        Write-Host "$WinVer"#>
                 
-        #Pacote NuGet.
-        Install-PackageProvider -Name NuGet -Force
+    #Pacote NuGet.
+    Install-PackageProvider -Name NuGet -Force
         
-        #Reinstala, redefine as fontes e atualiza o Módulo WINGET.
-        Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
-        Repair-WinGetPackageManager
-        Winget Source Remove --Name winget
-        Winget Source Remove --Name msstore
-        Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
-        Start-BitsTransfer -Source 'https://cdn.winget.microsoft.com/cache/source.msix' -Destination "$env:TEMP\source.msix"
-        Add-AppPackage -Path "$env:TEMP\source.msix"
-        Start-BitsTransfer -Source 'https://github.com/microsoft/winget-cli/releases/latest/download/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle'-Destination "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
-        Add-AppPackage -Path "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"  
-        Start-Sleep 1
-        Winget Source Reset --Force     
-        Winget Source Update   
-        Winget Upgrade Microsoft.AppInstaller --Accept-Source-Agreements --Accept-Package-Agreements
+    #Reinstala, redefine as fontes e atualiza o Módulo WINGET.
+    Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery 
+    Repair-WinGetPackageManager
+    Winget Source Remove --Name winget
+    Winget Source Remove --Name msstore
+    Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
+    Start-BitsTransfer -Source 'https://cdn.winget.microsoft.com/cache/source.msix' -Destination "$env:TEMP\source.msix"
+    Add-AppPackage -Path "$env:TEMP\source.msix"
+    Start-BitsTransfer -Source 'https://github.com/microsoft/winget-cli/releases/latest/download/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle'-Destination "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
+    Add-AppPackage -Path "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"  
+    Start-Sleep 1
+    Winget Source Reset --Force     
+    Winget Source Update   
+    Winget Upgrade Microsoft.AppInstaller --Accept-Source-Agreements --Accept-Package-Agreements
     
-    }
+    #}
 
     else {
         Write-Host 'Versão do Windows não compatível com Winget.'
