@@ -129,7 +129,7 @@ ______________________________________________________
                 ))
             )
 
-            Start-Process powershell -Wait -args '-noprofile', '-EncodedCommand',
+            Start-Process powershell -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
                     (Get-Command -Type Function WingetModule, WingetInstall).Definition
@@ -139,7 +139,14 @@ ______________________________________________________
             Start-Process powershell -Wait -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
-                    (Get-Command -Type Function NetFx3, DownloadMztool, DriverBooster, Office2007).Definition
+                    (Get-Command -Type Function NetFx3, DownloadMztool).Definition
+                ))
+            )
+
+            Start-Process powershell -Wait -args '-noprofile', '-EncodedCommand',
+            ([Convert]::ToBase64String(
+                [Text.Encoding]::Unicode.GetBytes(
+                    (Get-Command -Type Function DriverBooster, Office2007).Definition
                 ))
             )
 
