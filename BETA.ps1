@@ -817,15 +817,13 @@ function WingetModule {
         Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue 
         Start-BitsTransfer -Source 'https://cdn.winget.microsoft.com/cache/source.msix' -Destination "$env:TEMP\source.msix"
         Add-AppPackage -Path "$env:TEMP\source.msix"
+        Start-Sleep 1
         Winget Source Reset --Force     
         Winget Source Update
         Winget Install Microsoft.UI.Xaml.2.8 --Accept-Source-Agreements --Accept-Package-Agreements
         Winget Install Microsoft.UI.Xaml.2.7 --Accept-Source-Agreements --Accept-Package-Agreements
         Start-BitsTransfer -Source 'https://github.com/microsoft/winget-cli/releases/latest/download/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle'-Destination "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
         Add-AppPackage -Path "$env:TEMP\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"  
-        Start-Sleep 1
-        #Winget Source Reset --Force     
-        #Winget Source Update   
         Winget Upgrade Microsoft.AppInstaller --Accept-Source-Agreements --Accept-Package-Agreements
     
     }
