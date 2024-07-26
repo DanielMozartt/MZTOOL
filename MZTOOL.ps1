@@ -125,11 +125,11 @@ ______________________________________________________
             Start-Process powershell -WindowStyle Hidden -Wait -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
-                    (Get-Command -Type Function RemoveMStorepps, PerfilTheme, NetFx3, DownloadMztool, DriverBooster, Office2007, WingetModule, WingetInstall).Definition
+                    (Get-Command -Type Function RemoveMStorepps, PerfilTheme).Definition
                 ))
             )
-            <#
-            Start-Process powershell -WindowStyle Hidden -args '-noprofile', '-EncodedCommand',
+            
+            Start-Process powershell -WindowStyle Hidden -Wait -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
                     (Get-Command -Type Function NetFx3, DownloadMztool, DriverBooster, Office2007).Definition
@@ -142,7 +142,7 @@ ______________________________________________________
                     (Get-Command -Type Function WingetModule, WingetInstall).Definition
                 ))
             )
-#>
+            #>
             PinIcons
 
             DefaultSoftwares
