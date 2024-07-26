@@ -710,6 +710,8 @@ function DownloadMztool {
         Write-Host 'ARQUIVO BAIXADO'
 
         Clear-Host
+
+        Stop-Process -Name MSEDGE -Force
               
         #Extração do arquivo MZTOOL.zip para a pasta $TOOL.
         Expand-Archive -LiteralPath $MZTOOLZIP -DestinationPath $TOOL
