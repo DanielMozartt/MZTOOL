@@ -132,7 +132,7 @@ ______________________________________________________
             Start-Process powershell -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
-                    (Get-Command -Type Function NetFx3, DownloadMztool).Definition
+                    (Get-Command -Type Function DownloadMztool, DriverBooster).Definition
                 ))
             )
 
@@ -148,7 +148,7 @@ ______________________________________________________
             Start-Process powershell -Wait -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
-                    (Get-Command -Type Function DriverBooster, Office2007).Definition
+                    (Get-Command -Type Function NetFx3, Office2007).Definition
                 ))
             )
 
