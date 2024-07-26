@@ -148,7 +148,7 @@ ______________________________________________________
             Start-Process powershell -Wait -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
-                    (Get-Command -Type Function NetFx3, Office2007).Definition
+                    (Get-Command -Type Function Office2007).Definition
                 ))
             )
 
@@ -864,15 +864,15 @@ function WingetInstall {
             
     for ($i = 0; $i -le 2; $i++) {
 
-        WaitOffice2007Winget
+        #WaitOffice2007Winget
         
         Winget Install --Id Adobe.Acrobat.Reader.64-bit --Accept-Source-Agreements --Accept-Package-Agreements
 
-        WaitOffice2007Winget
+        #WaitOffice2007Winget
          
         Winget Install --Id Google.Chrome --Accept-Source-Agreements --Accept-Package-Agreements 
 
-        WaitOffice2007Winget
+        #WaitOffice2007Winget
         
         Winget Install --Id Microsoft.Powershell --Accept-Source-Agreements --Accept-Package-Agreements
                                  
@@ -995,11 +995,19 @@ function NetFx3 {
 
         $Host.UI.RawUI.WindowTitle = 'MZTOOL> .NETFRAMEWORK3.5'
         $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
+
+        Dism.exe /Online /NoRestart /Add-Package /PackagePath:C:\TOOL\OFFICE\2007\NetFx3\update.mum
             
-        Enable-WindowsOptionalFeature -Online -FeatureName 'NetFx3'
+        <#Enable-WindowsOptionalFeature -Online -FeatureName 'NetFx3' -Source "c:\tool"
         Add-WindowsCapability -Online -Name NetFx3
 
+        Start-BitsTransfer 'https://download.microsoft.com/download/2/0/E/20E90413-712F-438C-988E-FDAA79A8AC3D/dotnetfx35.exe' -Destination "$env:Temp\dotnetfx35.exe"
+        Start-Process "$env:Temp\dotnetfx35.exe"
+        Dism /online /enable-feature /featurename:NetFX3 /All /Source:C:\tool /LimitAccess
+#>
     }
+
+    
 }
 
 function DriverBooster {
