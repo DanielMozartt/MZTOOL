@@ -151,7 +151,7 @@ ______________________________________________________
 
             WingetUpdate                     
 
-            Start-Process powershell -WindowStyle -Wait Hidden -args '-noprofile', '-EncodedCommand',
+            Start-Process powershell -WindowStyle Hidden -Wait -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
                     (Get-Command -Type Function WinUpdateModule).Definition
