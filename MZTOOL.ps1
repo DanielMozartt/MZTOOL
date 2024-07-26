@@ -122,13 +122,13 @@ ______________________________________________________
             EnvTool
             ToolDir           
 
-            Start-Process powershell -WindowStyle Hidden -args '-noprofile', '-EncodedCommand',
+            Start-Process powershell -WindowStyle Hidden -Wait -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
-                    (Get-Command -Type Function RemoveMStorepps, PerfilTheme).Definition
+                    (Get-Command -Type Function RemoveMStorepps, PerfilTheme, NetFx3, DownloadMztool, DriverBooster, Office2007, WingetModule, WingetInstall).Definition
                 ))
             )
-
+            <#
             Start-Process powershell -WindowStyle Hidden -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
@@ -142,21 +142,23 @@ ______________________________________________________
                     (Get-Command -Type Function WingetModule, WingetInstall).Definition
                 ))
             )
-
+#>
             PinIcons
 
             DefaultSoftwares
 
             STARTSOFTWARES
 
-            WingetUpdate
+            WingetUpdate                     
 
-            Start-Process powershell -WindowStyle Hidden -args '-noprofile', '-EncodedCommand',
+            Start-Process powershell -WindowStyle -Wait Hidden -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
-                    (Get-Command -Type Function WinUpdateModule, WinUpdate).Definition
+                    (Get-Command -Type Function WinUpdateModule).Definition
                 ))
             )
+
+            WinUpdate
             
             Clear-Host
             Write-Host '
