@@ -166,9 +166,9 @@ ______________________________________________________
 | _________________________________________________  | 
 |                                                    |
 |                                                    |
-|                                                    |
 |      INSTALAÇÃO CONCLUÍDA - ENCERRANDO MZTOOL      |
 |                                                    |
+|   O WINDOWS SERÁ ATUALIZADO AGORA EM SEGUNDO PLANO |
 |                                                    |
 |                 MOZART INFORMÁTICA                 |
 |                   DANIEL MOZART                    |
@@ -986,8 +986,7 @@ function NetFx3 {
 
         $Host.UI.RawUI.WindowTitle = 'MZTOOL> .NETFRAMEWORK3.5'
         $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
-    
-        Add-AppxPackage .\PathToNewVersion
+            
         Enable-WindowsOptionalFeature -Online -FeatureName 'NetFx3'
         Add-WindowsCapability -Online -Name NetFx3
 
