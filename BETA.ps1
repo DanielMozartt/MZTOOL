@@ -122,14 +122,14 @@ ______________________________________________________
             EnvTool
             ToolDir           
 
-            Start-Process powershell -Wait -args '-noprofile', '-EncodedCommand',
+            Start-Process powershell -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
-                    (Get-Command -Type Function RemoveMStorepps, PerfilTheme).Definition
+                    (Get-Command -Type Function RemoveMStoreApps, PerfilTheme).Definition
                 ))
             )
 
-            Start-Process powershell -args '-noprofile', '-EncodedCommand',
+            Start-Process powershell -Wait -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
                     (Get-Command -Type Function WingetModule, WingetInstall).Definition
@@ -1052,7 +1052,7 @@ function DriverBooster {
     }
 }
 
-function RemoveMStorepps {
+function RemoveMStoreApps {
 
     Start-Process PowerShell {
 

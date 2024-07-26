@@ -142,7 +142,7 @@ ______________________________________________________
                     (Get-Command -Type Function WingetModule, WingetInstall).Definition
                 ))
             )
-            #>
+            
             PinIcons
 
             DefaultSoftwares
@@ -936,7 +936,6 @@ function NetFx3 {
         $Host.UI.RawUI.WindowTitle = 'MZTOOL> .NETFRAMEWORK3.5'
         $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
     
-        Add-AppxPackage .\PathToNewVersion
         Enable-WindowsOptionalFeature -Online -FeatureName 'NetFx3'
         Add-WindowsCapability -Online -Name NetFx3
 
