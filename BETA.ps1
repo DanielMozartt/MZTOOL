@@ -996,7 +996,7 @@ function NetFx3 {
         $Host.UI.RawUI.WindowTitle = 'MZTOOL> .NETFRAMEWORK3.5'
         $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
 
-        Dism.exe /Online /NoRestart /Add-Package /PackagePath:C:\TOOL\OFFICE\2007\NetFx3\update.mum
+        Dism.exe /Online /NoRestart /Add-Package /PackagePath:C:\TOOL\OFFICE\2007\NetFx35\update.mum
             
         <#Enable-WindowsOptionalFeature -Online -FeatureName 'NetFx3' -Source "c:\tool"
         Add-WindowsCapability -Online -Name NetFx3
