@@ -632,9 +632,10 @@ function DownloadMztool {
     $MZTOOLZIP = 'C:\TOOL\MZTOOL.zip'
 
     $ONEDRIVELINK = 'https://seulink.net/TOOLZIP'
+       
+    $GOOGLEDRIVELINK = 'https://drive.usercontent.google.com/download?id=1NlKXsz-xsrhAskpAgZ-dsYkIyaMGoPU8&confirm=yy'
 
-    $GOOGLEDRIVELINK = 'https://4br.me/GDRIVEZIP'
-
+      
     try {
        
         Write-Host 'AGUARDANDO DOWNLOAD'
@@ -642,16 +643,6 @@ function DownloadMztool {
         #Download do arquivo MZTOOL.zip pelo OneDrive.
 
         (New-Object System.Net.WebClient).DownloadFile($ONEDRIVELINK, $MZTOOLZIP)
-
-        Clear-Host
-            
-        #Extração do arquivo MZTOOL.zip para a pasta $TOOL.
-    
-        Expand-Archive -LiteralPath $MZTOOLZIP -DestinationPath $TOOL
-
-        #Deletar o arquivo MZTOOL.zip.
-
-        Remove-Item $MZTOOLZIP
 
     }
 
@@ -666,42 +657,24 @@ function DownloadMztool {
     
         Clear-Host
 
-        Write-Host 'LINK DO ONE DRIVE NÃO ESTÁ ONLINE, TENTANDO O LINK DO GOOGLE DRIVE
-
-        !!FAÇA O DOWNLOAD MANUALMENTE NO LINK ABERTO!!
+        Write-Host 'LINK DO ONE DRIVE NÃO ESTÁ ONLINE, TENTANDO O LINK DO GOOGLE DRIVE'
         
+        #Download do arquivo MZTOOL.zip pelo GoogleDrive.
+        (New-Object System.Net.WebClient).DownloadFile($GOOGLEDRIVELINK, $MZTOOLZIP)
 
-        AGUARDANDO DOWNLOAD'
-    
-        #Inicia o Microsoft Edge com o link de download manual do arquivo MZTOOL.ZIP pelo Google Drive.
+        Pause
         
-        Start-Process MSEDGE $GOOGLEDRIVELINK 
-        
-        do {
-            
-            #Testando se o arquivo MZTOOLZIP já foi baixado manualmente na pasta $home\Downloads e se existe. 
-
-            $MZTOOLZIPGD = Get-Item "$home\Downloads\MZTOOL.zip" -ErrorAction SilentlyContinue
-            
-            Start-Sleep 3
-            
-        } while ($MZTOOLZIPGD.Target -ne "$MZTOOLZIPGD")
-
-        Clear-Host
-
-        Write-Host 'ARQUIVO BAIXADO'
-
-        Clear-Host
-
-        Stop-Process -Name MSEDGE -Force
-              
-        #Extração do arquivo MZTOOL.zip para a pasta $TOOL.
-        Expand-Archive -LiteralPath $MZTOOLZIPGD -DestinationPath $TOOL
-        
-        #Deletar o arquivo MZTOOL.zip.    
-        Remove-Item $MZTOOLZIPGD       
-
     }
+
+    Clear-Host
+            
+    #Extração do arquivo MZTOOL.zip para a pasta $TOOL.
+    
+    Expand-Archive -LiteralPath $MZTOOLZIP -DestinationPath $TOOL
+
+    #Deletar o arquivo MZTOOL.zip.
+
+    Remove-Item $MZTOOLZIP
 
 }
 
