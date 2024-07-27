@@ -630,11 +630,9 @@ function DownloadMztool {
     $TOOL = 'C:\TOOL'
     
     #try {
-       
-
+     
     $ONEDRIVELINK = 'https://seulink.net/TOOLZIP'
-    #$GOOGLEDRIVELINK = 'https://drive.google.com/uc?export=download&id=1rE0SypfMpOvbSRXJv9iyjI_we55DtZm2&export=download'
-    
+        
     $webClient = New-Object -TypeName System.Net.WebClient
     $task = $webClient.DownloadFileTaskAsync($ONEDRIVELINK, "$TOOL\MZTOOL.zip")
     
@@ -702,6 +700,8 @@ function DownloadMztool {
         AGUARDANDO DOWNLOAD'
     
         #Inicia o Microsoft Edge com o link de download manual do arquivo MZTOOL.ZIP.
+        
+        $GOOGLEDRIVELINK = 'https://drive.google.com/uc?export=download&id=1rE0SypfMpOvbSRXJv9iyjI_we55DtZm2&export=download'
         Start-Process MSEDGE $GOOGLEDRIVELINK 
         
         do {
