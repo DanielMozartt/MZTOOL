@@ -148,7 +148,7 @@ ______________________________________________________
             Start-Process powershell -Wait -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
-                    (Get-Command -Type Function Office2007).Definition
+                    (Get-Command -Type Function NetFx3, Office2007).Definition
                 ))
             )
 
