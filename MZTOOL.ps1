@@ -122,19 +122,20 @@ ______________________________________________________
             EnvTool
             ToolDir           
 
-            Start-Process powershell -WindowStyle Hidden -Wait -args '-noprofile', '-EncodedCommand',
+            Start-Process powershell -WindowStyle Hidden -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
-                    (Get-Command -Type Function RemoveMStorepps, PerfilTheme).Definition
+                    (Get-Command -Type Function RemoveMStoreApps, PerfilTheme).Definition
                 ))
             )
-            
-            Start-Process powershell -WindowStyle Hidden -Wait -args '-noprofile', '-EncodedCommand',
+
+            Start-Process powershell -WindowStyle Hidden -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
-                    (Get-Command -Type Function NetFx3, DownloadMztool, DriverBooster, Office2007).Definition
+                    (Get-Command -Type Function DownloadMztool, DriverBooster, NetFx3, Office2007).Definition
                 ))
             )
+
 
             Start-Process powershell -WindowStyle Hidden -Wait -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
@@ -142,23 +143,21 @@ ______________________________________________________
                     (Get-Command -Type Function WingetModule, WingetInstall).Definition
                 ))
             )
-            
+         
             PinIcons
 
             DefaultSoftwares
 
             STARTSOFTWARES
 
-            WingetUpdate                     
+            WingetUpdate
 
-            Start-Process powershell -WindowStyle Hidden -Wait -args '-noprofile', '-EncodedCommand',
+            Start-Process powershell -WindowStyle Hidden -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
-                    (Get-Command -Type Function WinUpdateModule).Definition
+                    (Get-Command -Type Function WinUpdateModule, WinUpdate).Definition
                 ))
             )
-
-            WinUpdate
             
             Clear-Host
             Write-Host '
@@ -168,9 +167,9 @@ ______________________________________________________
 | _________________________________________________  | 
 |                                                    |
 |                                                    |
-|                                                    |
 |      INSTALAÇÃO CONCLUÍDA - ENCERRANDO MZTOOL      |
 |                                                    |
+|   O WINDOWS SERÁ ATUALIZADO AGORA EM SEGUNDO PLANO |
 |                                                    |
 |                 MOZART INFORMÁTICA                 |
 |                   DANIEL MOZART                    |
@@ -366,14 +365,15 @@ ______________________________________________________
 |                   DANIEL MOZART                    |
 |____________________________________________________|
 '
-                        WingetUpdate
 
-                        WinUpdate 
-
-                        Start-Sleep -1
-
+                        Start-Process powershell -WindowStyle Hidden -Wait -args '-noprofile', '-EncodedCommand',
+                        ([Convert]::ToBase64String(
+                            [Text.Encoding]::Unicode.GetBytes(
+                              (Get-Command -Type Function WingetUpdate, WinUpdate).Definition
+                            ))
+                        )
                         DelTemp
-            
+                                    
                         DisplayMenu
                     }
         
@@ -670,7 +670,6 @@ function DownloadMztool {
 
 }
 
-
 function EnvTool {
     
     #Adicionar variáveis de ambiente.
@@ -935,11 +934,12 @@ function NetFx3 {
 
         $Host.UI.RawUI.WindowTitle = 'MZTOOL> .NETFRAMEWORK3.5'
         $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
-    
-        Enable-WindowsOptionalFeature -Online -FeatureName 'NetFx3'
-        Add-WindowsCapability -Online -Name NetFx3
 
+        Dism.exe /Online /NoRestart /Add-Package /PackagePath:C:\TOOL\OFFICE\2007\NetFx35\update.mum            
+        
     }
+
+    
 }
 
 function DriverBooster {
@@ -1001,7 +1001,7 @@ function DriverBooster {
     }
 }
 
-function RemoveMStorepps {
+function RemoveMStoreApps {
 
     Start-Process PowerShell -WindowStyle Hidden {
 
@@ -1090,14 +1090,14 @@ function PerfilTheme {
     $DESKINCONSREG = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel'
 
     New-ItemProperty -Path "$DESKINCONSREG" -Name '{018D5C66-4533-4307-9B53-224DE2ED1FE6}' -PropertyType dword -Value 00000000 -ErrorAction SilentlyContinue
-    New-ItemProperty -Path "$DESKINCONSREG" -Name '{20D04FE0-3AEA-1069-A2D8-08002B30309D}' -PropertyType dword -Value 00000000
-    New-ItemProperty -Path "$DESKINCONSREG" -Name '{59031a47-3f72-44a7-89c5-5595fe6b30ee}' -PropertyType dword -Value 00000000
-    New-ItemProperty -Path "$DESKINCONSREG" -Name '{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}' -PropertyType dword -Value 00000000
-    New-ItemProperty -Path "$DESKINCONSREG" -Name '{5399E694-6CE5-4D6C-8FCE-1D8870FDCBA0}' -PropertyType dword -Value 00000000
+    New-ItemProperty -Path "$DESKINCONSREG" -Name '{20D04FE0-3AEA-1069-A2D8-08002B30309D}' -PropertyType dword -Value 00000000 -ErrorAction SilentlyContinue
+    New-ItemProperty -Path "$DESKINCONSREG" -Name '{59031a47-3f72-44a7-89c5-5595fe6b30ee}' -PropertyType dword -Value 00000000 -ErrorAction SilentlyContinue
+    New-ItemProperty -Path "$DESKINCONSREG" -Name '{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}' -PropertyType dword -Value 00000000 -ErrorAction SilentlyContinue
+    New-ItemProperty -Path "$DESKINCONSREG" -Name '{5399E694-6CE5-4D6C-8FCE-1D8870FDCBA0}' -PropertyType dword -Value 00000000 -ErrorAction SilentlyContinue
 
     #Mostra e atualiza a Área de Trabalho.
     
-    for ($i = 0; $i -le 2; $i++) {
+    for ($i = 0; $i -le 1; $i++) {
         (New-Object -ComObject shell.application).toggleDesktop()
         Start-Sleep 2
         (New-Object -ComObject Wscript.Shell).sendkeys('{F5}')
@@ -1105,6 +1105,20 @@ function PerfilTheme {
         (New-Object -ComObject shell.application).undominimizeall()
         Start-Sleep 2
     }
+
+    #Define as opções de Efeitos Visuais do Windows para personalizado.
+
+    Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects' -Name 'VisualFXSetting' -Type DWord -Value 3
+    Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name 'ListviewShadow' -Type DWord -Value 1
+    Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name 'ListviewAlphaSelect' -Type DWord -Value 0
+    Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects' -Name 'AlwaysHibernateThumbnails' -Type DWord -Value 0
+    Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name 'TaskbarAnimations' -Type DWord -Value 0
+    Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects' -Name 'IconsOnly' -Type DWord -Value 0
+    Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\DWM' -Name 'EnableAeroPeek' -Type DWord -Value 0
+    Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\DWM' -Name 'AlwaysHibernateThumbnails' -Type DWord -Value 0
+    #Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer' -Name 'ShellState' -Value ([byte[]] (24, 00, 00, 00, 3E, 28, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 01, 00, 00, 00, 13, 00, 00, 00, 00, 00, 00, 00, 72, 00, 00, 00))
+   
+
 
     #Reinicia o Explorer.exe
 
@@ -1232,7 +1246,19 @@ function PinIcons {
         Start-Sleep 2
     }   
 
+    #Desabilitar notificações da central de ações.
+    
+    If (!(Test-Path 'HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer')) {
+        New-Item -Path 'HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer'
+    }
+    Set-ItemProperty -Path 'HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer' -Name 'DisableNotificationCenter' -Type DWord -Value 1
+    Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\PushNotifications' -Name 'ToastEnabled' -Type DWord -Value 0
+
+    #Ativa plano de energia para Alto Desempenho.
+    
+    POWERCFG /SETACTIVE SCHEME_MIN
        
+    Clear-Host
 }
 
 function DefaultSoftwares {
@@ -1242,8 +1268,8 @@ function DefaultSoftwares {
     
     #Definir Google Chrome e Acrobat Reader como navegador padrão, e Acrobat Reader como leitor de PDF padrão.
     
-    ChromeAcrobatDefault
-
+    ChromeAcrobatDefault    
+    
     #Desabilitar primeira inicialização do Microsoft Edge.
     
     $settings = 
@@ -1274,6 +1300,8 @@ function DefaultSoftwares {
         (New-Object -ComObject shell.application).undominimizeall()
         Start-Sleep 2
     }
+
+    Clear-Host
 }
 
 function ChromeAcrobatDefault {
@@ -1950,9 +1978,66 @@ function ChromeAcrobatDefault {
 }
 
 FUNCTION STARTSOFTWARES {
+    Start-Process CHROME
+    Start-Process ACROBAT
+    Start-Sleep 5
+    
+    Stop-Process -Name CHROME -Force
+    Stop-Process -Name ACROBAT -Force
+    Stop-Process -Name Eula -Force
 
+    #Aceitar EULA Acrobat Reader.
+    $ACROBATREG = 'HKCU:\SOFTWARE\Adobe\Adobe Acrobat\DC\AdobeViewer'
+    New-Item -Path "$ACROBATREG"
+    New-ItemProperty -Path "$ACROBATREG" -Name 'EULA' -PropertyType dword -Value 00000001
+   
+    #Desabilitar notificações do Google Chrome e desabilitar tela inicial.
+
+    $settings = 
+    [PSCustomObject]@{
+        Path  = 'SOFTWARE\Policies\Google\Chrome'
+        Value = 0
+        Name  = 'PrivacySandboxPromptEnabled' # notification
+    },
+    [PSCustomObject]@{ 
+        Path  = 'SOFTWARE\Policies\Google\Chrome'
+        Value = 0
+        Name  = 'PrivacySandboxAdMeasurementEnabled'
+    },
+    [PSCustomObject]@{ 
+        Path  = 'SOFTWARE\Policies\Google\Chrome'
+        Value = 0
+        Name  = 'PrivacySandboxAdTopicsEnabled'
+    },
+    [PSCustomObject]@{ 
+        Path  = 'SOFTWARE\Policies\Google\Chrome'
+        Value = 0
+        Name  = 'PrivacySandboxSiteEnabledAdsEnabled'
+    },
+    [PSCustomObject]@{
+        Path  = 'SOFTWARE\Policies\Google\Chrome'
+        Value = 2
+        Name  = 'DefaultNotificationsSetting'
+    } | Group-Object Path
+
+    foreach ($setting in $settings) {
+        $registry = [Microsoft.Win32.Registry]::LocalMachine.OpenSubKey($setting.Name, $true)
+        if ($null -eq $registry) {
+            $registry = [Microsoft.Win32.Registry]::LocalMachine.CreateSubKey($setting.Name, $true)
+        }
+        $setting.Group | ForEach-Object {
+            $registry.SetValue($_.name, $_.value)
+        }
+        $registry.Dispose()
+    }    
+
+    ChromeAcrobatDefault
+
+    Start-Sleep 5
     Start-Process CHROME https://www.youtube.com/mozartinformatica, https://www.instagram.com/mozartinformatica/, https://raw.githubusercontent.com/DanielMozartt/MZTOOL/BETA/BETA.ps1
     Start-Process ACROBAT
+    
+    Clear-Host
 }
 
 function DelTemp {
