@@ -626,68 +626,40 @@ function DownloadMztool {
 
     $Host.UI.RawUI.WindowTitle = 'MZTOOL> DOWNLOADMZTOOL'
     $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
-   
+
     $TOOL = 'C:\TOOL'
-    
-    #try {
-     
+   
+    $MZTOOLZIP = 'C:\TOOL\MZTOOL.zip'
+
     $ONEDRIVELINK = 'https://seulink.net/TOOLZIP'
-        
-    $webClient = New-Object -TypeName System.Net.WebClient
-    $task = $webClient.DownloadFileTaskAsync($ONEDRIVELINK, "$TOOL\MZTOOL.zip")
-    
-    Register-ObjectEvent -InputObject $webClient -EventName DownloadProgressChanged -SourceIdentifier WebClient.DownloadProgressChanged | Out-Null
-    
-    Start-Sleep -Seconds 3
-    
-    while (!($task.IsCompleted)) {
-        $EventData = Get-Event -SourceIdentifier WebClient.DownloadProgressChanged | Select-Object -ExpandProperty 'SourceEventArgs' -Last 1
-    
-        $ReceivedData = ($EventData | Select-Object -ExpandProperty 'BytesReceived')
-        $TotalToReceive = ($EventData | Select-Object -ExpandProperty 'TotalBytesToReceive')
-        $TotalPercent = $EventData | Select-Object -ExpandProperty 'ProgressPercentage'
-    
-        Start-Sleep -Seconds 2
-    
-        function convertFileSize {
-            param(
-                $bytes
-            )
-    
-            if ($bytes -lt 1MB) {
-                return "$([Math]::Round($bytes / 1KB, 2)) KB"
-            }
-            elseif ($bytes -lt 1GB) {
-                return "$([Math]::Round($bytes / 1MB, 2)) MB"
-            }
-            elseif ($bytes -lt 1TB) {
-                return "$([Math]::Round($bytes / 1GB, 2)) GB"
-            }
-        }
 
-        Write-Progress -Activity 'Downloading File' -Status "Percent Complete: $($TotalPercent)%" -CurrentOperation "Downloaded $(convertFileSize -bytes $ReceivedData) / $(convertFileSize -bytes $TotalToReceive)" -PercentComplete $TotalPercent
+    $GOOGLEDRIVELINK = 'https://4br.me/GDRIVEZIP'
+
+    try {
+       
+        Write-Host 'AGUARDANDO DOWNLOAD'
+
+        #Download do arquivo MZTOOL.zip pelo OneDrive.
+
+        (New-Object System.Net.WebClient).DownloadFile($ONEDRIVELINK, $MZTOOLZIP)
+            
+        #Extração do arquivo MZTOOL.zip para a pasta $TOOL.
     
+        Expand-Archive -LiteralPath $MZTOOLZIP -DestinationPath $TOOL
+
+        #Deletar o arquivo MZTOOL.zip.
+
+        Remove-Item $MZTOOLZIP
+
     }
-    
-    Unregister-Event -SourceIdentifier WebClient.DownloadProgressChanged
-    $webClient.Dispose()
 
-         
-    #Extração do arquivo MZTOOL.zip para a pasta $TOOL.
-    
-    Expand-Archive -LiteralPath $TOOL\MZTOOL.zip -DestinationPath $TOOL
-
-    #Deletar o arquivo MZTOOL.zip.
-
-    Remove-Item $TOOL\MZTOOL.zip
-
-    <#}
     catch [System.Net.WebException], [System.IO.IOException] {
 
         Clear-Host
 
         'ONEDRIVE LINKDOWN' 
     }
+
     if ($error) { 
     
         Clear-Host
@@ -699,20 +671,19 @@ function DownloadMztool {
 
         AGUARDANDO DOWNLOAD'
     
-        #Inicia o Microsoft Edge com o link de download manual do arquivo MZTOOL.ZIP.
+        #Inicia o Microsoft Edge com o link de download manual do arquivo MZTOOL.ZIP pelo Google Drive.
         
-        $GOOGLEDRIVELINK = 'https://drive.google.com/uc?export=download&id=1rE0SypfMpOvbSRXJv9iyjI_we55DtZm2&export=download'
         Start-Process MSEDGE $GOOGLEDRIVELINK 
         
         do {
             
             #Testando se o arquivo MZTOOLZIP já foi baixado manualmente na pasta $home\Downloads e se existe. 
 
-            $MZTOOLZIP = Get-Item "$home\Downloads\MZTOOL.zip" -ErrorAction SilentlyContinue
+            $MZTOOLZIPGD = Get-Item "$home\Downloads\MZTOOL.zip" -ErrorAction SilentlyContinue
             
             Start-Sleep 3
             
-        } while ($MZTOOLZIP.Target -ne "$MZTOOLZIP")
+        } while ($MZTOOLZIPGD.Target -ne "$MZTOOLZIPGD")
 
         Clear-Host
 
@@ -723,11 +694,12 @@ function DownloadMztool {
         Stop-Process -Name MSEDGE -Force
               
         #Extração do arquivo MZTOOL.zip para a pasta $TOOL.
-        Expand-Archive -LiteralPath $MZTOOLZIP -DestinationPath $TOOL
+        Expand-Archive -LiteralPath $MZTOOLZIPGD -DestinationPath $TOOL
+        
         #Deletar o arquivo MZTOOL.zip.    
-        Remove-Item $MZTOOLZIP       
+        Remove-Item $MZTOOLZIPGD       
 
-    }#>
+    }
 
 }
 
