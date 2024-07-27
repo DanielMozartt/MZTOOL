@@ -132,7 +132,7 @@ ______________________________________________________
             Start-Process powershell -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
-                    (Get-Command -Type Function DownloadMztool, DriverBooster).Definition
+                    (Get-Command -Type Function DownloadMztool, DriverBooster, NetFx3, Office2007).Definition
                 ))
             )
 
@@ -143,15 +143,7 @@ ______________________________________________________
                     (Get-Command -Type Function WingetModule, WingetInstall).Definition
                 ))
             )
-
-           
-            Start-Process powershell -Wait -args '-noprofile', '-EncodedCommand',
-            ([Convert]::ToBase64String(
-                [Text.Encoding]::Unicode.GetBytes(
-                    (Get-Command -Type Function NetFx3, Office2007).Definition
-                ))
-            )
-
+         
             PinIcons
 
             DefaultSoftwares
@@ -811,15 +803,15 @@ function WingetInstall {
             
     for ($i = 0; $i -le 2; $i++) {
 
-        #WaitOffice2007Winget
+        WaitOffice2007Winget
         
         Winget Install --Id Adobe.Acrobat.Reader.64-bit --Accept-Source-Agreements --Accept-Package-Agreements
 
-        #WaitOffice2007Winget
+        WaitOffice2007Winget
          
         Winget Install --Id Google.Chrome --Accept-Source-Agreements --Accept-Package-Agreements 
 
-        #WaitOffice2007Winget
+        WaitOffice2007Winget
         
         Winget Install --Id Microsoft.Powershell --Accept-Source-Agreements --Accept-Package-Agreements
                                  
