@@ -935,15 +935,8 @@ function NetFx3 {
         $Host.UI.RawUI.WindowTitle = 'MZTOOL> .NETFRAMEWORK3.5'
         $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
 
-        Dism.exe /Online /NoRestart /Add-Package /PackagePath:C:\TOOL\OFFICE\2007\NetFx35\update.mum
-            
-        <#Enable-WindowsOptionalFeature -Online -FeatureName 'NetFx3' -Source "c:\tool"
-        Add-WindowsCapability -Online -Name NetFx3
-
-        Start-BitsTransfer 'https://download.microsoft.com/download/2/0/E/20E90413-712F-438C-988E-FDAA79A8AC3D/dotnetfx35.exe' -Destination "$env:Temp\dotnetfx35.exe"
-        Start-Process "$env:Temp\dotnetfx35.exe"
-        Dism /online /enable-feature /featurename:NetFX3 /All /Source:C:\tool /LimitAccess
-#>
+        Dism.exe /Online /NoRestart /Add-Package /PackagePath:C:\TOOL\OFFICE\2007\NetFx35\update.mum            
+        
     }
 
     
@@ -1097,14 +1090,14 @@ function PerfilTheme {
     $DESKINCONSREG = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel'
 
     New-ItemProperty -Path "$DESKINCONSREG" -Name '{018D5C66-4533-4307-9B53-224DE2ED1FE6}' -PropertyType dword -Value 00000000 -ErrorAction SilentlyContinue
-    New-ItemProperty -Path "$DESKINCONSREG" -Name '{20D04FE0-3AEA-1069-A2D8-08002B30309D}' -PropertyType dword -Value 00000000
-    New-ItemProperty -Path "$DESKINCONSREG" -Name '{59031a47-3f72-44a7-89c5-5595fe6b30ee}' -PropertyType dword -Value 00000000
-    New-ItemProperty -Path "$DESKINCONSREG" -Name '{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}' -PropertyType dword -Value 00000000
-    New-ItemProperty -Path "$DESKINCONSREG" -Name '{5399E694-6CE5-4D6C-8FCE-1D8870FDCBA0}' -PropertyType dword -Value 00000000
+    New-ItemProperty -Path "$DESKINCONSREG" -Name '{20D04FE0-3AEA-1069-A2D8-08002B30309D}' -PropertyType dword -Value 00000000 -ErrorAction SilentlyContinue
+    New-ItemProperty -Path "$DESKINCONSREG" -Name '{59031a47-3f72-44a7-89c5-5595fe6b30ee}' -PropertyType dword -Value 00000000 -ErrorAction SilentlyContinue
+    New-ItemProperty -Path "$DESKINCONSREG" -Name '{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}' -PropertyType dword -Value 00000000 -ErrorAction SilentlyContinue
+    New-ItemProperty -Path "$DESKINCONSREG" -Name '{5399E694-6CE5-4D6C-8FCE-1D8870FDCBA0}' -PropertyType dword -Value 00000000 -ErrorAction SilentlyContinue
 
     #Mostra e atualiza a Área de Trabalho.
     
-    for ($i = 0; $i -le 2; $i++) {
+    for ($i = 0; $i -le 1; $i++) {
         (New-Object -ComObject shell.application).toggleDesktop()
         Start-Sleep 2
         (New-Object -ComObject Wscript.Shell).sendkeys('{F5}')
@@ -1276,8 +1269,8 @@ function DefaultSoftwares {
     
     #Definir Google Chrome e Acrobat Reader como navegador padrão, e Acrobat Reader como leitor de PDF padrão.
     
-    ChromeAcrobatDefault
-
+    ChromeAcrobatDefault    
+    
     #Desabilitar primeira inicialização do Microsoft Edge.
     
     $settings = 
@@ -1984,9 +1977,63 @@ function ChromeAcrobatDefault {
 }
 
 FUNCTION STARTSOFTWARES {
+    Start-Process CHROME
+    Start-Process ACROBAT
+    Start-Sleep 5
+    
+    Stop-Process -Name CHROME -Force
+    Stop-Process -Name ACROBAT -Force
+    Stop-Process -Name Eula -Force
 
+    #Aceitar EULA Acrobat Reader.
+    $ACROBATREG = 'HKCU:\SOFTWARE\Adobe\Adobe Acrobat\DC\AdobeViewer'
+    New-Item -Path "$ACROBATREG"
+    New-ItemProperty -Path "$ACROBATREG" -Name 'EULA' -PropertyType dword -Value 00000001
+   
+    #Desabilitar notificações do Google Chrome e desabilitar tela inicial.
+
+    $settings = 
+    [PSCustomObject]@{
+        Path  = 'SOFTWARE\Policies\Google\Chrome'
+        Value = 0
+        Name  = 'PrivacySandboxPromptEnabled' # notification
+    },
+    [PSCustomObject]@{ 
+        Path  = 'SOFTWARE\Policies\Google\Chrome'
+        Value = 0
+        Name  = 'PrivacySandboxAdMeasurementEnabled'
+    },
+    [PSCustomObject]@{ 
+        Path  = 'SOFTWARE\Policies\Google\Chrome'
+        Value = 0
+        Name  = 'PrivacySandboxAdTopicsEnabled'
+    },
+    [PSCustomObject]@{ 
+        Path  = 'SOFTWARE\Policies\Google\Chrome'
+        Value = 0
+        Name  = 'PrivacySandboxSiteEnabledAdsEnabled'
+    },
+    [PSCustomObject]@{
+        Path  = 'SOFTWARE\Policies\Google\Chrome'
+        Value = 2
+        Name  = 'DefaultNotificationsSetting'
+    } | Group-Object Path
+
+    foreach ($setting in $settings) {
+        $registry = [Microsoft.Win32.Registry]::LocalMachine.OpenSubKey($setting.Name, $true)
+        if ($null -eq $registry) {
+            $registry = [Microsoft.Win32.Registry]::LocalMachine.CreateSubKey($setting.Name, $true)
+        }
+        $setting.Group | ForEach-Object {
+            $registry.SetValue($_.name, $_.value)
+        }
+        $registry.Dispose()
+    }    
+
+    Start-Sleep 5
     Start-Process CHROME https://www.youtube.com/mozartinformatica, https://www.instagram.com/mozartinformatica/, https://raw.githubusercontent.com/DanielMozartt/MZTOOL/BETA/BETA.ps1
     Start-Process ACROBAT
+
 }
 
 function DelTemp {
