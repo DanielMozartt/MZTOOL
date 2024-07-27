@@ -642,6 +642,8 @@ function DownloadMztool {
         #Download do arquivo MZTOOL.zip pelo OneDrive.
 
         (New-Object System.Net.WebClient).DownloadFile($ONEDRIVELINK, $MZTOOLZIP)
+
+        Clear-Host
             
         #Extração do arquivo MZTOOL.zip para a pasta $TOOL.
     
