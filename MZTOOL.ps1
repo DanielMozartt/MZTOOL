@@ -626,43 +626,16 @@ function DownloadMztool {
 
     $TOOL = 'C:\TOOL'
    
-    $MZTOOLZIP = 'C:\TOOL\MZTOOL.zip'
+    $MZTOOLZIP = "$TOOL\MZTOOL.zip"
 
-    $ONEDRIVELINK = 'https://seulink.net/TOOLZIP'
-       
-    $GOOGLEDRIVELINK = 'https://drive.usercontent.google.com/download?id=1NlKXsz-xsrhAskpAgZ-dsYkIyaMGoPU8&confirm=yy'
+    $ONEDRIVELINK = 'https://seulink.net/TOOLZIP'         
+   
+    Write-Host 'AGUARDANDO DOWNLOAD'
 
-      
-    try {
-       
-        Write-Host 'AGUARDANDO DOWNLOAD'
+    #Download do arquivo MZTOOL.zip pelo OneDrive.
 
-        #Download do arquivo MZTOOL.zip pelo OneDrive.
-
-        (New-Object System.Net.WebClient).DownloadFile($ONEDRIVELINK, $MZTOOLZIP)
-
-    }
-
-    catch [System.Net.WebException], [System.IO.IOException] {
-
-        Clear-Host
-
-        'ONEDRIVE LINKDOWN' 
-    }
-
-    if ($error) { 
-    
-        Clear-Host
-
-        Write-Host 'LINK DO ONE DRIVE NÃO ESTÁ ONLINE, TENTANDO O LINK DO GOOGLE DRIVE'
-        
-        #Download do arquivo MZTOOL.zip pelo GoogleDrive.
-        (New-Object System.Net.WebClient).DownloadFile($GOOGLEDRIVELINK, $MZTOOLZIP)
-
-        Pause
-        
-    }
-
+    (New-Object System.Net.WebClient).DownloadFile($ONEDRIVELINK, $MZTOOLZIP)
+  
     Clear-Host
             
     #Extração do arquivo MZTOOL.zip para a pasta $TOOL.
