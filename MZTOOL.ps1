@@ -224,9 +224,7 @@ ______________________________________________________
                         Hora
                         
                         AnyDesk
-                        
-                        EnvTool
-                        
+                                
                         ToolDir 
 
                         DownloadMztool      
@@ -236,6 +234,10 @@ ______________________________________________________
                         Start-Sleep -Seconds 1
 
                         DelTemp
+
+                        EnvTool
+
+                        Clear-Host
         
                         DisplayMenu
             
