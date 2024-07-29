@@ -568,7 +568,10 @@ ______________________________________________________
             WinUpdateModule
             WinUpdate #TESTAR WINUPDATE
         }
-
+        
+        h {
+            Hora #Testar Hora/Data
+        }
         
         default {
             #ENTRADA INVÁLIDA.
