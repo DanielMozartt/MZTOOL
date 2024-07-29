@@ -355,6 +355,8 @@ ______________________________________________________
                         Start-Sleep -Seconds 1
 
                         DelTemp
+
+                        Clear-Host
         
                         DisplayMenu
             
@@ -385,6 +387,8 @@ ______________________________________________________
                             ))
                         )
                         DelTemp
+
+                        Clear-Host
                                     
                         DisplayMenu
                     }
@@ -483,6 +487,8 @@ ______________________________________________________
                         Start-Sleep -1
 
                         DelTemp
+
+                        Clear-Host
              
                         DisplayMenu
                     }
@@ -512,6 +518,8 @@ ______________________________________________________
                         Start-Sleep -1
 
                         DelTemp
+
+                        Clear-Host
              
                         DisplayMenu 
                     }

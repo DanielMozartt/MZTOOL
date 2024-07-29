@@ -224,18 +224,24 @@ ______________________________________________________
                         Hora
                         
                         AnyDesk
-                        
-                        EnvTool
-                        
+                                
                         ToolDir 
 
-                        DownloadMztool      
+                        Start-Sleep -Seconds 1
+
+                        DownloadMztool 
+
+                        Start-Sleep -Seconds 1     
                         
                         Diagnostics64
                                                 
                         Start-Sleep -Seconds 1
 
                         DelTemp
+
+                        EnvTool
+
+                        Clear-Host
         
                         DisplayMenu
             
@@ -261,19 +267,25 @@ ______________________________________________________
                         Hora
                         
                         AnyDesk
-                        
-                        EnvTool
-                        
+                                
                         ToolDir 
 
+                        Start-Sleep -Seconds 1
+
                         DownloadMztool 
-                                     
-                        Diagnostics32 
-                      
-                        Start-Sleep -1
+
+                        Start-Sleep -Seconds 1     
+                        
+                        Diagnostics32
+                                                
+                        Start-Sleep -Seconds 1
 
                         DelTemp
-            
+
+                        EnvTool
+
+                        Clear-Host
+        
                         DisplayMenu
                     }
         
@@ -343,7 +355,9 @@ ______________________________________________________
                         Start-Sleep -Seconds 1
 
                         DelTemp
-        
+
+                        Clear-Host
+
                         DisplayMenu
             
                     }
@@ -373,6 +387,8 @@ ______________________________________________________
                             ))
                         )
                         DelTemp
+
+                        Clear-Host
                                     
                         DisplayMenu
                     }
@@ -471,6 +487,8 @@ ______________________________________________________
                         Start-Sleep -1
 
                         DelTemp
+
+                        Clear-Host
              
                         DisplayMenu
                     }
@@ -500,6 +518,8 @@ ______________________________________________________
                         Start-Sleep -1
 
                         DelTemp
+
+                        Clear-Host
              
                         DisplayMenu 
                     }
