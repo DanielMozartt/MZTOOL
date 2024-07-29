@@ -230,7 +230,7 @@ ______________________________________________________
                         Start-Sleep -Seconds 1
 
                         DownloadMztool 
-                        
+
                         Start-Sleep -Seconds 1     
                         
                         Diagnostics64
@@ -267,19 +267,25 @@ ______________________________________________________
                         Hora
                         
                         AnyDesk
-                        
-                        EnvTool
-                        
+                                
                         ToolDir 
 
+                        Start-Sleep -Seconds 1
+
                         DownloadMztool 
-                                     
-                        Diagnostics32 
-                      
-                        Start-Sleep -1
+                        
+                        Start-Sleep -Seconds 1     
+                        
+                        Diagnostics32
+                                                
+                        Start-Sleep -Seconds 1
 
                         DelTemp
-            
+
+                        EnvTool
+
+                        Clear-Host
+        
                         DisplayMenu
                     }
         
