@@ -876,18 +876,16 @@ function WinUpdate {
 }
 
 function AnyDesk {
+
     #Download do software AnyDek-CM.
+
     Start-Process PowerShell {
-
-        #Download do software AnyDek-CM.
-
-        Start-Process PowerShell {
         
-            Start-BitsTransfer -Source 'https://download.anydesk.com/AnyDesk-CM.exe' -Destination "$home\Desktop\AnyDesk.exe"
+        Start-BitsTransfer -Source 'https://download.anydesk.com/AnyDesk-CM.exe' -Destination "$home\Desktop\AnyDesk.exe"
                    
-        }
     }
 }
+
 function Office365 {
 
     $Host.UI.RawUI.WindowTitle = 'MZTOOL> OFFICE365'
