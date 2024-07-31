@@ -59,6 +59,14 @@ function OpSys {
     
     }
 
+    elseif ($WinVer = 'Microsoft') {
+        
+        Write-Host "$WinVer"
+                
+        DisplayMenu
+    
+    }
+
     else {
 
         Write-Host 'SISTEMA OPERACIONAL NÃO SUPORTADO.'
