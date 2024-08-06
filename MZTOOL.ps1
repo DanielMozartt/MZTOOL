@@ -1060,7 +1060,7 @@ function RemoveMStoreApps {
 
         Get-AppxPackage -AllUsers | Where-Object { $_.name -in $app_packages } | Remove-AppxPackage -AllUsers
 
-        #Resta o proceso Explorer.exe
+        #Reseta o proceso Explorer.exe
         Stop-Process -Name 'explorer'
 
     }
