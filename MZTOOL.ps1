@@ -1209,6 +1209,9 @@ function PinIcons {
         }
         $registry.Dispose()
     }
+
+    $GetProvisioning = Get-Item $provisioning
+    Remove-Item $GetProvisioning -Recurse -Force -ErrorAction SilentlyContinue
     
     #Remover ícone do Microsoft CoPilot da barra de tarefas.
     $settings = [PSCustomObject]@{
@@ -1233,9 +1236,15 @@ function PinIcons {
         $registry.Dispose()
     }
     
+    #Fixa ícones na barra de tarefas.
+    
     $TRAYICONS = "$TOOL\MZTOOL\REG\TRAYICONS.REG"
 
     Start-Process Reg.exe -ArgumentList "Import $TRAYICONS" -Wait
+
+    $GETTRAYICONS = Get-Item $TRAYICONS
+
+    Remove-Item $GETTRAYICONS -Recurse -Force -ErrorAction SilentlyContinue
     
     Stop-Process -Name 'explorer'
 
