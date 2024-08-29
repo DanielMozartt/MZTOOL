@@ -679,7 +679,7 @@ function EnvTool {
     #Adicionar variáveis de ambiente.
     Start-Process PowerShell -WindowStyle Hidden {
         [Environment]::SetEnvironmentVariable('TOOL', 'C:\TOOL', 'Machine') 
-        [Environment]::SetEnvironmentVariable('MZTOOL', 'PowerShell irm https://bit.ly/MZTT | iex', 'MACHINE')
+        [Environment]::SetEnvironmentVariable('MZTOOL', 'PowerShell irm https://bit.ly/MZT00L | iex', 'MACHINE')
     }
 }
 
