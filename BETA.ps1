@@ -871,7 +871,7 @@ function WinUpdate {
 
         Import-Module PSWindowsUpdate -Force 
 
-        Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -AutoReboot
+        Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -IgnoreReboot
         
         Get-WindowsUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot
 
