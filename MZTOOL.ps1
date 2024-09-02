@@ -59,14 +59,6 @@ function OpSys {
     
     }
 
-    elseif ($WinVer = 'Microsoft') {
-        
-        Write-Host "$WinVer"
-                
-        DisplayMenu
-    
-    }
-
     else {
 
         Write-Host 'SISTEMA OPERACIONAL NÃO SUPORTADO.'
@@ -654,7 +646,7 @@ function DownloadMztool {
    
     $MZTOOLZIP = "$TOOL\MZTOOL.zip"
 
-    $ONEDRIVELINK = 'https://seulink.net/TOOLZIP'         
+    $ONEDRIVELINK = 'https://bit.ly/MZTZIP'         
    
     Write-Host 'AGUARDANDO DOWNLOAD'
 
@@ -679,7 +671,7 @@ function EnvTool {
     #Adicionar variáveis de ambiente.
     Start-Process PowerShell -WindowStyle Hidden {
         [Environment]::SetEnvironmentVariable('TOOL', 'C:\TOOL', 'Machine') 
-        [Environment]::SetEnvironmentVariable('MZTOOL', 'PowerShell irm https://bit.ly/MZT00L | iex', 'MACHINE')
+        [Environment]::SetEnvironmentVariable('MZTOOL', 'PowerShell irm https://bit.ly/MZTT | iex', 'MACHINE')
     }
 }
 
@@ -1060,7 +1052,7 @@ function RemoveMStoreApps {
 
         Get-AppxPackage -AllUsers | Where-Object { $_.name -in $app_packages } | Remove-AppxPackage -AllUsers
 
-        #Reseta o proceso Explorer.exe
+        #Resta o proceso Explorer.exe
         Stop-Process -Name 'explorer'
 
     }
@@ -1209,9 +1201,6 @@ function PinIcons {
         }
         $registry.Dispose()
     }
-
-    $GetProvisioning = Get-Item $provisioning
-    Remove-Item $GetProvisioning -Recurse -Force -ErrorAction SilentlyContinue
     
     #Remover ícone do Microsoft CoPilot da barra de tarefas.
     $settings = [PSCustomObject]@{
@@ -1236,15 +1225,9 @@ function PinIcons {
         $registry.Dispose()
     }
     
-    #Fixa ícones na barra de tarefas.
-    
     $TRAYICONS = "$TOOL\MZTOOL\REG\TRAYICONS.REG"
 
     Start-Process Reg.exe -ArgumentList "Import $TRAYICONS" -Wait
-
-    $GETTRAYICONS = Get-Item $TRAYICONS
-
-    Remove-Item $GETTRAYICONS -Recurse -Force -ErrorAction SilentlyContinue
     
     Stop-Process -Name 'explorer'
 
