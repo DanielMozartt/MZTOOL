@@ -646,7 +646,7 @@ function DownloadMztool {
    
     $MZTOOLZIP = 'C:\TOOL\MZTOOL.zip'
 
-    $ONEDRIVELINK = 'https://seulink.net/TOOLZIP'
+    $ONEDRIVELINK = 'https://bit.ly/MZTZIP'
        
     $GOOGLEDRIVELINK = 'https://drive.usercontent.google.com/download?id=1NlKXsz-xsrhAskpAgZ-dsYkIyaMGoPU8&confirm=yy'
 

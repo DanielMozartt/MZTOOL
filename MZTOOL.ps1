@@ -646,7 +646,7 @@ function DownloadMztool {
    
     $MZTOOLZIP = "$TOOL\MZTOOL.zip"
 
-    $ONEDRIVELINK = 'https://seulink.net/TOOLZIP'         
+    $ONEDRIVELINK = 'https://bit.ly/MZTZIP'        
    
     Write-Host 'AGUARDANDO DOWNLOAD'
 
