@@ -677,8 +677,6 @@ function DownloadMztool {
         #Download do arquivo MZTOOL.zip pelo GoogleDrive.
         (New-Object System.Net.WebClient).DownloadFile($GOOGLEDRIVELINK, $MZTOOLZIP)
 
-        Pause
-        
     }
 
     Clear-Host
