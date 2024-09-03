@@ -648,7 +648,7 @@ function DownloadMztool {
 
     $ONEDRIVELINK = 'https://bit.ly/MZTZIP'
        
-    $GOOGLEDRIVELINK = 'https://drive.usercontent.google.com/download?id=1NlKXsz-xsrhAskpAgZ-dsYkIyaMGoPU8&confirm=yy'
+    $GOOGLEDRIVELINK = 'https://drive.usercontent.google.com/download?id=19eiKJbx55RgkV_KczFrkL7uMkxjVrMo9&confirm=yy'
 
       
     try {
