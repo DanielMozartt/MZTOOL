@@ -380,12 +380,15 @@ ______________________________________________________
 |____________________________________________________|
 '
 
+                        Hora
+                        
                         Start-Process powershell -WindowStyle Hidden -Wait -args '-noprofile', '-EncodedCommand',
                         ([Convert]::ToBase64String(
                             [Text.Encoding]::Unicode.GetBytes(
                               (Get-Command -Type Function WingetUpdate, WinUpdate).Definition
                             ))
                         )
+                        
                         DelTemp
 
                         Clear-Host
