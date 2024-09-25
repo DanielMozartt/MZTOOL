@@ -59,6 +59,14 @@ function OpSys {
     
     }
 
+    elseif ($WinVer -Match 'Microsoft Windows 8.1') {
+        
+        Write-Host "$WinVer"
+                
+        DisplayMenu
+    
+    }
+
     else {
 
         Write-Host 'SISTEMA OPERACIONAL NÃO SUPORTADO.'
