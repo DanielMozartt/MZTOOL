@@ -51,7 +51,7 @@ function OpSys {
     elseif ($WinVer -Match 'Microsoft Windows 10') {
         
         Write-Host "$WinVer"
-        
+
     }
 
     elseif ($WinVer -Match 'Microsoft Windows 8.1') {
@@ -386,7 +386,7 @@ ______________________________________________________
 
                         Hora
                         
-                        Start-Process powershell -WindowStyle Hidden -Wait -args '-noprofile', '-EncodedCommand',
+                        Start-Process powershell -Wait -args '-noprofile', '-EncodedCommand',
                         ([Convert]::ToBase64String(
                             [Text.Encoding]::Unicode.GetBytes(
                               (Get-Command -Type Function WingetUpdate, WinUpdate).Definition
