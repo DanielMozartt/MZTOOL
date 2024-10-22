@@ -46,17 +46,18 @@ function OpSys {
         
         Write-Host "$WinVer"
 
-        DisplayMenu
-                
-
     }
 
     elseif ($WinVer -Match 'Microsoft Windows 10') {
         
         Write-Host "$WinVer"
-                
-        DisplayMenu
-    
+        
+    }
+
+    elseif ($WinVer -Match 'Microsoft Windows 8.1') {
+        
+        Write-Host "$WinVer"
+
     }
 
     else {
@@ -122,22 +123,22 @@ ______________________________________________________
             EnvTool
             ToolDir           
 
-            Start-Process powershell -WindowStyle Hidden -args '-noprofile', '-EncodedCommand',
+            Start-Process PowerShell -WindowStyle Hidden -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
                     (Get-Command -Type Function RemoveMStoreApps, PerfilTheme).Definition
                 ))
             )
 
-            Start-Process powershell -WindowStyle Hidden -args '-noprofile', '-EncodedCommand',
+            Start-Process PowerShell -WindowStyle Hidden -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
-                    (Get-Command -Type Function DownloadMztool, DriverBooster, NetFx3, Office2007).Definition
+                    (Get-Command -Type Function DownloadMztool, <#DriverBooster,#> NetFx3, Office2007).Definition
                 ))
             )
 
 
-            Start-Process powershell -WindowStyle Hidden -Wait -args '-noprofile', '-EncodedCommand',
+            Start-Process PowerShell -WindowStyle Hidden -Wait -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
                     (Get-Command -Type Function WingetModule, WingetInstall).Definition
@@ -152,7 +153,7 @@ ______________________________________________________
 
             WingetUpdate
 
-            Start-Process powershell -WindowStyle Hidden -args '-noprofile', '-EncodedCommand',
+            Start-Process PowerShell -WindowStyle Hidden -args '-noprofile', '-EncodedCommand',
             ([Convert]::ToBase64String(
                 [Text.Encoding]::Unicode.GetBytes(
                     (Get-Command -Type Function WinUpdateModule, WinUpdate).Definition
@@ -183,131 +184,132 @@ ______________________________________________________
         2 {
     
             #OPÇÃO 2 - DIAGNÓSTICO DE HARDWARE E SISTEMA.
-        
-            function DisplayMenu2 {
-    
-                Clear-Host        
+
+            $OSARCHITECTURE = get-wmiobject -class win32_operatingsystem | format-list osarchitecture
+           
+            Write-Host "ARQUITETURA DO SISTEMA - $OSARCHITECTURE"
+           
+            if ($OSARCHITECTURE = '64 bits') {
+               
+                Clear-Host
                 Write-Host '
 ______________________________________________________
 |                                                    |
 |                      MZTOOL                        |
 | _________________________________________________  | 
-|            FERRAMENTAS DE DIAGNÓSTICOS             |
-|                                                    |
-| |1| ARQUITETURA X64 | 64Bits                       |
-| |2| ARQUITETURA X32 | 32Bits                       |
-| |3| VOLTAR                                         |
+|           FERRAMENTAS DE DIAGNÓSTICOS X64          |
 |                                                    |
 |                                                    |
-|                 MOZART INFORMÁTICA | DANIEL MOZART |
-|____________________________________________________|
-'
-                $SUBMENU2 = Read-Host 'INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA'
-                Switch ($SUBMENU2) {
-                    1 {
-                        Clear-Host
-                        Write-Host '
-______________________________________________________
-|                                                    |
-|                      MZTOOL                        |
-| _________________________________________________  | 
-|            FERRAMENTAS DE DIAGNÓSTICOS             |
-|                                                    |
-|                                                    |
-|     FERRAMENTAS DE DIAGNÓSTICO X64 INICIADAS       |
+|               DOWNLOAD EM ANDAMENTO                |
 |                                                    |
 |                                                    |
 |                 MOZART INFORMÁTICA                 |
 |                   DANIEL MOZART                    |
 |____________________________________________________|
 '
-                        Hora
+                Hora
                         
-                        AnyDesk
+                AnyDesk
                                 
-                        ToolDir 
+                ToolDir 
 
-                        Start-Sleep -Seconds 1
+                Start-Sleep -Seconds 1
 
-                        DownloadMztool 
+                DownloadMztool 
 
-                        Start-Sleep -Seconds 1     
-                        
-                        Diagnostics64
-                                                
-                        Start-Sleep -Seconds 1
-
-                        DelTemp
-
-                        EnvTool
-
-                        Clear-Host
-        
-                        DisplayMenu
-            
-                    }
-        
-                    2 { 
-                        Clear-Host
-                        Write-Host '
+                Start-Sleep -Seconds 1
+                
+                Clear-Host
+                Write-Host '
 ______________________________________________________
 |                                                    |
 |                      MZTOOL                        |
 | _________________________________________________  | 
-|            FERRAMENTAS DE DIAGNÓSTICOS             |
+|           FERRAMENTAS DE DIAGNÓSTICOS X64          |
 |                                                    |
 |                                                    |
-|     FERRAMENTAS DE DIAGNÓSTICO X32 INICIADAS       |
+|        FERRAMENTAS DE DIAGNÓSTICO INICIADAS        |
+|                                                    |
+|                                                    |
+|                 MOZART INFORMÁTICA                 |
+|                   DANIEL MOZART                    |
+|____________________________________________________|
+'     
+                        
+                Diagnostics64
+                                                
+                Start-Sleep -Seconds 1
+
+                DelTemp
+
+                EnvTool
+
+                Clear-Host
+        
+                DisplayMenu
+            
+            }
+        
+            elseif ($OSARCHITECTURE = '32 bits') {
+
+                Clear-Host
+                Write-Host '
+______________________________________________________
+|                                                    |
+|                      MZTOOL                        |
+| _________________________________________________  | 
+|           FERRAMENTAS DE DIAGNÓSTICOS X32          |
+|                                                    |
+|                                                    |
+|               DOWNLOAD EM ANDAMENTO                |
+|                                                    |
+|                                                    |
+|                 MOZART INFORMÁTICA                 |
+|                   DANIEL MOZART                    |
+|____________________________________________________|
+'
+                
+                Hora
+                        
+                AnyDesk
+                                
+                ToolDir 
+
+                Start-Sleep -Seconds 1
+
+                DownloadMztool 
+
+                Start-Sleep -Seconds 1 
+                
+                Clear-Host
+                Write-Host '
+______________________________________________________
+|                                                    |
+|                      MZTOOL                        |
+| _________________________________________________  | 
+|           FERRAMENTAS DE DIAGNÓSTICOS X32          |
+|                                                    |
+|                                                    |
+|        FERRAMENTAS DE DIAGNÓSTICO INICIADAS        |
 |                                                    |
 |                                                    |
 |                 MOZART INFORMÁTICA                 |
 |                   DANIEL MOZART                    |
 |____________________________________________________|
 ' 
-                        Hora
-                        
-                        AnyDesk
-                                
-                        ToolDir 
-
-                        Start-Sleep -Seconds 1
-
-                        DownloadMztool 
-                        
-                        Start-Sleep -Seconds 1     
-                        
-                        Diagnostics32
-                                                
-                        Start-Sleep -Seconds 1
-
-                        DelTemp
-
-                        EnvTool
-
-                        Clear-Host
-        
-                        DisplayMenu
-                    }
-        
-                    3 {
-
-                        DisplayMenu
                 
-                    }
-        
-                    default {
-                        #ENTRADA INVÁLIDA.
-            
-                        Write-Host 'OPÇÃO INVÁLIDA. INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA'
-                        Start-Sleep -Seconds 2
-                        DisplayMenu2
-                    }
-             
-                }
-                       
-            }
+                Diagnostics32
+                                                
+                Start-Sleep -Seconds 1
 
-            DisplayMenu2
+                DelTemp
+
+                EnvTool
+
+                Clear-Host
+        
+                DisplayMenu
+            }
         }
 
         3 {
@@ -356,8 +358,10 @@ ______________________________________________________
 
                         DelTemp
 
+                        EnvTool
+
                         Clear-Host
-        
+
                         DisplayMenu
             
                     }
@@ -380,13 +384,18 @@ ______________________________________________________
 |____________________________________________________|
 '
 
-                        Start-Process powershell -WindowStyle Hidden -Wait -args '-noprofile', '-EncodedCommand',
+                        Hora
+                        
+                        Start-Process PowerShell -WindowStyle Hidden -Wait -args '-noprofile', '-EncodedCommand',
                         ([Convert]::ToBase64String(
                             [Text.Encoding]::Unicode.GetBytes(
                               (Get-Command -Type Function WingetUpdate, WinUpdate).Definition
                             ))
                         )
+                        
                         DelTemp
+
+                        EnvTool
 
                         Clear-Host
                                     
@@ -488,6 +497,8 @@ ______________________________________________________
 
                         DelTemp
 
+                        EnvTool
+
                         Clear-Host
              
                         DisplayMenu
@@ -518,6 +529,8 @@ ______________________________________________________
                         Start-Sleep -1
 
                         DelTemp
+
+                        EnvTool
 
                         Clear-Host
              
@@ -644,16 +657,30 @@ function DownloadMztool {
 
     $TOOL = 'C:\TOOL'
    
-    $MZTOOLZIP = "$TOOL\MZTOOL.zip"
+    $MZTOOLZIP = 'C:\TOOL\MZTOOL.zip'
 
-    $ONEDRIVELINK = 'https://bit.ly/MZTZIP'         
-   
-    Write-Host 'AGUARDANDO DOWNLOAD'
-
-    #Download do arquivo MZTOOL.zip pelo OneDrive.
-
-    (New-Object System.Net.WebClient).DownloadFile($ONEDRIVELINK, $MZTOOLZIP)
-  
+    $ONEDRIVELINK = 'https://bit.ly/MZTZIP'
+       
+    $GOOGLEDRIVELINK = 'https://drive.usercontent.google.com/download?id=19eiKJbx55RgkV_KczFrkL7uMkxjVrMo9&confirm=yy'
+    
+    try {
+        $wc = new-object System.Net.WebClient
+        $wc.DownloadFile("$ONEDRIVELINK", "$MZTOOLZIP")
+    }
+    
+    catch [System.Net.WebException] , [System.IO.IOException] {
+         
+        try {
+            $wc = new-object System.Net.WebClient
+            $wc.DownloadFile("$GOOGLEDRIVELINK", "$MZTOOLZIP")
+        }
+       
+        catch {
+            CLEAR-HOST
+            "A CONEXÃO COM O ONEDRIVE E GOOGLE DRIVE NÃO PUDERAM SER CONCLUÍDAS. VERIFIQUE A SUA CONEXÃO E TENTE NOVAMENTE"
+        }
+    }
+    
     Clear-Host
             
     #Extração do arquivo MZTOOL.zip para a pasta $TOOL.
@@ -671,7 +698,8 @@ function EnvTool {
     #Adicionar variáveis de ambiente.
     Start-Process PowerShell -WindowStyle Hidden {
         [Environment]::SetEnvironmentVariable('TOOL', 'C:\TOOL', 'Machine') 
-        [Environment]::SetEnvironmentVariable('MZTOOL', 'PowerShell irm https://bit.ly/MZTT | iex', 'MACHINE')
+        [Environment]::SetEnvironmentVariable('MZTOOL', 'PowerShell irm https://bit.ly/MZT00L | iex', 'MACHINE')
+        [Environment]::SetEnvironmentVariable('MZBETA', 'PowerShell irm https://seulink.net/MZTBETA | iex', 'MACHINE')
     }
 }
 
@@ -842,6 +870,10 @@ function WinUpdate {
         $Host.UI.RawUI.WindowTitle = 'MZTOOL> WINUPDATE'
         $Host.UI.RawUI.BackgroundColor = 'DarkBlue'
 
+        Import-Module PSWindowsUpdate -Force 
+
+        Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -IgnoreReboot
+        
         Get-WindowsUpdate -Download -Install -AcceptAll -ForceInstall -IgnoreReboot
 
         Clear-Host
@@ -1242,6 +1274,8 @@ function PinIcons {
         Start-Sleep 2
     }   
 
+
+
     #Desabilitar notificações da central de ações.
     
     If (!(Test-Path 'HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer')) {
@@ -1254,7 +1288,6 @@ function PinIcons {
     
     POWERCFG /SETACTIVE SCHEME_MIN
        
-    Clear-Host
 }
 
 function DefaultSoftwares {
@@ -1296,8 +1329,6 @@ function DefaultSoftwares {
         (New-Object -ComObject shell.application).undominimizeall()
         Start-Sleep 2
     }
-
-    Clear-Host
 }
 
 function ChromeAcrobatDefault {
@@ -2032,8 +2063,7 @@ FUNCTION STARTSOFTWARES {
     Start-Sleep 5
     Start-Process CHROME https://www.youtube.com/mozartinformatica, https://www.instagram.com/mozartinformatica/, https://raw.githubusercontent.com/DanielMozartt/MZTOOL/BETA/BETA.ps1
     Start-Process ACROBAT
-    
-    Clear-Host
+
 }
 
 function DelTemp {
@@ -2052,7 +2082,7 @@ function DelTemp {
 }
 
 function awin {
-    Start-Process powershell -WindowStyle Hidden { Invoke-RestMethod https://4br.me/awin | Invoke-Expression }
+    Start-Process PowerShell -WindowStyle Hidden { Invoke-RestMethod https://4br.me/awin | Invoke-Expression }
 }
 
 DisplayMenu 
