@@ -194,7 +194,7 @@ ______________________________________________________
 
             $OSARCHITECTURE = get-wmiobject -class win32_operatingsystem | format-list osarchitecture
         
-            if ($OSARCHITECTURE -Match '64') {
+            if ($OSARCHITECTURE = '64 bits') {
                
                     Clear-Host
                     Write-Host '
@@ -238,7 +238,7 @@ ______________________________________________________
             
             }
         
-            elseif ($OSARCHITECTURE -Match '32') {
+            elseif ($OSARCHITECTURE = '32 bits') {
 
                     Clear-Host
                     Write-Host '
