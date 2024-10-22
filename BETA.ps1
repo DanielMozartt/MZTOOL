@@ -191,30 +191,13 @@ ______________________________________________________
         2 {
     
             #OPÇÃO 2 - DIAGNÓSTICO DE HARDWARE E SISTEMA.
+
+            $OSARCHITECTURE = get-wmiobject -class win32_operatingsystem | format-list osarchitecture
         
-            function DisplayMenu2 {
-    
-                Clear-Host        
-                Write-Host '
-______________________________________________________
-|                                                    |
-|                      MZTOOL                        |
-| _________________________________________________  | 
-|            FERRAMENTAS DE DIAGNÓSTICOS             |
-|                                                    |
-| |1| ARQUITETURA X64 | 64Bits                       |
-| |2| ARQUITETURA X32 | 32Bits                       |
-| |3| VOLTAR                                         |
-|                                                    |
-|                                                    |
-|                 MOZART INFORMÁTICA | DANIEL MOZART |
-|____________________________________________________|
-'
-                $SUBMENU2 = Read-Host 'INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA'
-                Switch ($SUBMENU2) {
-                    1 {
-                        Clear-Host
-                        Write-Host '
+            if ($OSARCHITECTURE -Match '64') {
+               
+                    Clear-Host
+                    Write-Host '
 ______________________________________________________
 |                                                    |
 |                      MZTOOL                        |
@@ -229,35 +212,36 @@ ______________________________________________________
 |                   DANIEL MOZART                    |
 |____________________________________________________|
 '
-                        Hora
+                    Hora
                         
-                        AnyDesk
+                    AnyDesk
                                 
-                        ToolDir 
+                    ToolDir 
 
-                        Start-Sleep -Seconds 1
+                    Start-Sleep -Seconds 1
 
-                        DownloadMztool 
+                    DownloadMztool 
 
-                        Start-Sleep -Seconds 1     
+                    Start-Sleep -Seconds 1     
                         
-                        Diagnostics64
+                    Diagnostics64
                                                 
-                        Start-Sleep -Seconds 1
+                    Start-Sleep -Seconds 1
 
-                        DelTemp
+                    DelTemp
 
-                        EnvTool
+                    EnvTool
 
-                        Clear-Host
+                    Clear-Host
         
-                        DisplayMenu
+                    DisplayMenu
             
-                    }
+            }
         
-                    2 { 
-                        Clear-Host
-                        Write-Host '
+            elseif ($OSARCHITECTURE -Match '32') {
+
+                    Clear-Host
+                    Write-Host '
 ______________________________________________________
 |                                                    |
 |                      MZTOOL                        |
@@ -272,50 +256,30 @@ ______________________________________________________
 |                   DANIEL MOZART                    |
 |____________________________________________________|
 ' 
-                        Hora
+                    Hora
                         
-                        AnyDesk
+                    AnyDesk
                                 
-                        ToolDir 
+                    ToolDir 
 
-                        Start-Sleep -Seconds 1
+                    Start-Sleep -Seconds 1
 
-                        DownloadMztool 
+                    DownloadMztool 
 
-                        Start-Sleep -Seconds 1     
-                        
-                        Diagnostics32
-                                                
-                        Start-Sleep -Seconds 1
-
-                        DelTemp
-
-                        EnvTool
-
-                        Clear-Host
-        
-                        DisplayMenu
-                    }
-        
-                    3 {
-
-                        DisplayMenu
+                    Start-Sleep -Seconds 1     
                 
-                    }
-        
-                    default {
-                        #ENTRADA INVÁLIDA.
-            
-                        Write-Host 'OPÇÃO INVÁLIDA. INSIRA O NÚMERO CORRESPONDENTE A OPÇÃO DESEJADA'
-                        Start-Sleep -Seconds 2
-                        DisplayMenu2
-                    }
-             
-                }
-                       
-            }
+                    Diagnostics32
+                                                
+                    Start-Sleep -Seconds 1
 
-            DisplayMenu2
+                    DelTemp
+
+                    EnvTool
+
+                    Clear-Host
+        
+                    DisplayMenu
+            }
         }
 
         3 {
