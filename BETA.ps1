@@ -196,8 +196,8 @@ ______________________________________________________
         
             if ($OSARCHITECTURE = '64 bits') {
                
-                    Clear-Host
-                    Write-Host '
+                Clear-Host
+                Write-Host '
 ______________________________________________________
 |                                                    |
 |                      MZTOOL                        |
@@ -212,36 +212,36 @@ ______________________________________________________
 |                   DANIEL MOZART                    |
 |____________________________________________________|
 '
-                    Hora
+                Hora
                         
-                    AnyDesk
+                AnyDesk
                                 
-                    ToolDir 
+                ToolDir 
 
-                    Start-Sleep -Seconds 1
+                Start-Sleep -Seconds 1
 
-                    DownloadMztool 
+                DownloadMztool 
 
-                    Start-Sleep -Seconds 1     
+                Start-Sleep -Seconds 1     
                         
-                    Diagnostics64
+                Diagnostics64
                                                 
-                    Start-Sleep -Seconds 1
+                Start-Sleep -Seconds 1
 
-                    DelTemp
+                DelTemp
 
-                    EnvTool
+                EnvTool
 
-                    Clear-Host
+                Clear-Host
         
-                    DisplayMenu
+                DisplayMenu
             
             }
         
             elseif ($OSARCHITECTURE = '32 bits') {
 
-                    Clear-Host
-                    Write-Host '
+                Clear-Host
+                Write-Host '
 ______________________________________________________
 |                                                    |
 |                      MZTOOL                        |
@@ -256,29 +256,29 @@ ______________________________________________________
 |                   DANIEL MOZART                    |
 |____________________________________________________|
 ' 
-                    Hora
+                Hora
                         
-                    AnyDesk
+                AnyDesk
                                 
-                    ToolDir 
+                ToolDir 
 
-                    Start-Sleep -Seconds 1
+                Start-Sleep -Seconds 1
 
-                    DownloadMztool 
+                DownloadMztool 
 
-                    Start-Sleep -Seconds 1     
+                Start-Sleep -Seconds 1     
                 
-                    Diagnostics32
+                Diagnostics32
                                                 
-                    Start-Sleep -Seconds 1
+                Start-Sleep -Seconds 1
 
-                    DelTemp
+                DelTemp
 
-                    EnvTool
+                EnvTool
 
-                    Clear-Host
+                Clear-Host
         
-                    DisplayMenu
+                DisplayMenu
             }
         }
 
@@ -328,6 +328,8 @@ ______________________________________________________
 
                         DelTemp
 
+                        EnvTool
+
                         Clear-Host
 
                         DisplayMenu
@@ -362,6 +364,8 @@ ______________________________________________________
                         )
                         
                         DelTemp
+
+                        EnvTool
 
                         Clear-Host
                                     
@@ -463,6 +467,8 @@ ______________________________________________________
 
                         DelTemp
 
+                        EnvTool
+
                         Clear-Host
              
                         DisplayMenu
@@ -493,6 +499,8 @@ ______________________________________________________
                         Start-Sleep -1
 
                         DelTemp
+
+                        EnvTool
 
                         Clear-Host
              
@@ -624,36 +632,25 @@ function DownloadMztool {
     $ONEDRIVELINK = 'https://bit.ly/MZTZIP'
        
     $GOOGLEDRIVELINK = 'https://drive.usercontent.google.com/download?id=19eiKJbx55RgkV_KczFrkL7uMkxjVrMo9&confirm=yy'
-
-      
-    try {
-       
-        Write-Host 'AGUARDANDO DOWNLOAD'
-
-        #Download do arquivo MZTOOL.zip pelo OneDrive.
-
-        (New-Object System.Net.WebClient).DownloadFile($ONEDRIVELINK, $MZTOOLZIP)
-
-    }
-
-    catch [System.Net.WebException], [System.IO.IOException] {
-
-        Clear-Host
-
-        'ONEDRIVE LINKDOWN' 
-    }
-
-    if ($error) { 
     
-        Clear-Host
-
-        Write-Host 'LINK DO ONE DRIVE NÃO ESTÁ ONLINE, TENTANDO O LINK DO GOOGLE DRIVE'
-        
-        #Download do arquivo MZTOOL.zip pelo GoogleDrive.
-        (New-Object System.Net.WebClient).DownloadFile($GOOGLEDRIVELINK, $MZTOOLZIP)
-
+    try {
+        $wc = new-object System.Net.WebClient
+        $wc.DownloadFile("$ONEDRIVELINK", "$MZTOOLZIP")
     }
-
+    
+    catch [System.Net.WebException] , [System.IO.IOException] {
+         
+        try {
+            $wc = new-object System.Net.WebClient
+            $wc.DownloadFile("$GOOGLEDRIVELINK", "$MZTOOLZIP")
+        }
+       
+        catch {
+            CLEAR-HOST
+            "A CONEXÃO COM O ONEDRIVE E GOOGLE DRIVE NÃO PUDERAM SER CONCLUÍDAS. VERIFIQUE A SUA CONEXÃO E TENTE NOVAMENTE"
+        }
+    }
+    
     Clear-Host
             
     #Extração do arquivo MZTOOL.zip para a pasta $TOOL.
