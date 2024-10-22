@@ -643,7 +643,7 @@ function ToolDir {
     }
 
     [System.IO.Directory]::CreateDirectory($TOOL) | Out-Null
-    $TOOLFOLDER = Get-Item $TOOL 
+    $TOOLFOLDER = Get-Item $TOOL -ErrorAction SilentlyContinue
     $TOOLFOLDER.Attributes = 'Hidden' 
 
 }
