@@ -46,25 +46,18 @@ function OpSys {
         
         Write-Host "$WinVer"
 
-    
-                
-
     }
 
     elseif ($WinVer -Match 'Microsoft Windows 10') {
         
         Write-Host "$WinVer"
-                
-       
-    
+        
     }
 
     elseif ($WinVer -Match 'Microsoft Windows 8.1') {
         
         Write-Host "$WinVer"
-                
-        
-    
+
     }
 
     else {
