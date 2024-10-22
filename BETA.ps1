@@ -204,10 +204,10 @@ ______________________________________________________
 |                                                    |
 |                      MZTOOL                        |
 | _________________________________________________  | 
-|            FERRAMENTAS DE DIAGNÓSTICOS             |
+|           FERRAMENTAS DE DIAGNÓSTICOS X64          |
 |                                                    |
 |                                                    |
-|     FERRAMENTAS DE DIAGNÓSTICO X64 INICIADAS       |
+|               DOWNLOAD EM ANDAMENTO                |
 |                                                    |
 |                                                    |
 |                 MOZART INFORMÁTICA                 |
@@ -224,7 +224,24 @@ ______________________________________________________
 
                 DownloadMztool 
 
-                Start-Sleep -Seconds 1     
+                Start-Sleep -Seconds 1
+                
+                Clear-Host
+                Write-Host '
+______________________________________________________
+|                                                    |
+|                      MZTOOL                        |
+| _________________________________________________  | 
+|           FERRAMENTAS DE DIAGNÓSTICOS X64          |
+|                                                    |
+|                                                    |
+|        FERRAMENTAS DE DIAGNÓSTICO INICIADAS        |
+|                                                    |
+|                                                    |
+|                 MOZART INFORMÁTICA                 |
+|                   DANIEL MOZART                    |
+|____________________________________________________|
+'     
                         
                 Diagnostics64
                                                 
@@ -248,16 +265,17 @@ ______________________________________________________
 |                                                    |
 |                      MZTOOL                        |
 | _________________________________________________  | 
-|            FERRAMENTAS DE DIAGNÓSTICOS             |
+|           FERRAMENTAS DE DIAGNÓSTICOS X32          |
 |                                                    |
 |                                                    |
-|     FERRAMENTAS DE DIAGNÓSTICO X32 INICIADAS       |
+|               DOWNLOAD EM ANDAMENTO                |
 |                                                    |
 |                                                    |
 |                 MOZART INFORMÁTICA                 |
 |                   DANIEL MOZART                    |
 |____________________________________________________|
-' 
+'
+                
                 Hora
                         
                 AnyDesk
@@ -268,7 +286,24 @@ ______________________________________________________
 
                 DownloadMztool 
 
-                Start-Sleep -Seconds 1     
+                Start-Sleep -Seconds 1 
+                
+                Clear-Host
+                Write-Host '
+______________________________________________________
+|                                                    |
+|                      MZTOOL                        |
+| _________________________________________________  | 
+|           FERRAMENTAS DE DIAGNÓSTICOS X32          |
+|                                                    |
+|                                                    |
+|        FERRAMENTAS DE DIAGNÓSTICO INICIADAS        |
+|                                                    |
+|                                                    |
+|                 MOZART INFORMÁTICA                 |
+|                   DANIEL MOZART                    |
+|____________________________________________________|
+' 
                 
                 Diagnostics32
                                                 
