@@ -55,10 +55,9 @@ function OpSys {
     }
 
     elseif ($WinVer -Match 'Microsoft Windows 8.1') {
-        
 
         DisplayMenu
-    
+        
     }
 
     else {
