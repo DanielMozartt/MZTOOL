@@ -43,26 +43,20 @@ function OpSys {
     $WinVer = (Get-WmiObject Win32_OperatingSystem).Caption
 
     if ( $WinVer -Match 'Microsoft Windows 11') {
-        
-        Write-Host "$WinVer"
 
         DisplayMenu
-                
 
     }
 
     elseif ($WinVer -Match 'Microsoft Windows 10') {
         
-        Write-Host "$WinVer"
-                
         DisplayMenu
     
     }
 
     elseif ($WinVer -Match 'Microsoft Windows 8.1') {
         
-        Write-Host "$WinVer"
-                
+
         DisplayMenu
     
     }
